@@ -1,0 +1,45 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Upload! Thank you
+        </title>
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+
+        <script src="{% static 'program.js' %}" defer></script>
+    </head>
+    <body>
+        <a href="{% url 'index'%}"><button class="back-button">🢀 back</button></a>
+        <form>
+            <div class="drag-area" id="drag-area">
+                <img class="icon" src="{% static 'icons/image.png' %}">
+                <p>Drag & Drop to Upload File</p>
+                <p>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ OR ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                <br>
+                <button type="button" class="browse-button">Browse File</button>
+                <input id="fileinput" type="file" hidden>
+                <p id="file-name"></p>
+            </div>
+
+            <div class="informations">
+                <input type="search" placeholder="📚 Module">
+                <input type="search" placeholder="🎓 Major">
+                <input type="search" placeholder="📅 Year">
+                <input type="search" placeholder="⏲ Semester">
+                <input type="search" placeholder="🏫 Establishment">
+                <input type="search" placeholder="👥 Teacher">
+            </div>
+
+            <div class="submit-section">
+                <button class="submit">Submit!</button>
+            </div>
+            
+        </form>
+    </body>
+</html>

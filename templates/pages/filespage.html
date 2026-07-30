@@ -1,0 +1,55 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="{% static 'css/filespage.css' %}">
+    </head> 
+
+    <body>
+        <a href="{%url 'index'%}"><button class="back-button">🢀 back</button></a>
+        
+        <div class="filterbar">
+
+            <div>
+                <input type="checkbox" id="Exam">
+                <label for="Exam">Exam</label>
+            </div>
+
+            <div>
+                <input type="checkbox" id="Td">
+                <label for="Td">Td</label>
+            </div>
+
+            <div>
+                <input type="checkbox" id="Mid Term">
+                <label for="Mid Term">Mid Term</label>
+            </div>
+
+            <div>
+                <label for="Year">Year:</label>
+                <input type="range" id="Year" name="Year" min="1974" max="2027" step="1" value="5">
+            </div>
+
+            <div>
+                <label for="Teacher">Teacher:</label>
+                <input type="text" id="Teacher" name="Teacher">
+            </div>
+
+        </div>
+
+        <div class="filesection">
+            <div>
+                <img class="image" src="{% static 'icons/doc.png' %}">
+                <p class="papertype">Exam</p>
+            </div>
+            <p class="paperyear">2025/2026</p>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,156 @@
+{% load static%}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>tela3 3amek</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link rel="icon" href ="{% static 'icons/logo.png' %}">
+        
+        <link rel="stylesheet" href="{% static 'css/body.css' %}">
+        <link rel="stylesheet" href="{% static 'css/header.css' %}">
+        <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    </head>
+ 
+    <body style="padding-top: 70px ;
+            padding-left: 90px;
+            background: linear-gradient(#f4fafe,#eef4fa);">
+        <div class="header">
+            <div class="left">
+                <img class="logo" src=" {% static 'icons/logo.png' %}">
+                <img class="logo" src="{% static 'icons/slogan.png'%}">
+            </div>
+            
+            <div class="search-container">
+                <button class="search-button">
+                    <img src="{% static 'icons/search-solid.svg' %}">
+                </button>
+                <input id="search-bar" class="search-bar" role="textbox" placeholder="Search">
+            </div>
+            
+            <div class="right">
+                <a href="{% url 'upload' %}" style="text-decoration: none;">
+                    <button class="upload-button">
+                        <img class="upload-logo" src="{% static 'icons/upload.svg' %}">
+                        Upload
+                    </button>
+                </a>
+                <button style="margin-left: 5px; width: 140px;" class="upload-button">
+                    <img style="height:35px; filter:invert(100%);padding-bottom: 2px;" src="{% static 'icons/coin-svgrepo-com.svg' %}">
+                    Help Us!</button>
+            </div>
+            
+        </div>
+
+        <div class="sidebar">
+            <img class="fac-logo" src="{% static 'fac/images (1).jpg' %}">
+            <a href="https://www.usthb.dz/" target="_blank"><img class="fac-logo" src="{% static 'fac/images.jpg' %}"></a>
+            <img class="fac-logo" src="{% static 'fac/images (2).jpg' %}">
+            <img class="fac-logo" src="{% static 'fac/Logo-NSCS-2025.png' %}">
+            <img class="fac-logo" src="{% static 'fac/images.png' %}">
+        </div>
+
+        <div class="modules" id="modules">
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Data Structures</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Web Development</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Database Systems</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Computer Networks</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Operating Systems</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Machine Learning</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Linear Algebra</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Discrete Math</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Cyber security</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Mobile App Dev</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Cloud Computing</p>
+                </div>
+            </a>
+
+            <a href="{% url 'papers' %}" style="text-decoration: none;">
+                <div class="module">
+                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
+                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                    <p class="module-name">Software Engineering</p>
+                </div>
+            </a>
+        </div>
+
+        
+    </body>
+</html>

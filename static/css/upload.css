@@ -1,0 +1,176 @@
+body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+
+    background:linear-gradient(0deg, #ffffff,#abdeff );
+}
+
+.back-button{
+    position: fixed;
+    top: 15px;
+    left: 15px;
+
+    font: Roboto;
+    font-size: 15px;
+    font-weight: bold;
+
+    border-radius: 3px;
+    border: none;
+
+    background-color: #1589d8;
+    color: white;
+
+    height: 30px;
+    width: 80px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
+    transition: 0.2s;
+
+    cursor: pointer;
+}
+
+.back-button:hover{
+    transform: translatey(-3px);
+    background-color: #0c5f96;
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+}
+
+.drag-area{
+    border: 2px dashed gray;
+    border-radius: 16px;
+    width: 600px;
+    height: 400px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    cursor: pointer;
+
+    margin-bottom: 20px;
+}
+
+.drag-area:hover{
+    background:#dff0ff;
+    border-color:#1589d8;
+}
+
+.drag-area>p{
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.icon{
+    height: 100px;
+}
+
+.browse-button{
+    font: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+
+    border-radius: 3px;
+    border: none;
+
+    background-color: #1589d8;
+    color: white;
+
+    height: 50px;
+    width: 150px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
+    transition: 0.2s;
+
+    cursor: pointer;
+}
+
+.browse-button:hover{
+    transform: translatey(-5px);
+    background-color: #0c5f96;
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+}
+
+.informations{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-self: center;
+
+    grid-gap: 10px;
+}
+
+.informations>input{
+    font: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+
+    border: 1px solid gray;
+    border-radius: 10px;
+
+    height: 50px;
+    width: 295px;
+
+
+    background: none;
+}
+
+.informations>input::placeholder{
+    text-align: center;
+    color: black;
+}
+
+.informations>input:focus{
+    outline: 1px solid #2da7ff;
+}
+
+.submit-section{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.submit{
+    gap: 10px;
+    background-color: #1591DC;
+    font-family: Roboto;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    width: 600px;
+    height: 50px;
+    cursor: pointer;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
+    transition: 0.2s;
+}
+
+.submit:hover{
+    transform: translateY(-5px);
+    background-color: #0c5f96;
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+}
+
+button:active{
+
+    transform:scale(.96);
+
+}
+
+#file-name{
+    margin-top:20px;
+    text-align:center;
+    color:#1589d8;
+    font-family:Roboto, sans-serif;
+    font-weight:500;
+    line-height:1.6;
+}
