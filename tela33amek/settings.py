@@ -126,3 +126,7 @@ STATICFILES_STORAGE = (
 ALLOWED_HOSTS = [
     ".railway.app",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://tela33amek.up.railway.app",
+]
