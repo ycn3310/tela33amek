@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import FileResponse
 from .models import Course, Paper
 # Create your views here.
 
@@ -14,3 +15,12 @@ def files(request, course_id):
 
 def upload(request):
     return render(request, "pages/upload.html")
+
+def view_pdf(request, paper_id):
+    paper = get_object_or_404(Paper, id=paper_id)
+
+    return FileResponse(
+        paper.paper_path.open("rb"),
+        content_type="application/pdf",
+        as_attachment=False
+    )

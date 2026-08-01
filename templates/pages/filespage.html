@@ -44,14 +44,19 @@
 
         {% for paper in papers %}
             <div class="filesection">
+                
                 <div>
                     <img class="image" src="{% static 'icons/doc.png' %}">
-                    <p class="papertype">{{paper.year}} - {{paper.establishment}}</p>
+                    <a href="{% url 'view_pdf' paper.id %}" target="_blank">
+                        <p class="papertype">{{paper.year}} - {{paper.establishment}}</p>
+                    </a>
                 </div>
+            
                 <button class="report-button">
                     <img style="height:22px; padding-right:6px; filter:invert(100%);" src="{% static 'icons/warning.png' %}">
                     Report!
                 </button>
+                
             </div>
         {% endfor %}
 
