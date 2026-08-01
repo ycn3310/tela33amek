@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>{{ course }}</title>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,28 +16,38 @@
     <body>
         <a href="{%url 'index'%}"><button class="back-button">🢀 back</button></a>
         
+
         <div class="filterbar">
+            <div class="header-left">
+                <a href="{% url 'index' %}">
+                    <button class="back-button">🢀 back</button>
+                </a>
+                <h1 class="course-title">{{ course }}</h1>
+            </div>
 
-            <div>
+            <!-- Right Group: Filter Controls -->
+            <div class="header-filters">
                 <div>
-                    <input type="checkbox" id="Exam">
-                    <label for="Exam">Exam</label>
+                    <div>
+                        <input type="checkbox" id="Exam">
+                        <label for="Exam">Exam</label>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" id="Mid-Term">
+                        <label for="Mid-Term">Mid Term</label>
+                    </div>
                 </div>
 
                 <div>
-                    <input type="checkbox" id="Mid Term">
-                    <label for="Mid Term">Mid Term</label>
+                    <label for="Year">Year:</label>
+                    <input type="range" id="Year" name="Year" min="1974" max="2027" step="1" value="2024">
                 </div>
-            </div>
 
-            <div>
-                <label for="Year">Year:</label>
-                <input type="range" id="Year" name="Year" min="1974" max="2027" step="1" value="5">
-            </div>
-
-            <div>
-                <label for="Teacher">Teacher:</label>
-                <input type="text" id="Teacher" name="Teacher">
+                <div>
+                    <label for="Teacher">Teacher:</label>
+                    <input type="text" id="Teacher" name="Teacher">
+                </div>
             </div>
 
         </div>
