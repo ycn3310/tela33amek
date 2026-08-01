@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>tela3 3amek</title>
+        <title>tela33amek</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -55,8 +55,8 @@
 
         <div class="modules" id="modules">
             {% for course in courses %}
-                <a href="{% url 'papers' %}" style="text-decoration: none;">
-                    <div class="module">
+                <a href="{% url 'papers' course.id %}" style="text-decoration: none;">
+                    <div class="module" Data-module="{{course.name}}">
                         <img class="symbol" src="{{course.logo_path.url}}">
                         <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
                         <p class="module-name">{{course.name}}</p>

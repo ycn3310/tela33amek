@@ -1,6 +1,6 @@
 .modules{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, 180px);
     grid-gap: 20px;
 }
 
@@ -10,7 +10,7 @@
     flex-direction: column;
 
     height: 180px;
-    width: 180px;
+    width: 100%;
 
     border: none;
     border-radius: 16px;
@@ -57,4 +57,9 @@
     color: white;
     font-weight: 2000;
     margin-top: 0px;
+    text-align: center;
+    width: 160px;            
+    
+    overflow: hidden;        
+    text-overflow:clip;
 }

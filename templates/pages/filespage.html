@@ -19,18 +19,15 @@
         <div class="filterbar">
 
             <div>
-                <input type="checkbox" id="Exam">
-                <label for="Exam">Exam</label>
-            </div>
+                <div>
+                    <input type="checkbox" id="Exam">
+                    <label for="Exam">Exam</label>
+                </div>
 
-            <div>
-                <input type="checkbox" id="Td">
-                <label for="Td">Td</label>
-            </div>
-
-            <div>
-                <input type="checkbox" id="Mid Term">
-                <label for="Mid Term">Mid Term</label>
+                <div>
+                    <input type="checkbox" id="Mid Term">
+                    <label for="Mid Term">Mid Term</label>
+                </div>
             </div>
 
             <div>
@@ -45,13 +42,18 @@
 
         </div>
 
-        <div class="filesection">
-            <div>
-                <img class="image" src="{% static 'icons/doc.png' %}">
-                <p class="papertype">Exam</p>
+        {% for paper in papers %}
+            <div class="filesection">
+                <div>
+                    <img class="image" src="{% static 'icons/doc.png' %}">
+                    <p class="papertype">{{paper.year}} - {{paper.establishment}}</p>
+                </div>
+                <button class="report-button">
+                    <img style="height:22px; padding-right:6px; filter:invert(100%);" src="{% static 'icons/warning.png' %}">
+                    Report!
+                </button>
             </div>
-            <p class="paperyear">2025/2026</p>
-        </div>
+        {% endfor %}
 
     </body>
 </html>

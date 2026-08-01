@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 
 class Course(models.Model):
     name = models.CharField(max_length=256)
@@ -9,8 +9,9 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
+    
 class Paper(models.Model):
-    course = models.CharField(max_length=256)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="papers")
     major = models.CharField(max_length=256)
     year = models.CharField(max_length=9)
     semester = models.CharField(max_length=30)
@@ -18,6 +19,11 @@ class Paper(models.Model):
     teacher = models.CharField(max_length=256)
     paper_path = models.FileField(upload_to='papers/%y/%m/%d', null=True, blank=True)
 
+    
+
     def __str__(self):
-        return self.course + ' / ' + self.year
+        return f"{self.major} / {self.course}:[{self.year}]"
+
+
+
    

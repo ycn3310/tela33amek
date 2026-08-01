@@ -10,7 +10,7 @@ body{
 }
 
 .filesection{
-    width: 700px;
+    width: 1000px;
     height: 70px;
 
     border:none;
@@ -25,10 +25,12 @@ body{
 
     padding-left: 10px;
     padding-right: 10px;
+    margin-bottom: 15px;
     
     cursor: pointer;
 
     box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
 
     transition: 0.2s;
 }
@@ -105,19 +107,26 @@ body{
 }
 
 .filterbar{
-    width: 240px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    background-color: white;
+    border-bottom: 1px solid rgb(153, 153, 153);
+    background-color: #ffffff;
+    display:flex;
+    align-items: center;
+   
+    height: 60px;
 
-    display: flex;
-    flex-direction: column;
-    align-items:start;
-    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
 
-    padding-left: 20px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
+    z-index: 999;
+
+    justify-content:flex-end;
 }
 
 .filterbar>div{
@@ -126,5 +135,26 @@ body{
 }
 
 body{
-    padding-left: 300px;
+    padding-top: 80px;
+}
+
+.report-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgb(173, 59, 59);
+    color: white;
+    font-family: Roboto, Arial;
+    font: Roboto;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    font-size: 17px;
+    height: 30px;
+    cursor:help;
+}
+
+.report-button:hover{
+    background-color: rgb(146, 52, 52);
 }
