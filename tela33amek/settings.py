@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages.apps.PagesConfig',
-    'papers.apps.PapersConfig',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +105,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-DEBUG = os.getenv("DEBUG", "False") == "True"
+#DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -124,9 +123,14 @@ STATICFILES_STORAGE = (
 )
 
 ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
     ".railway.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://tela33amek.up.railway.app",
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -1,14 +1,12 @@
 from django.shortcuts import render
+from .models import Course
 # Create your views here.
 
 def index(request):
-    print("new connection")
-    return render(request, 'pages/homepage.html')
+    return render(request, 'pages/homepage.html', {'courses':Course.objects.all()})
 
 def files(request):
-    print("new connection")
     return render(request, "pages/filespage.html")
 
 def upload(request):
-    print("new connection")
     return render(request, "pages/upload.html")

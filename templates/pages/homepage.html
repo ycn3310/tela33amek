@@ -54,101 +54,17 @@
         </div>
 
         <div class="modules" id="modules">
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Data Structures</p>
-                </div>
-            </a>
+            {% for course in courses %}
+                <a href="{% url 'papers' %}" style="text-decoration: none;">
+                    <div class="module">
+                        <img class="symbol" src="{{course.logo_path.url}}">
+                        <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
+                        <p class="module-name">{{course.name}}</p>
+                    </div>
+                </a>
+            {% endfor %}
 
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Web Development</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Database Systems</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Computer Networks</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Operating Systems</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Machine Learning</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Linear Algebra</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Discrete Math</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Cyber security</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Mobile App Dev</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Cloud Computing</p>
-                </div>
-            </a>
-
-            <a href="{% url 'papers' %}" style="text-decoration: none;">
-                <div class="module">
-                    <img class="symbol" src="{% static 'icons/code-solid-full.svg' %}">
-                    <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
-                    <p class="module-name">Software Engineering</p>
-                </div>
-            </a>
+            
         </div>
 
         
