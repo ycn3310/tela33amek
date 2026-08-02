@@ -38,12 +38,12 @@
 
 .module-name{
     font-family: Roboto;
-    font-size:  25px; 
+    font-size:  23px; 
     font-weight: bold;
     color: white;
     margin-top: 0px;
     text-align: center;
-    width: 160px;            
+    width: 170px;            
     
     overflow: hidden;        
     text-overflow: ellipsis;
