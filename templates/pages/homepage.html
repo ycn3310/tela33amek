@@ -13,11 +13,14 @@
         <link rel="stylesheet" href="{% static 'css/body.css' %}">
         <link rel="stylesheet" href="{% static 'css/header.css' %}">
         <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+
+        <script src="{% static "search.js" %}" defer></script>
     </head>
  
     <body style="padding-top: 70px ;
             padding-left: 90px;
-            background: linear-gradient(#f4fafe,#eef4fa);">
+            background: linear-gradient(#f4fafe,#eef4fa);
+            min-width: 500px">
         <div class="header">
             <div class="left">
                 <img class="logo" src=" {% static 'icons/logo.png' %}">
@@ -26,7 +29,7 @@
             
             <div class="search-container">
                 <button class="search-button">
-                    <img src="{% static 'icons/search-solid.svg' %}">
+                    <img class="search-icon" src="{% static 'icons/magnifying-glass.png' %}">
                 </button>
                 <input id="search-bar" class="search-bar" role="textbox" placeholder="Search">
             </div>
@@ -55,7 +58,7 @@
 
         <div class="modules" id="modules">
             {% for course in courses %}
-                <a href="{% url 'papers' course.id %}" style="text-decoration: none;">
+                <a href="{% url 'papers' course.id %}" style="text-decoration: none;" class="module-link">
                     <div class="module" Data-module="{{course.name}}">
                         <img class="symbol" src="{{course.logo_path.url}}">
                         <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>

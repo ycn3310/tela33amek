@@ -9,7 +9,6 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
-    
 class Paper(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="papers")
     major = models.CharField(max_length=256)

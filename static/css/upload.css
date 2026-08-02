@@ -121,6 +121,21 @@ body{
     background: none;
 }
 
+.informations>div>input{
+    font: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+
+    border: 1px solid gray;
+    border-radius: 10px;
+
+    height: 50px;
+    width: 295px;
+
+
+    background: none;
+}
+
 .informations>input::placeholder{
     text-align: center;
     color: black;
@@ -173,4 +188,28 @@ button:active{
     font-family:Roboto, sans-serif;
     font-weight:500;
     line-height:1.6;
+}
+
+#course-list {
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#course-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#course-list li:hover {
+    background: #f0f0f0;
+}
+
+.dropdown {
+    position: relative;
+    width: 295px;
 }

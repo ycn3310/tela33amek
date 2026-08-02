@@ -30,7 +30,15 @@
             </div>
 
             <div class="informations">
-                <input type="search" placeholder="📚 Module">
+                <div class="dropdown">
+                    <input type="text" id="course-input" placeholder="📚 Module" autocomplete="off">
+
+                    <ul id="course-list">
+                        {% for course in courses %}
+                            <li>{{ course.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
                 <input type="search" placeholder="🎓 Major">
                 <input type="search" placeholder="📅 Year">
                 <input type="search" placeholder="⏲ Semester">

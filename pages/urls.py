@@ -6,4 +6,5 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('papers/<int:course_id>/', views.files, name='papers'),
     path("pdf/<int:paper_id>/", views.view_pdf, name="view_pdf"),
+    path("suggestions/", views.suggestions, name="suggestions"),
 ]
