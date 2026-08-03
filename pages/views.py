@@ -41,3 +41,31 @@ def suggestions(request):
     )
 
     return JsonResponse(list(results), safe=False)
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.shortcuts import redirect
+
+def report(request, paper_id):
+    if request.method == "POST":
+        issues = request.POST.getlist("issue")
+        description = request.POST.get("description")
+
+        message = f"""
+Paper ID: {paper_id}
+
+Issues:
+{', '.join(issues)}
+
+Details:
+{description}
+"""
+
+        send_mail(
+            "New paper report",
+            message,
+            settings.EMAIL_HOST_USER,
+            ["tela33amek@gmail.com"],
+        )
+
+    return redirect("index")

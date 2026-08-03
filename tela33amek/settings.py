@@ -1,10 +1,13 @@
 from pathlib import Path
 import os
 import dj_database_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() in  ("true", "1", "t")
+DEBUG = os.environ.get("DEBUG") == "True"
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -51,11 +54,19 @@ WSGI_APPLICATION = 'tela33amek.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=os.environ.get("POSTGRES_URL")
-    )
-}
+if "POSTGRES_URL_NON_POOLING" in os.environ:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            os.environ["POSTGRES_URL_NON_POOLING"]
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
@@ -87,12 +98,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-#DEBUG = os.getenv("DEBUG", "False") == "True"
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -129,7 +134,16 @@ SECRET_KEY = os.environ.get(
     "django-insecure-change-this-local-development-key"
 )
 
-if not DEBUG:
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+
+if (not DEBUG):
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
@@ -137,3 +151,11 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000 
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+else:
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+
+    SECURE_HSTS_SECONDS = 0 
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False

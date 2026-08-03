@@ -18,6 +18,30 @@ class Paper(models.Model):
     teacher = models.CharField(max_length=256)
     paper_path = models.FileField(upload_to='papers/%y/%m/%d', null=True, blank=True)
 
+    PAPER_TYPES = [
+        ("exam", "Exam"),
+        ("td", "TD"),
+        ("tp", "TP"),
+        ("quiz", "Quiz"),
+    ]
+
+    CYCLES = [
+        ("license", "License"),
+        ("master", "Master"),
+        ("engineer", "Engineer"),
+    ]
+
+    paper_type = models.CharField(
+        max_length=20,
+        choices=PAPER_TYPES,
+        default="exam",
+    )
+
+    cycle = models.CharField(
+        max_length=20,
+        choices=CYCLES,
+        default="engineer",
+    )
     
 
     def __str__(self):

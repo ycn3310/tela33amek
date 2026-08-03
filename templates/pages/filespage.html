@@ -1,7 +1,9 @@
 {% load static%}
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
     <head>
+        <meta charset="UTF-8">
         <title>{{ course }}</title>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,10 +13,12 @@
         <link rel="icon" href ="{% static 'icons/logo.png' %}">
 
         <link rel="stylesheet" href="{% static 'css/filespage.css' %}">
-
+        <link rel="stylesheet" href="{% static 'css/report-panel.css' %}">
+        
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1852839546839934"crossorigin="anonymous"></script>
-    </head> 
+        </head> 
 
+        
     <body>
         <a href="{%url 'index'%}"><button class="back-button">🢀 back</button></a>
         
@@ -26,8 +30,6 @@
                 </a>
                 <h1 class="course-title">{{ course }}</h1>
             </div>
-
-            <!-- Right Group: Filter Controls -->
             <div class="header-filters">
                 <div>
                     <div>
@@ -42,35 +44,124 @@
                 </div>
 
                 <div>
-                    <label for="Year">Year:</label>
-                    <input type="range" id="Year" name="Year" min="1974" max="2027" step="1" value="2024">
-                </div>
-
-                <div>
                     <label for="Teacher">Teacher:</label>
-                    <input type="text" id="Teacher" name="Teacher">
+                    <input oninput="searching(this, '#tchr')" type="text" id="searchBoxTeacher" name="Teacher">
+                </div>
+                <div>
+                    <label for="Teacher">Establishment:</label>
+                    <input oninput="searching(this, '#uni')" type="text" id="searchBoxUni" name="Teacher">
                 </div>
             </div>
 
         </div>
 
         {% for paper in papers %}
-            <div class="filesection">
+            <div class="filesection" data-type="{{paper.paper_type}}">
                 
                 <div>
                     <img class="image" src="{% static 'icons/doc.png' %}">
                     <a href="{% url 'view_pdf' paper.id %}" target="_blank">
-                        <p class="papertype">{{paper.year}} - {{paper.establishment}}</p>
+                        <p class="papertype">{{paper.year}} - {{paper.major}}</p>
                     </a>
                 </div>
+
+                <div class="metadata">
+                    <p id="uni">Establishment: {{paper.establishment}}</p>
+                    <p>Semester: {{paper.semester}}</p>
+                    <p id="tchr">Teacher: {{paper.teacher}}</p>
+                    <p>Cycle: {{paper.paper_type}}-{{paper.cycle}}</p>
+                </div>
             
-                <button class="report-button">
+                <button class="report-button" onclick="document.getElementById('report-{{paper.id}}').showModal()">
                     <img style="height:22px; padding-right:6px; filter:invert(100%);" src="{% static 'icons/warning.png' %}">
                     Report!
                 </button>
+
+                <dialog id="report-{{paper.id}}">
+                    <form method="POST" action="{% url 'report' paper.id %}">
+                        {% csrf_token %}
+                        <div class="report-head">
+                            <p class="report-eyebrow">Flag an issue</p>
+                            <h1>Report the paper</h1>
+                        </div>
+
+                        <div class="report-body">
+                            <fieldset>
+                            <legend>What's wrong with it?</legend>
+                            <div class="issue-grid">
+                                <label><input type="checkbox" name="issue" value="wrong-year"> Wrong year</label>
+                                <label><input type="checkbox" name="issue" value="wrong-major"> Wrong major</label>
+                                <label><input type="checkbox" name="issue" value="duplicate"> Already uploaded</label>
+                                <label><input type="checkbox" name="issue" value="not-exam"> Not an exam paper</label>
+                                <label><input type="checkbox" name="issue" value="wrong-subject"> Wrong subject</label>
+                                <label><input type="checkbox" name="issue" value="poor-scan"> Unreadable scan</label>
+                            </div>
+                            </fieldset>
+
+                            <label class="desc-label" for="report-desc">Tell us more</label>
+                            <textarea name="description" id="report-desc" placeholder="Add any details that will help us review this paper faster…"></textarea>
+
+                            <div class="report-actions">
+                            <button class="btn btn-ghost" onclick="document.getElementById('report-{{paper.id}}').close()">Cancel</button>
+                            <button class="btn btn-submit" type="submit">Submit report</button>
+                            </div>
+                        </div>
+                    </form>
+                </dialog>
                 
             </div>
         {% endfor %}
 
+
+
+        <script defer>
+
+            function searching(input, id) {
+                const search = input.value.toLowerCase();
+                const papers = document.querySelectorAll(".filesection");
+
+                papers.forEach(paper => {
+                    const text = paper.querySelector(id).textContent.toLowerCase();
+
+                    if (text.includes(search)) {
+                        paper.style.display = "flex";
+                    } else {
+                        paper.style.display = "none";
+                    }
+                });
+            }
+
+            const examCheckbox = document.getElementById("Exam");
+            const midtermCheckbox = document.getElementById("Mid-Term");
+            const papers = document.querySelectorAll(".filesection");
+
+            function filterPapers() {
+                const showExam = examCheckbox.checked;
+                const showMidterm = midtermCheckbox.checked;
+
+                papers.forEach(paper => {
+                    const type = paper.dataset.type.toLowerCase();
+
+                    let visible = true;
+
+                    if (showExam || showMidterm) {
+                        visible = false;
+
+                        if (showExam && type.includes("exam")) {
+                            visible = true;
+                        }
+
+                        if (showMidterm && type.includes("mid")) {
+                            visible = true;
+                        }
+                    }
+
+                    paper.style.display = visible ? "flex" : "none";
+                });
+            }
+
+            examCheckbox.addEventListener("change", filterPapers);
+            midtermCheckbox.addEventListener("change", filterPapers);
+        </script>
     </body>
 </html>
