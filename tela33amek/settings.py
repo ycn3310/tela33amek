@@ -135,8 +135,11 @@ CSRF_TRUSTED_ORIGINS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-from decouple import config 
-SECRET_KEY = config('SECRET_KEY')
+
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-change-this-local-development-key"
+)
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
