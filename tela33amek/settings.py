@@ -126,6 +126,7 @@ ALLOWED_HOSTS = [
     "localhost",
     ".railway.app",
     'tela33amek-4lm9dpsf6-ycn3310s-projects.vercel.app',
+    'tela33amek.vercel.app',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
