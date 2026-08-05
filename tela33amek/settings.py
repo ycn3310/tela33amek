@@ -109,7 +109,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     ".railway.app",
-    'tela33amek-fq7lvhh2n-ycn3310s-projects.vercel.app',
+    'tela33amek-75y41vhqe-ycn3310s-projects.vercel.app'
     'tela33amek.vercel.app',
 ]
 
