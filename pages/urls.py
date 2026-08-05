@@ -8,4 +8,5 @@ urlpatterns = [
     path("pdf/<int:paper_id>/", views.view_pdf, name="view_pdf"),
     path("suggestions/", views.suggestions, name="suggestions"),
     path("report/<int:paper_id>/", views.report, name="report"),
+    path("send_paper", views.send_paper, name="send_paper")
 ]

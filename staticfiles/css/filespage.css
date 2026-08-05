@@ -106,10 +106,6 @@ body{
     box-shadow: 0 10px 25px rgba(0,0,0,.2);
 }
 
-/* ==========================================
-   FILTER BAR STYLES
-   ========================================== */
-
 .filterbar {
     position: fixed;
     top: 0;
@@ -212,7 +208,6 @@ body{
     box-shadow: 0 0 0 3px rgba(21, 137, 216, 0.15);
 }
 
-/* Range Input (Year Slider) */
 .filterbar input[type="range"] {
     appearance: none;
     -webkit-appearance: none;
@@ -292,4 +287,19 @@ body{
 
 .report-button:hover{
     background-color: rgb(146, 52, 52);
+}
+
+.filesection > .metadata {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 20px; 
+}
+
+.metadata p {
+    margin: 0;
+    font: Roboto, Arial;
+    font-family: Roboto;
+    font-size: 15px;
+    color: #0b0b0b;
+    font-size: 4000;
 }

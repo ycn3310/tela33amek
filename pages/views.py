@@ -14,7 +14,10 @@ def files(request, course_id):
     return render(request, "pages/filespage.html", {"course": course,"papers": papers})
 
 def upload(request):
-    return render(request, "pages/upload.html", {"courses": Course.objects.all()})
+    years = []
+    for i in range(2026-1974):
+        years.append(f"{i+1974}/{i+1+1974}")
+    return render(request, "pages/upload.html", {"courses": Course.objects.all(),"years": years})
 
 def view_pdf(request, paper_id):
     paper = get_object_or_404(Paper, id=paper_id)
@@ -62,10 +65,49 @@ Details:
 """
 
         send_mail(
-            "New paper report",
+            "New paper report!!!",
             message,
             settings.EMAIL_HOST_USER,
             ["tela33amek@gmail.com"],
         )
 
     return redirect("index")
+
+
+from django.core.mail import EmailMessage
+
+def send_paper(request):
+    if request.method == "POST":
+        course = request.POST.get("course")
+        year = request.POST.get("year")
+        uni = request.POST.get("uni")
+        teacher = request.POST.get("teacher")
+        semester = request.POST.get("semester")
+        major = request.POST.get("major")
+
+        paper = request.FILES.get("paper")
+
+        message = f"""
+course = {course}, year ={year}
+establishment = {uni}, teacher = {teacher}
+semester = {semester}, major = {major}
+"""
+
+        email = EmailMessage(
+            "New paper uploaded!",
+            body = message,
+            from_email=settings.EMAIL_HOST_USER,
+            to=["tela33amek@gmail.com"],
+        )
+
+        if paper:
+            email.attach(
+                paper.name,        
+                paper.read(),        
+                paper.content_type,  
+            )
+
+        email.send()
+
+        return redirect("index")
+        

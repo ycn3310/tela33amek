@@ -1,0 +1,27 @@
+.informations{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 10px;
+}
+
+.informations input{
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    height: 50px;
+    width: 295px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    background: none;
+}
+
+.informations input::placeholder{
+    text-align: center;
+    color: black;
+}
+
+.informations input:focus{
+    outline: 1px solid #2da7ff;
+}

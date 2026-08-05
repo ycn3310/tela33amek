@@ -1,0 +1,65 @@
+.drag-area{
+    border: 2px dashed gray;
+    border-radius: 16px;
+    width: 600px;
+    height: 400px;
+    margin-bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.drag-area:hover, .drag-area.dragging{
+    background: #dff0ff;
+    border-color: #1589d8;
+}
+
+.drag-area > p{
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.icon{
+    height: 100px;
+}
+
+.browse-button{
+    font: Roboto;
+    font-size: 20px;
+    font-weight: bold;
+
+    border-radius: 3px;
+    border: none;
+
+    background-color: #1589d8;
+    color: white;
+
+    height: 50px;
+    width: 150px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
+    transition: 0.2s;
+
+    cursor: pointer;
+}
+
+.browse-button:hover{
+    transform: translatey(-5px);
+    background-color: #0c5f96;
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+}
+
+#file-name{
+    margin-top: 20px;
+    text-align: center;
+    color: #1589d8;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    line-height: 1.6;
+}

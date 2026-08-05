@@ -13,36 +13,49 @@ fileinput.addEventListener("change", () => {
     }
 })
 
-const input = document.getElementById("course-input");
-const list = document.getElementById("course-list");
-const items = list.getElementsByTagName("li");
+function setupDropdown(dropdown) {
+    const input = dropdown.querySelector("input");
+    const list = dropdown.querySelector("ul");
+    const items = list.querySelectorAll("li");
 
-input.addEventListener("input", function () {
-    const value = this.value.toLowerCase();
-    let hasVisible = false;
+    // Show all items when focused
+    input.addEventListener("focus", () => {
+        items.forEach(item => item.style.display = "");
+        list.style.display = "block";
+    });
 
-    for (let item of items) {
-        if (item.textContent.toLowerCase().includes(value)) {
-            item.style.display = "";
-            hasVisible = true;
-        } else {
-            item.style.display = "none";
-        }
-    }
+    // Filter items
+    input.addEventListener("input", function () {
+        const value = this.value.toLowerCase();
+        let hasVisible = false;
 
-    list.style.display = hasVisible ? "block" : "none";
-});
+        items.forEach(item => {
+            const visible = item.textContent.toLowerCase().includes(value);
+            item.style.display = visible ? "" : "none";
 
-for (let item of items) {
-    item.addEventListener("click", function () {
-        input.value = this.textContent;
-        list.style.display = "none";
+            if (visible) hasVisible = true;
+        });
+
+        list.style.display = hasVisible ? "block" : "none";
+    });
+
+    // Select an item
+    items.forEach(item => {
+        item.addEventListener("click", () => {
+            input.value = item.textContent;
+            list.style.display = "none";
+        });
     });
 }
 
-// Hide when clicking outside
-document.addEventListener("click", function (e) {
+// Initialize every dropdown on the page
+document.querySelectorAll(".dropdown").forEach(setupDropdown);
+
+// Hide all dropdowns when clicking outside
+document.addEventListener("click", e => {
     if (!e.target.closest(".dropdown")) {
-        list.style.display = "none";
+        document.querySelectorAll(".dropdown ul").forEach(list => {
+            list.style.display = "none";
+        });
     }
 });

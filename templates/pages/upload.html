@@ -13,25 +13,32 @@
         <link rel="icon" href ="{% static 'icons/logo.png' %}">
 
         <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+        <link rel="stylesheet" href="{% static "css/dropdown.css" %}">
+        <link rel="stylesheet" href="{% static "css/dragdrop.css" %}">
+        <link rel="stylesheet" href="{% static "css/formField.css" %}">
+
 
         <script src="{% static 'program.js' %}" defer></script>
+        <script src="{% static 'dragdrop.js' %}" defer></script>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1852839546839934"crossorigin="anonymous"></script></head>
     <body>
         <a href="{% url 'index'%}"><button class="back-button">🢀 back</button></a>
-        <form>
+        <form method="POST" action={% url 'send_paper' %}  enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="drag-area" id="drag-area">
                 <img class="icon" src="{% static 'icons/image.png' %}">
                 <p>Drag & Drop to Upload File</p>
                 <p>⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ OR ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
                 <br>
                 <button type="button" class="browse-button">Browse File</button>
-                <input id="fileinput" type="file" hidden>
+                <input name="paper" id="fileinput" type="file" hidden  required>
                 <p id="file-name"></p>
             </div>
 
+            
             <div class="informations">
                 <div class="dropdown">
-                    <input type="text" id="course-input" placeholder="📚 Module" autocomplete="off">
+                    <input name="course" type="text" placeholder="📚 Module" autocomplete="off"  required>
 
                     <ul id="course-list">
                         {% for course in courses %}
@@ -39,16 +46,27 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <input type="search" placeholder="🎓 Major">
-                <input type="search" placeholder="📅 Year">
-                <input type="search" placeholder="⏲ Semester">
-                <input type="search" placeholder="🏫 Establishment">
-                <input type="search" placeholder="👥 Teacher">
+                <input name="major" type="search" placeholder="🎓 Major"  required>
+
+                <div class=dropdown>
+                    <input name="year" type="search" placeholder="📅 Year"  required>
+
+                    <ul id="course-list">
+                        {% for year in years%}
+                            <li>{{year}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <input name="semester" type="search" placeholder="⏲ Semester"  required>
+                <input name="uni" type="search" placeholder="🏫 Establishment"  required>
+                <input name="teacher" type="search" placeholder="👥 Teacher (optional)">
             </div>
 
             <div class="submit-section">
                 <button class="submit">Submit!</button>
             </div>
+            
             
         </form>
     </body>
