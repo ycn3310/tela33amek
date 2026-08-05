@@ -1,6 +1,6 @@
 .modules{
     display: grid;
-    grid-template-columns: repeat(auto-fill, 180px);
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     grid-gap: 20px;
 }
 
@@ -9,7 +9,7 @@
     align-items: center;
     flex-direction: column;
 
-    height: 180px;
+    height: clamp(140px, 18vw, 180px);
     width: 100%;
 
     border: none;
@@ -38,12 +38,12 @@
 
 .module-name{
     font-family: Roboto;
-    font-size:  23px; 
+    font-size: clamp(16px, 4vw, 23px);
     font-weight: bold;
     color: white;
     margin-top: 0px;
     text-align: center;
-    width: 170px;            
+    width: 90%;            
     
     overflow: hidden;        
     text-overflow: ellipsis;
@@ -58,8 +58,15 @@
     font-weight: 2000;
     margin-top: 0px;
     text-align: center;
-    width: 160px;            
+    width: 85%;            
     
     overflow: hidden;        
     text-overflow:clip;
+}
+
+@media (max-width: 480px) {
+    .modules{
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-gap: 12px;
+    }
 }
