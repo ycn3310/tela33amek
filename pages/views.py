@@ -104,6 +104,7 @@ semester = {semester}, major = {major}
         return redirect("index")
 
 import boto3
+from botocore.config import Config
 
 def view_pdf(request, paper_id):
     paper = get_object_or_404(Paper, id=paper_id)
