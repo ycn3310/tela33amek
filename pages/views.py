@@ -124,6 +124,8 @@ def view_pdf(request, paper_id):
         ExpiresIn=300,
     )
 
+    print(url)
+
     return redirect(url)
 
 def course_logo(request, course_id):
