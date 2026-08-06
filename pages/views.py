@@ -111,8 +111,13 @@ def view_pdf(request, paper_id):
     client = boto3.client(
         "s3",
         endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        region_name=settings.AWS_S3_REGION_NAME,
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        config=Config(
+            signature_version="s3v4",
+            s3={"addressing_style": "path"},
+        ),
     )
 
     url = client.generate_presigned_url(
@@ -132,11 +137,16 @@ def course_logo(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
     client = boto3.client(
-            "s3",
-            endpoint_url=settings.AWS_S3_ENDPOINT_URL,
-            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        )
+        "s3",
+        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        region_name=settings.AWS_S3_REGION_NAME,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        config=Config(
+            signature_version="s3v4",
+            s3={"addressing_style": "path"},
+        ),
+    )
 
     url = client.generate_presigned_url(
         "get_object",
