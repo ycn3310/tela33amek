@@ -1,7 +1,5 @@
 from django.db import models
 
-
-
 class Course(models.Model):
     name = models.CharField(max_length=256)
     logo_path = models.ImageField(upload_to='course_icons')

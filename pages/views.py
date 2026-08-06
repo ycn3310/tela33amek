@@ -119,7 +119,7 @@ def view_pdf(request, paper_id):
         "get_object",
         Params={
             "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
-            "Key": paper.paper.name,
+            "Key": paper.paper_path.name,
         },
         ExpiresIn=300,
     )
@@ -140,7 +140,7 @@ def course_logo(request, course_id):
         "get_object",
         Params={
             "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
-            "Key": course.logo.name,
+            "Key": course.logo_path.name,
         },
         ExpiresIn=300,
     )
