@@ -29,7 +29,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'tela33amek.urls'
@@ -119,8 +118,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://tela33amek.up.railway.app",
 ]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = BASE_DIR / 'media'
 
 
 SECRET_KEY = os.environ.get(
@@ -136,7 +135,14 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 AWS_ACCESS_KEY_ID = os.environ.get("STORAGE_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("STORAGE_ACCESS_KEY")
