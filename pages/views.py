@@ -19,14 +19,6 @@ def upload(request):
         years.append(f"{i+1974}/{i+1+1974}")
     return render(request, "pages/upload.html", {"courses": Course.objects.all(),"years": years})
 
-def view_pdf(request, paper_id):
-    paper = get_object_or_404(Paper, id=paper_id)
-
-    return FileResponse(
-        paper.paper_path.open("rb"),
-        content_type="application/pdf",
-        as_attachment=False
-    )
 
 def suggestions(request):
     field = request.GET.get("field")
@@ -110,4 +102,47 @@ semester = {semester}, major = {major}
         email.send()
 
         return redirect("index")
-        
+
+import boto3
+
+def view_pdf(request, paper_id):
+    paper = get_object_or_404(Paper, id=paper_id)
+
+    client = boto3.client(
+        "s3",
+        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    )
+
+    url = client.generate_presigned_url(
+        "get_object",
+        Params={
+            "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
+            "Key": paper.paper.name,
+        },
+        ExpiresIn=300,
+    )
+
+    return redirect(url)
+
+def course_logo(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    client = boto3.client(
+            "s3",
+            endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        )
+
+    url = client.generate_presigned_url(
+        "get_object",
+        Params={
+            "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
+            "Key": course.logo.name,
+        },
+        ExpiresIn=300,
+    )
+
+    return redirect(url)

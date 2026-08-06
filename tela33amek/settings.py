@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages.apps.PagesConfig',
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -134,6 +135,17 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
+
+AWS_ACCESS_KEY_ID = os.environ.get("STORAGE_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("STORAGE_ACCESS_KEY")
+
+AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKETNAME")
+
+AWS_S3_REGION_NAME = os.environ.get("REGION")
+
+AWS_S3_ENDPOINT_URL = os.environ.get("ENDPOINT")
 
 
 if (not DEBUG):

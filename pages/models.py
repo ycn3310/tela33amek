@@ -4,7 +4,7 @@ from django.db import models
 
 class Course(models.Model):
     name = models.CharField(max_length=256)
-    logo_path = models.FileField(upload_to='course_icons')
+    logo_path = models.ImageField(upload_to='course_icons')
 
     def __str__(self):
         return self.name
