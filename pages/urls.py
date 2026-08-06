@@ -8,5 +8,5 @@ urlpatterns = [
     path("suggestions/", views.suggestions, name="suggestions"),
     path("report/<int:paper_id>/", views.report, name="report"),
     path("send_paper", views.send_paper, name="send_paper"),
-    path("download/<int:paper_id>/", views.view_pdf, name="download"),
+    path("download/<int:paper_id>/", views.view_pdf, name="view_pdf"),
 ]
