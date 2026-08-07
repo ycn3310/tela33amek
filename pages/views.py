@@ -6,6 +6,9 @@ from .models import Course, Paper
 def index(request):
     return render(request, 'pages/homepage.html', {'courses':Course.objects.all()})
 
+def coming_soon(request):
+    return render(request, 'pages/comingsoon.html')
+
 def files(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
@@ -15,8 +18,8 @@ def files(request, course_id):
 
 def upload(request):
     years = []
-    for i in range(2026-1974):
-        years.append(f"{i+1974}/{i+1+1974}")
+    for i in range(1974-2027):
+        years.append(f"{2027-i}/{2027-i-1}")
     return render(request, "pages/upload.html", {"courses": Course.objects.all(),"years": years})
 
 
