@@ -20,9 +20,9 @@
         <link rel="stylesheet" href="{% static "css/upload/formField.css" %}">
 
 
-        <script src="{% static 'program.js' %}" defer></script>
-        <script src="{% static 'dragdrop.js' %}" defer></script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1852839546839934"crossorigin="anonymous"></script></head>
+        <script src="{% static 'js/program.js' %}" defer></script>
+        <script src="{% static 'js/dragdrop.js' %}" defer></script>
+    </head>
     <body>
         <a href="{% url 'index'%}"><button class="back-button">🢀 back</button></a>
         <form method="POST" action={% url 'send_paper' %}  enctype="multipart/form-data">
