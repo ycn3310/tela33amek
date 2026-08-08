@@ -1,6 +1,7 @@
 .dropdown{
     position: relative;
-    width: 295px;
+    width: 100%;
+    max-width: 295px;
 }
 
 .dropdown input{
@@ -36,4 +37,13 @@
 
 .dropdown li:hover{
     background: #f3f3f3;
+}
+
+@media (max-width: 768px){
+    .informations{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
 }

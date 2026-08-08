@@ -122,12 +122,12 @@
     }
 
     .search-bar{
-        width: 30vw;
+        width: 35vw;
         min-width: 110px;
         height: 36px;
         font-size: 15px;
         padding-left: 38px;
-        padding-right: 3px;
+        padding-right: 10px;
     }
 
     .search-icon{
@@ -137,8 +137,8 @@
     }
 
     .upload-button{
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
         font-size: 0;
         gap: 0;
     }

@@ -1,6 +1,6 @@
 .modules{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     grid-gap: 20px;
 }
 
@@ -9,7 +9,7 @@
     align-items: center;
     flex-direction: column;
 
-    height: clamp(140px, 150px , 180px);
+    aspect-ratio: 1/1;
     width: 100%;
 
     border: none;
@@ -19,6 +19,8 @@
     cursor: pointer;
 
     box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
+    container-type: inline-size;
 
     transition:.2s;
 }
@@ -38,13 +40,21 @@
 
 .module-name{
     font-family: Roboto;
-    font-size: clamp(16px, 4vw, 23px);
+    font-size: clamp(10px, 12cqw, 20px);
     font-weight: bold;
     color: white;
     margin-top: 0px;
     text-align: center;
-    width: 70%;            
-    
+    width: 90%; 
+    height: 40%;     
+
+    max-height: 100%;
+    line-height: 1.2;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
     overflow: hidden;        
     text-overflow: ellipsis;
 
@@ -66,7 +76,7 @@
 
 @media (max-width: 480px) {
     .modules{
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        grid-gap: 12px;
+        grid-template-columns: repeat(auto-fit, 1fr);
+        grid-gap: 6px;
     }
 }

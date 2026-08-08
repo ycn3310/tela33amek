@@ -1,0 +1,72 @@
+.filesection{
+    max-width: 1000px;
+    width: 100%;
+    height: 70px;
+    box-sizing: border-box;
+
+    border:none;
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+
+    background-color: white;
+
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 15px;
+    
+    cursor: pointer;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+
+
+    transition: 0.2s;
+}
+
+.filesection:hover{
+    transform:translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+
+}
+
+.filesection:active{
+    transform:scale(.96);
+}
+
+.filesection>div{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    gap: 10px
+}
+
+.filesection>p{
+    font-size: 20px;
+    font: Roboto;
+    font-family: Roboto;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px){
+    .filesection{
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 6px;
+    }
+
+    .metadata{
+        width: 100%;
+    }
+
+    .report-button{
+        align-self: flex-end;
+    }
+}

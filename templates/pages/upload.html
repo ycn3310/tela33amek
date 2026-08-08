@@ -14,10 +14,10 @@
 
         <link rel="icon" href ="{% static 'icons/logo.png' %}">
 
-        <link rel="stylesheet" href="{% static 'css/upload.css' %}">
-        <link rel="stylesheet" href="{% static "css/dropdown.css" %}">
-        <link rel="stylesheet" href="{% static "css/dragdrop.css" %}">
-        <link rel="stylesheet" href="{% static "css/formField.css" %}">
+        <link rel="stylesheet" href="{% static 'css/upload/upload.css' %}">
+        <link rel="stylesheet" href="{% static "css/upload/dropdown.css" %}">
+        <link rel="stylesheet" href="{% static "css/upload/dragdrop.css" %}">
+        <link rel="stylesheet" href="{% static "css/upload/formField.css" %}">
 
 
         <script src="{% static 'program.js' %}" defer></script>
@@ -53,7 +53,7 @@
                 <div class=dropdown>
                     <input name="year" type="search" placeholder="📅 Year"  required>
 
-                    <ul id="course-list">
+                    <ul id="year-list">
                         {% for year in years%}
                             <li>{{year}}</li>
                         {% endfor %}

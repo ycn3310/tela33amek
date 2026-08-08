@@ -25,3 +25,17 @@
 .informations input:focus{
     outline: 1px solid #2da7ff;
 }
+
+@media (max-width: 768px){
+    .informations{
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        margin-inline: auto;
+    }
+
+    .informations input{
+        width: 100%;
+        font-size: 16px;
+        height: 45px;
+    }
+}

@@ -14,8 +14,10 @@
 
         <link rel="icon" href ="{% static 'icons/logo.png' %}">
 
-        <link rel="stylesheet" href="{% static 'css/filespage.css' %}">
-        <link rel="stylesheet" href="{% static 'css/report-panel.css' %}">
+        <link rel="stylesheet" href="{% static 'css/filespage/filespage.css' %}">
+        <link rel="stylesheet" href="{% static 'css/filespage/report-panel.css' %}">
+        <link rel="stylesheet" href="{% static 'css/filespage/filterbar.css' %}">
+        <link rel="stylesheet" href="{% static 'css/filespage/filesection.css'%}">
         
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1852839546839934"crossorigin="anonymous"></script>
         </head> 
@@ -41,7 +43,7 @@
 
                     <div>
                         <input type="checkbox" id="Mid-Term">
-                        <label for="Mid-Term">Mid Term</label>
+                        <label for="Mid-Term">Mid-Term</label>
                     </div>
                 </div>
 
@@ -50,7 +52,7 @@
                     <input oninput="searching(this, '#tchr')" type="text" id="searchBoxTeacher" name="Teacher">
                 </div>
                 <div>
-                    <label for="Teacher">Establishment:</label>
+                    <label for="Teacher">Est:</label>
                     <input oninput="searching(this, '#uni')" type="text" id="searchBoxUni" name="Teacher">
                 </div>
             </div>
@@ -67,10 +69,11 @@
                     </a>
                 </div>
 
+            
                 <div class="metadata">
-                    <p id="uni">Establishment: {{paper.establishment}}</p>
                     <p>Semester: {{paper.semester}}</p>
-                    <p id="tchr">Teacher: {{paper.teacher}}</p>
+                    <p id="uni">Est: {{paper.establishment}}</p>
+                    <p id="tchr">Prof: {{paper.teacher}}</p>
                     <p>Cycle: {{paper.paper_type}}-{{paper.cycle}}</p>
                 </div>
             
@@ -78,6 +81,7 @@
                     <img style="height:22px; padding-right:6px; filter:invert(100%);" src="{% static 'icons/warning.png' %}">
                     Report!
                 </button>
+                
 
                 <dialog id="report-{{paper.id}}">
                     <form method="POST" action="{% url 'report' paper.id %}">
