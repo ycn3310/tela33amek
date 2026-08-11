@@ -181,7 +181,7 @@ def make_donation(request):
         print("RESPONSE:", response.text)
         return redirect("support")
 
-    Donation.object.create(
+    Donation.objects.create(
         checkout_id = data["id"],
         amount = amount,)
 
