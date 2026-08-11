@@ -81,11 +81,12 @@ body{
 
 @media (max-width: 480px) {
     .modules{
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         grid-gap: 6px;
     }
 
     body{
         padding-left: 70px;
+        padding-top: 60px;
     }
 }
