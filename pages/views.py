@@ -186,7 +186,8 @@ def make_donation(request):
         amount = amount,)
 
     print(data)
-    return redirect(data["checkout_url"])
+    checkout_url = data["checkout_url"].replace("http://", "https://")
+    return redirect(checkout_url)
 
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
