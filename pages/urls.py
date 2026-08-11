@@ -11,5 +11,7 @@ urlpatterns = [
     path("download/<int:paper_id>/", views.view_pdf, name="view_pdf"),
     path("support/", views.support, name="support"),
     path("support/donate/", views.make_donation, name="donation"),
+    path("support/success/", views.success, name="success"),
+    path("support/failure/", views.failure, name="failure"),
     path("chargily/webhook", views.chargily_webhook, name="chargily_webhook"),
 ]

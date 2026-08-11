@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Failed | Tela33amek</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #ffffff;
+
+            color: #172033;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+
+        .failure-container {
+
+            width: 90%;
+
+            max-width: 650px;
+
+            text-align: center;
+
+            padding: 50px 30px;
+
+        }
+
+
+
+        .logo {
+
+            width: 260px;
+
+            max-width: 80%;
+
+            height: auto;
+
+            margin-bottom: 50px;
+
+        }
+
+
+
+        .failure-icon {
+
+            width: 90px;
+
+            height: 90px;
+
+            margin: 0 auto 30px;
+
+            border-radius: 50%;
+
+            background: #f3f5f7;
+
+            border: 3px solid #FF0000;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #FF0000;
+
+            font-size: 40px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        h1 {
+
+            font-size: 44px;
+
+            line-height: 1.15;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 20px;
+
+            color: #172033;
+
+        }
+
+
+        h1 span {
+
+            color: #FF0000;
+
+        }
+
+
+
+        .description {
+
+            color: #657384;
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            max-width: 520px;
+
+            margin: 0 auto 35px;
+
+        }
+
+
+
+        .failure-box {
+
+            background: #f7f9fb;
+
+            border: 1px solid #dfe6ed;
+
+            border-radius: 13px;
+
+            padding: 22px;
+
+            max-width: 480px;
+
+            margin: 0 auto 30px;
+
+            color: #526274;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .failure-box strong {
+
+            color: #4e5c6c;
+
+        }
+
+
+
+        .retry-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 100%;
+
+            max-width: 480px;
+
+            height: 56px;
+
+            background: #1763a8;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+
+        }
+
+
+        .retry-button:hover {
+
+            background: #0f4f88;
+
+            transform: translateY(-1px);
+
+        }
+
+
+
+        .secondary-link {
+
+            display: block;
+
+            margin-top: 18px;
+
+            color: #647284;
+
+            font-size: 14px;
+
+            text-decoration: underline;
+
+        }
+
+
+        .secondary-link:hover {
+
+            color: #1763a8;
+
+        }
+
+
+
+        .footer {
+
+            margin-top: 45px;
+
+            color: #9aa5b1;
+
+            font-size: 12px;
+
+        }
+
+
+
+        @media (max-width: 600px) {
+
+            .failure-container {
+
+                padding: 35px 20px;
+
+            }
+
+
+            .logo {
+
+                width: 220px;
+
+                margin-bottom: 40px;
+
+            }
+
+
+            .failure-icon {
+
+                width: 75px;
+
+                height: 75px;
+
+                font-size: 33px;
+
+            }
+
+
+            h1 {
+
+                font-size: 34px;
+
+            }
+
+
+            .description {
+
+                font-size: 15px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main class="failure-container">
+
+
+
+        <img
+            src="/static/images/tela33amek-logo.png"
+            alt="Tela33amek"
+            class="logo"
+        >
+
+
+
+        <div class="failure-icon">
+
+            ✕
+
+        </div>
+
+
+
+        <h1>
+
+            Payment <span>failed.</span>
+
+        </h1>
+
+
+
+        <p class="description">
+
+            Unfortunately, your payment could not
+            be completed.
+
+            <br>
+
+            No money has been charged from your
+            account.
+
+        </p>
+
+
+
+        <div class="failure-box">
+
+            <strong>Don't worry, your support still matters.</strong>
+
+            <br>
+
+            You can try the payment again or return
+            to Tela33amek and continue exploring
+            our educational resources.
+
+        </div>
+
+
+
+        <a
+            href="{% url 'support' %}"
+            class="retry-button"
+        >
+
+            Try again
+
+        </a>
+
+
+        <a
+            href="{% url 'index' %}"
+            class="secondary-link"
+        >
+
+            Return to Tela33amek
+
+        </a>
+
+
+
+        <div class="footer">
+
+            Thank you for supporting Algerian students. 🇩🇿
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Thank You | Tela33amek</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #ffffff;
+
+            color: #172033;
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+
+        .success-container {
+
+            width: 90%;
+
+            max-width: 650px;
+
+            text-align: center;
+
+            padding: 50px 30px;
+
+        }
+
+
+        .logo {
+
+            width: 260px;
+
+            max-width: 80%;
+
+            height: auto;
+
+            margin-bottom: 50px;
+
+        }
+
+
+
+        .success-icon {
+
+            width: 90px;
+
+            height: 90px;
+
+            margin: 0 auto 30px;
+
+            border-radius: 50%;
+
+            background: #edf5fb;
+
+            border: 3px solid #22AA22;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #22AA22;
+
+            font-size: 43px;
+
+            font-weight: bold;
+
+        }
+
+
+
+        h1 {
+
+            font-size: 44px;
+
+            line-height: 1.15;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 20px;
+
+            color: #172033;
+
+        }
+
+
+        h1 span {
+
+            color: #22AA22;
+
+        }
+
+
+
+        .description {
+
+            color: #657384;
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+            max-width: 520px;
+
+            margin: 0 auto 35px;
+
+        }
+
+
+
+        .success-box {
+
+            background: #f7f9fb;
+
+            border: 1px solid #dfe6ed;
+
+            border-radius: 13px;
+
+            padding: 22px;
+
+            max-width: 480px;
+
+            margin: 0 auto 30px;
+
+            color: #526274;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .success-box strong {
+
+            color: #1763a8;
+
+        }
+
+
+
+        .back-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 100%;
+
+            max-width: 480px;
+
+            height: 56px;
+
+            background: #1763a8;
+
+            color: white;
+
+            border: none;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+
+        }
+
+
+        .back-button:hover {
+
+            background: #0f4f88;
+
+            transform: translateY(-1px);
+
+        }
+
+
+
+        .secondary-link {
+
+            display: block;
+
+            margin-top: 18px;
+
+            color: #647284;
+
+            font-size: 14px;
+
+            text-decoration: underline;
+
+        }
+
+
+        .secondary-link:hover {
+
+            color: #1763a8;
+
+        }
+
+
+        .footer {
+
+            margin-top: 45px;
+
+            color: #9aa5b1;
+
+            font-size: 12px;
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .success-container {
+
+                padding: 35px 20px;
+
+            }
+
+
+            .logo {
+
+                width: 220px;
+
+                margin-bottom: 40px;
+
+            }
+
+
+            .success-icon {
+
+                width: 75px;
+
+                height: 75px;
+
+                font-size: 35px;
+
+            }
+
+
+            h1 {
+
+                font-size: 34px;
+
+            }
+
+
+            .description {
+
+                font-size: 15px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <main class="success-container">
+
+
+
+        <img
+            src="{% static 'icons/logo.png'%}"
+            alt="Tela33amek"
+            class="logo">
+
+
+
+        <div class="success-icon">
+
+            ✓
+
+        </div>
+
+
+        <h1>
+
+            Payment <span>successful!</span>
+
+        </h1>
+
+
+
+        <p class="description">
+
+            Thank you for supporting Tela33amek.
+
+            <br>
+
+            Your contribution helps us keep providing
+            free educational resources to students
+            across Algeria.
+
+        </p>
+
+
+
+        <div class="success-box">
+
+            <strong>Your support makes a difference.</strong>
+
+            <br>
+
+            Thanks to people like you, we can continue
+            improving Tela33amek and making educational
+            resources more accessible to Algerian students.
+
+        </div>
+
+
+
+        <a
+            href="{% url 'index' %}"
+            class="back-button">
+
+            Return to Tela33amek
+
+        </a>
+
+
+
+
+        <div class="footer">
+
+            Thank you for helping Algerian students. 🇩🇿
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

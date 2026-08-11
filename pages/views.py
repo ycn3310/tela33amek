@@ -13,6 +13,12 @@ def index(request):
 def support(request):
     return render(request, 'pages/support.html')
 
+def success(request):
+    return render(request, 'pages/success.html')
+
+def failure(request):
+    return render(request, 'pages/failure.html')
+
 def files(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
