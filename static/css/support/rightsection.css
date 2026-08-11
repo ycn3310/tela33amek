@@ -1,0 +1,64 @@
+.right-section {
+    width: 42%;
+
+    background: #f7f9fb;
+
+    border-left: 1px solid #e0e6ec;
+
+    padding: 55px 7%;
+
+    display: flex;
+    align-items: center;
+}
+
+.donation-box {
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+
+.donation-box h2 {
+    font-size: 30px;
+    margin-bottom: 28px;
+    color: #172033;
+}
+
+
+.frequency {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.frequency button {
+    height: 55px;
+
+    background: white;
+
+    border: 2px solid #ccd6e0;
+
+    border-radius: 11px;
+
+    font-size: 16px;
+
+    color: #26384b;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.frequency button:hover {
+    border-color: #1763a8;
+}
+
+.frequency button.active {
+    border-color: #1763a8;
+
+    color: #1763a8;
+
+    background: #f2f7fb;
+
+    font-weight: 700;
+}

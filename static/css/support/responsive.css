@@ -1,0 +1,57 @@
+@media (max-width: 1000px) {
+
+    .support-page {
+        flex-direction: column;
+    }
+
+    .left-section,
+    .right-section {
+        width: 100%;
+    }
+
+    .left-section {
+        padding: 45px 8%;
+    }
+
+    .right-section {
+        padding: 45px 8%;
+
+        border-left: none;
+
+        border-top: 1px solid #e0e6ec;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .left-section {
+        padding: 35px 22px;
+    }
+
+    .right-section {
+        padding: 35px 22px;
+    }
+
+    .site-logo {
+        width: 240px;
+        margin-bottom: 40px;
+    }
+
+    .left-section h1 {
+        font-size: 40px;
+    }
+
+    .universities {
+        transform: scale(0.75);
+
+        transform-origin: left top;
+
+        width: 600px;
+
+        margin-bottom: -60px;
+    }
+
+    .amount-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

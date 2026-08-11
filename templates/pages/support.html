@@ -1,26 +1,199 @@
-<h1>Support Tela33amek ❤️</h1>
+{% load static%}
 
-<p>
-    Tela33amek is free for students.
-    If you find it useful, you can support the project.
-</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<form method="POST" action="{% url 'donation' %}">
-    {% csrf_token %}
+    <link rel="stylesheet" href="{% static "css/support/base.css"%}">
+    <link rel="stylesheet" href="{% static "css/support/donation.css"%}">
+    <link rel="stylesheet" href="{% static "css/support/leftsection.css"%}">
+    <link rel="stylesheet" href="{% static "css/support/rightsection.css"%}">
+    <link rel="stylesheet" href="{% static "css/support/page.css"%}">
+    <link rel="stylesheet" href="{% static "css/support/responsive.css"%}">
+    <link rel="stylesheet" href="{% static "css/support/universities.css"%}">
 
-    <button type="submit" name="amount" value="100">
-        100 DA
-    </button>
+    <title>Support Us | Tela33amek</title>
+    <script src="{% static 'js/donation.js'%}" defer></script>
+</head>
 
-    <button type="submit" name="amount" value="200">
-        200 DA
-    </button>
 
-    <button type="submit" name="amount" value="500">
-        500 DA
-    </button>
+<body>
 
-    <button type="submit" name="amount" value="1000">
-        1000 DA
-    </button>
-</form>
+<div class="support-page">
+
+    <section class="left-section">
+
+
+        <img src="{% static 'icons/logo_with_slogan.png'%}" alt="Tela33amek" class="site-logo">
+
+
+        <h1>
+            Help us keep
+            <span>education accessible.</span>
+        </h1>
+
+
+        <p class="description">
+
+            Tela33amek provides students with free access to
+            exam papers, TDs from
+            universities across Algeria.
+
+            <br><br>
+
+            Your support helps us keep the platform online,
+            add more resources and make studying easier for
+            everyone.
+
+        </p>
+
+
+        <!-- UNIVERSITY VISUAL -->
+
+        <div class="universities">
+
+            <div class="university usthb">
+
+                <strong>USTHB</strong>
+
+                <small>
+                    Université des Sciences et de la Technologie
+                </small>
+
+            </div>
+
+
+            <div class="university esi">
+
+                <strong>ESI</strong>
+
+                <small>
+                    École Nationale Supérieure d'Informatique
+                </small>
+
+            </div>
+
+
+            <div class="university usto">
+
+                <strong>USTO</strong>
+
+                <small>
+                    Université d'Oran
+                </small>
+
+            </div>
+
+
+            <div class="university enp">
+
+                <strong>ENP</strong>
+
+                <small>
+                    École Nationale Polytechnique
+                </small>
+
+            </div>
+
+
+            <div class="university-decoration"></div>
+
+        </div>
+
+
+        <p class="description" style="font-size:14px; margin-bottom:0;">
+            Built by Algerian students for them. 🇩🇿
+        </p>
+
+    </section>
+
+    <section class="right-section">
+
+        <div class="donation-box">
+
+            <h2>
+                Support Tela33amek
+            </h2>
+
+
+            <div class="frequency">
+
+                <button id="onceButton" class="active" onclick="setFrequency('once')" >
+                     Give once
+                </button>
+
+
+                <button id="monthlyButton" onclick="setFrequency('monthly')">
+                    Monthly
+                </button>
+
+            </div>
+
+            <form method="POST" action="{% url 'donation' %}">
+                {% csrf_token %}
+                    <div class="amount-grid">
+                        <button type="button" class="amount-button" onclick="selectAmount(100)">
+                            100 DA
+                        </button>
+
+
+                        <button type="button" class="amount-button" onclick="selectAmount(250)">
+                            250 DA
+                        </button>
+
+
+                        <button type="button" class="amount-button" onclick="selectAmount(500)">
+                            500 DA
+                        </button>
+
+
+                        <button type="button" class="amount-button" onclick="selectAmount(1000)">
+                            1,000 DA
+                        </button>
+
+
+                        <button type="button" class="amount-button" onclick="selectAmount(2000)">
+                            2,000 DA
+                        </button>
+
+
+                        <button type="button" class="amount-button" onclick="selectAmount(5000)">
+                            5,000 DA
+                        </button>
+                    </div>
+
+                    <div class="custom-amount">
+                        <span>دج</span>
+
+                        <input name="amount" type="number" id="amountInput" value="500" min="50" placeholder="Enter amount">
+
+                        <span class="currency">
+                            DZD
+                        </span>
+                    </div>
+
+                    <div class="support-message">
+
+                        Your contribution helps us maintain
+                        Tela33amek and continue providing free
+                        educational resources to students.
+
+                    </div>
+
+                    <button type="submit" class="donate-button" id="donateButton">
+                        Support us — 500 DA
+                    </button>
+
+                    <div class="success-message" id="successMessage">
+                        Thank you for supporting Tela33amek.
+                        You will be redirected to the payment page.
+                    </div>
+            </form>
+        </div>
+
+    </section>
+
+</body>
+</html>

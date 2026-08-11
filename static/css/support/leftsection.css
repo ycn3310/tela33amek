@@ -1,0 +1,37 @@
+  .left-section {
+    width: 58%;
+    padding: 45px 6%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+}
+
+/* LOGO */
+
+.site-logo {
+    width: 285px;
+    height: auto;
+    margin-bottom: 55px;
+}
+
+.left-section h1 {
+    font-size: clamp(40px, 4vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -2px;
+    max-width: 650px;
+    margin-bottom: 24px;
+    color: #172033;
+}
+
+.left-section h1 span {
+    color: #165a9e;
+}
+
+.description {
+    max-width: 680px;
+    color: #5d6878;
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 35px;
+}
