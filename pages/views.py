@@ -152,12 +152,14 @@ def course_logo(request, course_id):
 
     return redirect(url)
 
+import requests
+
 def make_donation(request):
     if request.method != "POST":
         return redirect("supprot")
 
     amount = int(request.POST.get("amount"))
-    response = request.post(
+    response = requests.post(
             "https://pay.chargily.net/test/api/v2/checkouts",
             headers={
                 "Authoreation": f"Bearer {settings.CHARGILY_SECRET_KEY}",
