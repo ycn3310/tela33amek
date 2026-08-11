@@ -162,7 +162,7 @@ def make_donation(request):
     response = requests.post(
             "https://pay.chargily.net/test/api/v2/checkouts",
             headers={
-                "Authoreation": f"Bearer {settings.CHARGILY_SECRET_KEY}",
+                "Authorization": f"Bearer {settings.CHARGILY_SECRET_KEY}",
                 "Content-Type": "application/json",
             },
             json = {
@@ -171,19 +171,21 @@ def make_donation(request):
                 "success_url": "https://tela33amek.vercel.app/support/success/",
                 "failure_url": "https://tela33amek.vercel.app/support/failure/",
                 "webhook_endpoint": "https://tela33amek.vercel.app/chargily/webhook/",
-                "descreption": "Support Tela33amek"
+                "description": "Support Tela33amek"
             },
         )
     data = response.json()
 
     if response.status_code != 201:
-        print(data)
+        print("STATUS:", response.status_code)
+        print("RESPONSE:", response.text)
         return redirect("support")
 
     Donation.object.create(
         checkout_id = data["id"],
         amount = amount,)
 
+    print(data)
     return redirect(data["checkout_url"])
 
 from django.views.decorators.csrf import csrf_exempt
