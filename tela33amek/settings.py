@@ -137,6 +137,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
+CHARGILY_SECRET_KEY = os.environ.get("CHARGILY_SECRET_KEY")
+CHARGILY_PUBLIC_KEY = os.environ.get("CHARGILY_PUBLIC_KEY")
+
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
