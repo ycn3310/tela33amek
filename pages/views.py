@@ -156,7 +156,7 @@ import requests
 
 def make_donation(request):
     if request.method != "POST":
-        return redirect("supprot")
+        return redirect("support")
 
     amount = int(request.POST.get("amount"))
     response = requests.post(
