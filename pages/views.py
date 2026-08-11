@@ -176,7 +176,7 @@ def make_donation(request):
         )
     data = response.json()
 
-    if response.status_code != 201:
+    if response.status_code != 200:
         print("STATUS:", response.status_code)
         print("RESPONSE:", response.text)
         return redirect("support")
@@ -187,6 +187,7 @@ def make_donation(request):
 
     print(data)
     checkout_url = data["checkout_url"].replace("http://", "https://")
+    print(checkout_url)
     return redirect(checkout_url)
 
 from django.views.decorators.csrf import csrf_exempt
