@@ -116,7 +116,10 @@ semester = {semester}, major = {major}
 import boto3
 from botocore.config import Config
 
-client = boto3.client(
+def view_pdf(request, paper_id):
+    paper = get_object_or_404(Paper, id=paper_id)
+
+    client = boto3.client(
         "s3",
         endpoint_url=settings.AWS_S3_ENDPOINT_URL,
         region_name=settings.AWS_S3_REGION_NAME,
@@ -127,9 +130,6 @@ client = boto3.client(
             s3={"addressing_style": "path"},
         ),
     )
-
-def view_pdf(request, paper_id):
-    paper = get_object_or_404(Paper, id=paper_id)
 
     url = client.generate_presigned_url(
         "get_object",
@@ -146,6 +146,18 @@ def view_pdf(request, paper_id):
 
 def course_logo(request, course_id):
     course = get_object_or_404(Course, id=course_id)
+
+    client = boto3.client(
+        "s3",
+        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        region_name=settings.AWS_S3_REGION_NAME,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        config=Config(
+            signature_version="s3v4",
+            s3={"addressing_style": "path"},
+        ),
+    )
 
     url = client.generate_presigned_url(
         "get_object",
