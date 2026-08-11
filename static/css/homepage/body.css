@@ -1,3 +1,9 @@
+body{
+    padding-top: 70px ;
+    padding-left: 90px;
+    background: linear-gradient(#f4fafe,#eef4fa);
+}
+
 .modules{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -52,7 +58,6 @@
     line-height: 1.2;
 
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 
     overflow: hidden;        
@@ -76,7 +81,11 @@
 
 @media (max-width: 480px) {
     .modules{
-        grid-template-columns: repeat(auto-fit, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         grid-gap: 6px;
+    }
+
+    body{
+        padding-left: 70px;
     }
 }

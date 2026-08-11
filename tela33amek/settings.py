@@ -112,6 +112,8 @@ ALLOWED_HOSTS = [
     'tela33amek-75y41vhqe-ycn3310s-projects.vercel.app',
     'tela33amek-653l1yy24-ycn3310s-projects.vercel.app',
     'tela33amek.vercel.app',
+    '192.168.0.151',
+    '10.45.19.87',
 ]
 
 CSRF_TRUSTED_ORIGINS = [

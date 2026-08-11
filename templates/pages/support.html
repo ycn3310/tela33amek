@@ -1,0 +1,26 @@
+<h1>Support Tela33amek ❤️</h1>
+
+<p>
+    Tela33amek is free for students.
+    If you find it useful, you can support the project.
+</p>
+
+<form method="POST" action="{% url 'donation' %}">
+    {% csrf_token %}
+
+    <button type="submit" name="amount" value="100">
+        100 DA
+    </button>
+
+    <button type="submit" name="amount" value="200">
+        200 DA
+    </button>
+
+    <button type="submit" name="amount" value="500">
+        500 DA
+    </button>
+
+    <button type="submit" name="amount" value="1000">
+        1000 DA
+    </button>
+</form>

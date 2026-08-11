@@ -19,10 +19,7 @@
 
         <script src="{% static 'js/search.js' %}" defer></script>
 
-    <body style="padding-top: 70px ;
-            padding-left: 90px;
-            background: linear-gradient(#f4fafe,#eef4fa);
-            min-width: 500px">
+    <body>
         <div class="header">
             <div class="left">
                 <img class="logo" src=" {% static 'icons/logo_with_slogan.png' %}">
@@ -37,15 +34,19 @@
             
             <div class="right">
                 <a href="{% url 'upload' %}" style="text-decoration: none;">
-                    <button class="upload-button">
-                        <img class="upload-logo" src="{% static 'icons/upload.svg' %}">
-                        Upload
+                    <button class="upload-button">   
+                        <img id="repost" class="upload-logo" src="{% static 'icons/repost.png '%}">
+                        Feed Back
                     </button>
                 </a>
-                <a href="{% url 'comingsoon' %}" style="text-decoration: none;">
-                    <button style="margin-left: 5px; width: 10vw;" class="upload-button">
-                        <img style="height:35px; filter:invert(100%);padding-bottom: 2px;" src="{% static 'icons/coin-svgrepo-com.svg' %}">
-                        Help Us!
+                <a href="{% url 'upload' %}" style="text-decoration: none;">
+                    <button class="upload-button">
+                        <img style="height: 20px;" class="upload-logo" src="{% static 'icons/upload.svg' %}"> Upload
+                    </button>
+                </a>
+                <a href="{% url 'support' %}" style="text-decoration: none;">
+                    <button class="upload-button">
+                        <img style="height: 30px;" class="upload-logo" src="{% static 'icons/coin-svgrepo-com.svg' %}"> Help Us!
                     </button>
                 </a>
             </div>
@@ -56,7 +57,6 @@
             <a href="https://github.com/ycn3310" target="_blank"><img class="fac-logo" src="{% static 'icons/github.png' %}"></a>
             <a href="https://discordapp.com/users/1143921613826433124" target="_blank"><img class="fac-logo" src="{% static 'icons/discord.svg' %}"></a>
             <a href="https://www.instagram.com/yacin.oop/" target="_blank"><img class="fac-logo" src="{% static 'icons/instagram.png' %}"></a>
-            
         </div>
 
         <div class="modules" id="modules">

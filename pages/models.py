@@ -9,18 +9,16 @@ class Course(models.Model):
 
 class Paper(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="papers")
-    major = models.CharField(max_length=256)
-    year = models.CharField(max_length=9)
-    semester = models.CharField(max_length=30)
-    establishment = models.CharField(max_length=256)
-    teacher = models.CharField(max_length=256)
+    major = models.CharField(max_length=256, default="unknown")
+    year = models.CharField(max_length=9, default="unknown")
+    semester = models.CharField(max_length=30, default="unknown")
+    establishment = models.CharField(max_length=256, default="unknown")
+    teacher = models.CharField(max_length=256, default="unknown")
     paper_path = models.FileField(upload_to='papers/%y/%m/%d', null=True, blank=True)
 
     PAPER_TYPES = [
         ("exam", "Exam"),
-        ("td", "TD"),
-        ("tp", "TP"),
-        ("quiz", "Quiz"),
+        ("mid-term", "Mid-term"),
     ]
 
     CYCLES = [
@@ -45,6 +43,15 @@ class Paper(models.Model):
     def __str__(self):
         return f"{self.major} / {self.course}:[{self.year}]"
 
+
+class Donation(models.Model):
+    checkout_id = models.CharField(max_length=100, unique=True)
+    amount = models.PositiveIntegerField()
+    status = models.CharField(max_length=20, default="pending")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.amount} da - {self.status}"
 
 
    

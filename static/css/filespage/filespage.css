@@ -130,7 +130,7 @@ body{
     white-space: wrap;
 }
 
-@media (max-width: 768px){
+@media (max-width: 576px){
     .metadata p {
         overflow:visible;
         white-space: wrap;
@@ -138,7 +138,7 @@ body{
     }
 
     body{
-        padding-top: 65px;
+        padding-top: 70px;
     }
 
     .course-title {

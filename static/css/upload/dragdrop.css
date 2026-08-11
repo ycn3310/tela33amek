@@ -69,6 +69,31 @@
     line-height: 1.6;
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 80%;
+  margin: 1.5rem 0;
+  
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #000000; 
+}
+
+.divider span {
+  padding: 0 1rem; 
+  font-weight: 600;
+  color: #000000;
+  text-transform: uppercase;
+  font-family: Roboto, sans-serif;
+  font-size: 1.5rem;
+}
+
 @media (max-width: 768px){
     .drag-area{
         margin-top: 50px;
@@ -87,5 +112,10 @@
     .browse-button{
         width: 130px;
         font-size: 16px;
+    }
+
+    .divider span {
+        padding: 0 0.5rem 0 0.5rem;
+        font-size: 1.2rem;
     }
 }

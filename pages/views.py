@@ -1,13 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import FileResponse, JsonResponse
-from .models import Course, Paper
-# Create your views here.
+from .models import Course, Paper, Donation
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.shortcuts import redirect
+
 
 def index(request):
     return render(request, 'pages/homepage.html', {'courses':Course.objects.all()})
 
-def coming_soon(request):
-    return render(request, 'pages/comingsoon.html')
+def support(request):
+    return render(request, 'pages/support.html')
 
 def files(request, course_id):
     course = get_object_or_404(Course, id=course_id)
@@ -18,7 +22,7 @@ def files(request, course_id):
 
 def upload(request):
     years = []
-    for i in range(1974-2027):
+    for i in range(2027-1962):
         years.append(f"{2027-i}/{2027-i-1}")
     return render(request, "pages/upload.html", {"courses": Course.objects.all(),"years": years})
 
@@ -40,9 +44,6 @@ def suggestions(request):
 
     return JsonResponse(list(results), safe=False)
 
-from django.core.mail import send_mail
-from django.conf import settings
-from django.shortcuts import redirect
 
 def report(request, paper_id):
     if request.method == "POST":
@@ -109,10 +110,7 @@ semester = {semester}, major = {major}
 import boto3
 from botocore.config import Config
 
-def view_pdf(request, paper_id):
-    paper = get_object_or_404(Paper, id=paper_id)
-
-    client = boto3.client(
+client = boto3.client(
         "s3",
         endpoint_url=settings.AWS_S3_ENDPOINT_URL,
         region_name=settings.AWS_S3_REGION_NAME,
@@ -123,6 +121,9 @@ def view_pdf(request, paper_id):
             s3={"addressing_style": "path"},
         ),
     )
+
+def view_pdf(request, paper_id):
+    paper = get_object_or_404(Paper, id=paper_id)
 
     url = client.generate_presigned_url(
         "get_object",
@@ -140,18 +141,6 @@ def view_pdf(request, paper_id):
 def course_logo(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
-    client = boto3.client(
-        "s3",
-        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
-        region_name=settings.AWS_S3_REGION_NAME,
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        config=Config(
-            signature_version="s3v4",
-            s3={"addressing_style": "path"},
-        ),
-    )
-
     url = client.generate_presigned_url(
         "get_object",
         Params={
@@ -162,3 +151,79 @@ def course_logo(request, course_id):
     )
 
     return redirect(url)
+
+def make_donation(request):
+    if request.method != "POST":
+        return redirect("supprot")
+
+    amount = int(request.POST.get("amount"))
+    response = request.post(
+            "https://pay.chargily.net/test/api/v2/checkouts",
+            headers={
+                "Authoreation": f"Bearer {settings.CHARGILY_SECRET_KEY}",
+                "Content-Type": "application/json",
+            },
+            json = {
+                "amount": amount,
+                "currency": "dzd",
+                "success_url": "https://tela33amek.vercel.app/support/success/",
+                "failure_url": "https://tela33amek.vercel.app/support/failure/",
+                "webhook_endpoint": "https://tela33amek.vercel.app/chargily/webhook/",
+                "descreption": "Support Tela33amek"
+            },
+        )
+    data = response.json()
+
+    if response.status_code != 201:
+        print(data)
+        return redirect("support")
+
+    Donation.object.create(
+        checkout_id = data["id"],
+        amount = amount,)
+
+    return redirect(data["checkout_url"])
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from .models import Donation
+import json
+
+@csrf_exempt
+def chargily_webhook(request):
+    if request.method != "POST":
+        return HttpResponse(status=405)
+
+    signature = request.headers.get("signature")
+
+    payload = request.body.decode("utf-8")
+
+    if not signature:
+        return HttpResponse(status=400)
+
+    event = json.loads(payload)
+    checkout_id = event["data"]["id"]
+    event_type = event["type"]
+
+    try: 
+        donation = Donation.objects.get(checkout_id = checkout_id)
+    except Donation.DoesNotExist:
+        return HttpResponse(status = 404)
+
+    if event_type == "checkout.paid":
+        donation.status = "paid"
+        donation.save()
+
+    elif event_type == "checkout.failed":
+            donation.status = "dailed"
+            donation.save()
+
+    elif event_type == "checkout.canceled":
+            donation.status = "canceled"
+            donation.save()
+
+    elif event_type == "checkout.expired":
+            donation.status = "expired"
+            donation.save()
+
+    return HttpResponse(status=200)
