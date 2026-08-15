@@ -14,4 +14,5 @@ urlpatterns = [
     path("support/success/", views.success, name="success"),
     path("support/failure/", views.failure, name="failure"),
     path("chargily/webhook", views.chargily_webhook, name="chargily_webhook"),
+    path("feedback/", views.send_feedback, name="feedback"),
 ]

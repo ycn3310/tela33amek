@@ -6,9 +6,18 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import redirect
 
+import time
+
 
 def index(request):
-    return render(request, 'pages/homepage.html', {'courses':Course.objects.all()})
+    start = time.time()
+
+    courses = Course.objects.prefetch_related("papers")
+
+    print("DB query:", time.time() - start)
+    print("TOTAL:", time.time() - start)
+
+    return render(request, "pages/homepage.html", {"courses": courses})
 
 def support(request):
     return render(request, 'pages/support.html')
@@ -31,7 +40,6 @@ def upload(request):
     for i in range(2027-1962):
         years.append(f"{2027-i}/{2027-i-1}")
     return render(request, "pages/upload.html", {"courses": Course.objects.all(),"years": years})
-
 
 def suggestions(request):
     field = request.GET.get("field")
@@ -90,9 +98,12 @@ def send_paper(request):
         paper = request.FILES.get("paper")
 
         message = f"""
-course = {course}, year ={year}
-establishment = {uni}, teacher = {teacher}
-semester = {semester}, major = {major}
+course = {course}
+year = {year}
+establishment = {uni}
+teacher = {teacher}
+semester = {semester}
+major = {major}
 """
 
         email = EmailMessage(
@@ -113,23 +124,43 @@ semester = {semester}, major = {major}
 
         return redirect("index")
 
+def send_feedback(request):
+    if request.method ==  "POST":
+        review = request.POST.get("rating")
+        descreption = request.POST.get("description")
+
+        message = f"""
+rating: {review}/5
+description:
+{descreption}
+"""     
+        send_mail(
+                    "New Feedback !!",
+                    message,
+                    settings.EMAIL_HOST_USER,
+                    ["tela33amek@gmail.com"],
+                )
+
+        return redirect("index")
+
+
 import boto3
 from botocore.config import Config
 
+client = boto3.client(
+    "s3",
+    endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+    region_name=settings.AWS_S3_REGION_NAME,
+    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    config=Config(
+        signature_version="s3v4",
+        s3={"addressing_style": "path"},
+    ),
+)
+
 def view_pdf(request, paper_id):
     paper = get_object_or_404(Paper, id=paper_id)
-
-    client = boto3.client(
-        "s3",
-        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
-        region_name=settings.AWS_S3_REGION_NAME,
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        config=Config(
-            signature_version="s3v4",
-            s3={"addressing_style": "path"},
-        ),
-    )
 
     url = client.generate_presigned_url(
         "get_object",
@@ -146,18 +177,6 @@ def view_pdf(request, paper_id):
 
 def course_logo(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-
-    client = boto3.client(
-        "s3",
-        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
-        region_name=settings.AWS_S3_REGION_NAME,
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-        config=Config(
-            signature_version="s3v4",
-            s3={"addressing_style": "path"},
-        ),
-    )
 
     url = client.generate_presigned_url(
         "get_object",

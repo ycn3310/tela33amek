@@ -99,23 +99,23 @@
 
                         <div class="report-body">
                             <fieldset>
-                            <legend>What's wrong with it?</legend>
-                            <div class="issue-grid">
-                                <label><input type="checkbox" name="issue" value="wrong-year"> Wrong year</label>
-                                <label><input type="checkbox" name="issue" value="wrong-major"> Wrong major</label>
-                                <label><input type="checkbox" name="issue" value="duplicate"> Already uploaded</label>
-                                <label><input type="checkbox" name="issue" value="not-exam"> Not an exam paper</label>
-                                <label><input type="checkbox" name="issue" value="wrong-subject"> Wrong subject</label>
-                                <label><input type="checkbox" name="issue" value="poor-scan"> Unreadable scan</label>
-                            </div>
+                                <legend>What's wrong with it?</legend>
+                                <div class="issue-grid">
+                                    <label><input type="checkbox" name="issue" value="wrong-year"> Wrong year</label>
+                                    <label><input type="checkbox" name="issue" value="wrong-major"> Wrong major</label>
+                                    <label><input type="checkbox" name="issue" value="duplicate"> Already uploaded</label>
+                                    <label><input type="checkbox" name="issue" value="not-exam"> Not an exam paper</label>
+                                    <label><input type="checkbox" name="issue" value="wrong-subject"> Wrong subject</label>
+                                    <label><input type="checkbox" name="issue" value="poor-scan"> Unreadable scan</label>
+                                </div>
                             </fieldset>
 
                             <label class="desc-label" for="report-desc">Tell us more</label>
                             <textarea name="description" id="report-desc" placeholder="Add any details that will help us review this paper faster…"></textarea>
 
                             <div class="report-actions">
-                            <button class="btn btn-ghost" onclick="document.getElementById('report-{{paper.id}}').close()">Cancel</button>
-                            <button class="btn btn-submit" type="submit">Submit report</button>
+                                <button class="btn btn-ghost" type="button" onclick="document.getElementById('report-{{paper.id}}').close()">Cancel</button>
+                                <button class="btn btn-submit" type="submit">Submit report</button>
                             </div>
                         </div>
                     </form>

@@ -3,8 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-N7RLLL4Z');</script>
@@ -23,11 +22,15 @@
         <link rel="stylesheet" href="{% static 'css/homepage/header.css' %}">
         <link rel="stylesheet" href="{% static 'css/homepage/sidebar.css' %}">
 
+        <link href="https://jsdelivr.net" rel="stylesheet">
+
         <script src="{% static 'js/search.js' %}" defer></script>
 
     <body>
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7RLLL4Z"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <noscript>
+            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7RLLL4Z"height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+
         <div class="header">
             <div class="left">
                 <img class="logo" src=" {% static 'icons/logo_with_slogan.png' %}">
@@ -41,22 +44,61 @@
             </div>
             
             <div class="right">
-                <a href="{% url 'upload' %}" style="text-decoration: none;">
-                    <button class="upload-button">   
-                        <img id="repost" class="upload-logo" src="{% static 'icons/repost.png '%}">
-                        Feed Back
-                    </button>
-                </a>
+               
+                <button class="upload-button" onclick="document.getElementById('feedback').showModal()">   
+                    <img id="repost" class="upload-logo" src="{% static 'icons/repost.png '%}">
+                    Feed Back
+                </button>
+                
                 <a href="{% url 'upload' %}" style="text-decoration: none;">
                     <button class="upload-button">
                         <img style="height: 20px;" class="upload-logo" src="{% static 'icons/upload.svg' %}"> Upload
                     </button>
                 </a>
+
                 <a href="{% url 'support' %}" style="text-decoration: none;">
                     <button class="upload-button">
                         <img style="height: 30px;" class="upload-logo" src="{% static 'icons/coin-svgrepo-com.svg' %}"> Help Us!
                     </button>
                 </a>
+
+
+                <dialog id="feedback">
+                    <form method="POST" action="{% url 'feedback' %}">
+                        {% csrf_token %}
+                        <div class="feedback-head">
+                            <p class="feedback-eyebrow">Rate out service</p>
+                            <h1>how do you rate your experience?</h1>
+                        </div>
+
+                        <div class="feedback-body">
+                            <div class="stars">
+                                <input type="radio" id="star5" name="rating" value="5" />
+                                <label for="star5" title="5 stars">&#9733;</label>
+
+                                <input type="radio" id="star4" name="rating" value="4" />
+                                <label for="star4" title="4 stars">&#9733;</label>
+
+                                <input type="radio" id="star3" name="rating" value="3" />
+                                <label for="star3" title="3 stars">&#9733;</label>
+
+                                <input type="radio" id="star2" name="rating" value="2" />
+                                <label for="star2" title="2 stars">&#9733;</label>
+
+                                <input type="radio" id="star1" name="rating" value="1" />
+                                <label for="star1" title="1 star">&#9733;</label>
+                            </div>
+
+                            <label class="desc-label" for="report-desc">Tell us more</label>
+                            <textarea name="description" id="report-desc" placeholder="Add any details that will help us imporve our service"></textarea>
+                        </div>
+
+                        <div class="report-actions">
+                            <button class="btn btn-ghost" type="button" onclick="document.getElementById('feedback').close()">Close</button>
+                            <button class="btn btn-submit" type="submit">Send Feedback</button>
+                        </div>
+                    </form>
+                </dialog>
             </div>
             
         </div>

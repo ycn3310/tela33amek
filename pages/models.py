@@ -41,7 +41,7 @@ class Paper(models.Model):
     
 
     def __str__(self):
-        return f"{self.id} | {self.course}:[{self.year}]"
+        return f"id:{self.id} | {self.course} ({self.year})"
 
 
 class Donation(models.Model):
