@@ -11,13 +11,10 @@ import time
 
 def index(request):
     start = time.time()
-
-    courses = Course.objects.prefetch_related("papers")
-
-    print("DB query:", time.time() - start)
+    courses = Course.objects.all()
+    e = render(request, "pages/homepage.html", {"courses": courses})
     print("TOTAL:", time.time() - start)
-
-    return render(request, "pages/homepage.html", {"courses": courses})
+    return e
 
 def support(request):
     return render(request, 'pages/support.html')
