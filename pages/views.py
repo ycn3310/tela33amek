@@ -25,6 +25,19 @@ def success(request):
 def failure(request):
     return render(request, 'pages/failure.html')
 
+def robots_txt(request):
+    content = """User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /accounts/
+Disallow: /media/private/
+Disallow: /static/admin/
+
+Sitemap: https://tela33amek.vercel.app/sitemap.xml
+"""
+    return HttpResponse(content, content_type="text/plain")
+
 def files(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 

@@ -1,10 +1,11 @@
 from django.urls import path
 from . import views
 from django.contrib.sitemaps.views import sitemap
-from .sitemaps import StaticViewSitemap
+from .sitemaps import StaticViewSitemap, CourseSitemap
 
 sitemaps = {
     "static": StaticViewSitemap,
+    "courses": CourseSitemap,
 }
 
 urlpatterns = [
@@ -22,4 +23,5 @@ urlpatterns = [
     path("chargily/webhook", views.chargily_webhook, name="chargily_webhook"),
     path("feedback/", views.send_feedback, name="feedback"),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}),
+    path("robots.txt", views.robots_txt),
 ]
