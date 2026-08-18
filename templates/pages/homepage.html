@@ -18,6 +18,8 @@
             gtag('config', 'G-W0454C4N94');
         </script>
 
+        
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>tela33amek</title>
@@ -46,7 +48,7 @@
             
             <div class="search-container">
                 <button class="search-button">
-                    <img class="search-icon" src="{% static 'icons/magnifying-glass.png' %}">
+                    <img loading="lazy" class="search-icon" src="{% static 'icons/magnifying-glass.png' %}">
                 </button>
                 <input id="search-bar" class="search-bar" role="textbox" placeholder="Search">
             </div>
@@ -121,7 +123,7 @@
             {% for course in courses %}
                 <a href="{% url 'papers' course.id %}" style="text-decoration: none;" class="module-link">
                     <div class="module" Data-module="{{course.name}}">
-                        <img class="symbol" src="{{course.logo_path.url}}">
+                        <img loading="lazy" class="symbol" src="{{course.logo_path.url}}">
                         <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
                         <p class="module-name">{{course.name}}</p>
                     </div>
