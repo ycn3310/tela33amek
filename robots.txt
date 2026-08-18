@@ -4,3 +4,5 @@ Disallow: /admin/
 Disallow: /accounts/
 Disallow: /media/private/
 Disallow: /static/admin/
+
+Sitemap: https://tela33amek.vercel.app/sitemap.xml
