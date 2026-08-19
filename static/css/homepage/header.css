@@ -3,6 +3,7 @@
     background-color: #ffffff;
     display:flex;
     align-items: center;
+    justify-content: space-between;
    
     height: 60px;
 
@@ -30,7 +31,7 @@
 
 .search-container{
     position: relative;
-    flex: 0 0 auto;
+    flex: auto 0 auto;
 }
 
 .search-icon{
@@ -49,7 +50,6 @@
     resize: horizontal;
     max-width: 600px;
     width: 350px;
-    min-width: 100px;
     height: 40px;
     overflow: hidden;
 
@@ -115,7 +115,12 @@
     padding-left: 10px;
 }
 
-@media (max-width: 768px){
+.phonelogo{
+    height: 0px;
+    display: none;
+}
+
+@media (max-width: 480px){
 
     .header{
         padding-left: 10px;
@@ -124,14 +129,21 @@
     }
 
     .logo{
-        height: 7vw;
+        display: none;
+        height: 0px;
+    }
+
+    .phonelogo{
+        height: 9vw;
         padding-left: 0;
         padding-top: 5px;
+        padding-bottom: 5px;
+        display: block;
     }
 
     .search-bar{
-        width: 10vw;
-        margin-right: 10px;
+        width: 34vw;
+        margin-right: 5px;
         height: 36px;
         font-size: 15px;
         

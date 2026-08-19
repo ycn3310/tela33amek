@@ -1,7 +1,7 @@
 body{
-    padding-top: 70px ;
-    padding-left: 90px;
-    background: linear-gradient(#f4fafe,#eef4fa);
+  padding-top: 70px ;
+  padding-left: 90px;
+  background: linear-gradient(#f4fafe,#eef4fa);
 }
 
 .modules{
@@ -293,12 +293,12 @@ textarea:focus {
 
 @media (max-width: 480px) {
     .modules{
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         grid-gap: 6px;
     }
 
     body{
-        padding-left: 70px;
         padding-top: 60px;
+        padding-left: 0px;
     }
 }
