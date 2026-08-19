@@ -207,7 +207,7 @@ def make_donation(request):
 
     amount = int(request.POST.get("amount"))
     response = requests.post(
-            "https://pay.chargily.net/test/api/v2/checkouts",
+            "https://pay.chargily.net/api/v2/checkouts",
             headers={
                 "Authorization": f"Bearer {settings.CHARGILY_SECRET_KEY}",
                 "Content-Type": "application/json",
