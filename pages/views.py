@@ -198,6 +198,9 @@ def course_logo(request, course_id):
         ExpiresIn=300,
     )
 
+    print("Bucket:", settings.AWS_STORAGE_BUCKET_NAME)
+    print("Key:", course.paper_path.name)
+
     return redirect(url)
 
 import requests
