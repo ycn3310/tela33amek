@@ -52,9 +52,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tela33amek.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
 if not DEBUG:
     DATABASES = {
         "default": dj_database_url.parse(
@@ -68,10 +65,6 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -87,10 +80,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -120,18 +109,14 @@ ALLOWED_HOSTS = [
     ".railway.app",
     'tela33amek-75y41vhqe-ycn3310s-projects.vercel.app',
     'tela33amek-653l1yy24-ycn3310s-projects.vercel.app',
+    'tela33amek-kpwpqzppr-ycn3310s-projects.vercel.app',
     'tela33amek.vercel.app',
     '192.168.0.151',
-    '10.45.19.87',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://tela33amek.up.railway.app",
 ]
-
-#MEDIA_URL = '/media/'
-#MEDIA_ROOT = BASE_DIR / 'media'
-
 
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
@@ -160,12 +145,12 @@ STORAGES = {
 
 AWS_ACCESS_KEY_ID = os.environ.get("STORAGE_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("STORAGE_ACCESS_KEY")
-
 AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKETNAME")
-
 AWS_S3_REGION_NAME = os.environ.get("REGION")
-
 AWS_S3_ENDPOINT_URL = os.environ.get("ENDPOINT")
+
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+AWS_S3_ADDRESSING_STYLE = "path"
 
 
 if (not DEBUG):
