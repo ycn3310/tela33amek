@@ -52,7 +52,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tela33amek.wsgi.application'
 
 
-if not DEBUG:
+if DEBUG:
     DATABASES = {
         "default": dj_database_url.parse(
             os.environ["POSTGRES_URL_NON_POOLING"]
@@ -151,7 +151,7 @@ AWS_S3_SIGNATURE_VERSION = "s3v4"
 AWS_S3_ADDRESSING_STYLE = "path"
 
 
-if (DEBUG):
+if (not DEBUG):
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
