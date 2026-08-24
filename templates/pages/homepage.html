@@ -132,7 +132,7 @@
             {% for course in courses %}
                 <a href="{% url 'papers' course.id %}" style="text-decoration: none;" class="module-link">
                     <div class="module" Data-module="{{course.name}}">
-                        <img loading="lazy" class="symbol" src="{{course.logo_path}}">
+                        <img loading="lazy" class="symbol" src="{% static 'course.logo_path' %}">
                         <p class="separator">⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯</p>
                         <p class="module-name">{{course.name}}</p>
                     </div>

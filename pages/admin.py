@@ -3,7 +3,7 @@ from .models import Course, Paper, Donation
 # Register your models here.
 admin.site.register(Course)
 admin.site.register(Donation)
-admin.site.register(Paper)
 
+@admin.register(Paper)
 class PaperAdmin(admin.ModelAdmin):
     search_fields = ["id"]
