@@ -106,8 +106,8 @@ STATICFILES_STORAGE = (
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    'tela33amek-2vcidzdr4-ycn3310s-projects.vercel.app',
-    'tela33amek.vercel.app',
+    'tela33amek-edkd9lx80-ycn3310s-projects.vercel.app',
+    '.vercel.app',
     '192.168.0.151',
 ]
 
