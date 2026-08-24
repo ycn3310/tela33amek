@@ -52,7 +52,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tela33amek.wsgi.application'
 
 
-if DEBUG:
+if not DEBUG:
     DATABASES = {
         "default": dj_database_url.parse(
             os.environ["POSTGRES_URL_NON_POOLING"]
