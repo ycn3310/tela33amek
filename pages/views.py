@@ -8,7 +8,6 @@ from django.shortcuts import redirect
 
 import time
 
-
 def index(request):
     start = time.time()
     courses = Course.objects.all()
@@ -181,9 +180,6 @@ def view_pdf(request, paper_id):
         ExpiresIn=300,
     )
 
-    print("Bucket:", settings.AWS_STORAGE_BUCKET_NAME)
-    print("Key:", paper.paper_path.name)
-
     return redirect(url)
 
 def course_logo(request, course_id):
@@ -197,9 +193,6 @@ def course_logo(request, course_id):
         },
         ExpiresIn=300,
     )
-
-    print("Bucket:", settings.AWS_STORAGE_BUCKET_NAME)
-    print("Key:", course.paper_path.name)
 
     return redirect(url)
 
