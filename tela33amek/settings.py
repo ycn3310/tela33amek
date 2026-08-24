@@ -106,8 +106,7 @@ STATICFILES_STORAGE = (
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    ".railway.app",
-    'tela33amek-nwp2f0opv-ycn3310s-projects.vercel.app',
+    'tela33amek-2vcidzdr4-ycn3310s-projects.vercel.app',
     'tela33amek.vercel.app',
     '192.168.0.151',
 ]
