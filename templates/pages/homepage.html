@@ -41,6 +41,7 @@
         <link rel="stylesheet" href="{% static 'css/homepage/body.css' %}">
         <link rel="stylesheet" href="{% static 'css/homepage/header.css' %}">
         <link rel="stylesheet" href="{% static 'css/homepage/sidebar.css' %}">
+        <link rel="stylesheet" href="{% static 'css/homepage/feedback.css' %}">
 
         <script src="{% static 'js/search.js' %}" defer></script>
     </head>
@@ -50,10 +51,12 @@
         </noscript>
 
         <div class="header">
-            <div class="left">
-                <img class="logo" src=" {% static 'icons/logo_with_slogan.png' %}">
-                <img class="phonelogo" src="{% static 'icons/logo.png' %}">
-            </div>
+
+                <div class="left" style="cursor: pointer;">
+                    <img class="logo" src=" {% static 'icons/logo_with_slogan.png' %}">
+                    <img class="phonelogo" src="{% static 'icons/logo.png' %}">
+                </div>
+       
             
             <div class="search-container">
                 <button class="search-button">
@@ -123,9 +126,9 @@
         </div>
 
         <div class="sidebar">
-            <a href="https://github.com/ycn3310" target="_blank"><img class="fac-logo" src="{% static 'icons/github.png' %}"></a>
-            <a href="https://discordapp.com/users/1143921613826433124" target="_blank"><img class="fac-logo" src="{% static 'icons/discord.svg' %}"></a>
-            <a href="https://www.instagram.com/yacin.oop/" target="_blank"><img class="fac-logo" src="{% static 'icons/instagram.png' %}"></a>
+            <p style="text-decoration: underline; font-family: Roboto; cursor: pointer; font-weight: bold; " >About Us</p>
+            <p style="text-decoration: underline; font-family: Roboto; cursor: pointer; font-weight: bold; " >Privacy&Policy</p>
+            <p style="text-decoration: underline; font-family: Roboto; cursor: pointer; font-weight: bold; " >Contact Us</p>
         </div>
 
         <div class="modules" id="modules">

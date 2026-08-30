@@ -5,6 +5,6 @@ input.addEventListener("input", e => {
     console.log(value);
     modules.forEach((moduleLink) => {
         const name = moduleLink.querySelector(".module-name").textContent.toLowerCase();
-        moduleLink.style.display = name.includes(value) ? "" : "none";
+        moduleLink.style.display = name.toLowerCase().includes(value) ? "" : "none";
     })
 })
