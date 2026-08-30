@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Tela33amek</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #f7f9fb;
+        color: #414f5e;
+    }
+
+    /* =========================
+        HEADER
+    ========================== */
+
+    .policy-header {
+        background: #ffffff;
+        border-bottom: 1px solid #e0e6ec;
+        padding: 45px 7%;
+    }
+
+    .policy-header-inner {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .site-logo {
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: -1px;
+        color: #172033;
+        margin-bottom: 30px;
+    }
+
+    .site-logo span {
+        color: #1763a8;
+    }
+
+    .policy-header h1 {
+        font-size: clamp(32px, 4vw, 46px);
+        line-height: 1.1;
+        letter-spacing: -1.5px;
+        color: #172033;
+        margin: 0 0 14px;
+    }
+
+    .policy-header h1 span {
+        color: #165a9e;
+    }
+
+    .policy-meta {
+        color: #5d6878;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .policy-meta strong {
+        color: #26384b;
+    }
+
+    /* =========================
+        LAYOUT
+    ========================== */
+
+    .policy-wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 50px 7% 90px;
+        display: flex;
+        gap: 40px;
+        align-items: flex-start;
+    }
+
+    /* =========================
+        TOC (right-section style)
+    ========================== */
+
+    .toc-box {
+        width: 260px;
+        flex-shrink: 0;
+        background: #f7f9fb;
+        border: 1px solid #e0e6ec;
+        border-radius: 11px;
+        padding: 28px 24px;
+        position: sticky;
+        top: 30px;
+    }
+
+    .toc-box h2 {
+        font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #172033;
+        margin: 0 0 18px;
+    }
+
+    .toc-box ol {
+        margin: 0;
+        padding-left: 18px;
+        font-size: 14px;
+        line-height: 2;
+    }
+
+    .toc-box a {
+        color: #526274;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+    .toc-box a:hover {
+        color: #1763a8;
+    }
+
+    /* =========================
+        CONTENT (left-section style)
+    ========================== */
+
+    .policy-content {
+        flex: 1;
+        min-width: 0;
+        background: #ffffff;
+        border: 1px solid #e0e6ec;
+        border-radius: 14px;
+        padding: 45px 6%;
+    }
+
+    .policy-content section {
+        margin-bottom: 34px;
+        scroll-margin-top: 30px;
+    }
+
+    .policy-content section:last-child {
+        margin-bottom: 0;
+    }
+
+    .policy-content h2 {
+        font-size: 22px;
+        letter-spacing: -0.5px;
+        color: #172033;
+        margin: 0 0 14px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e0e6ec;
+    }
+
+    .policy-content h3 {
+        font-size: 16px;
+        color: #165a9e;
+        margin: 20px 0 8px;
+    }
+
+    .policy-content p {
+        max-width: 680px;
+        color: #5d6878;
+        font-size: 15.5px;
+        line-height: 1.75;
+        margin: 0 0 14px;
+    }
+
+    .policy-content ul {
+        margin: 0 0 14px;
+        padding-left: 20px;
+        color: #5d6878;
+        font-size: 15.5px;
+        line-height: 1.85;
+    }
+
+    .policy-content a {
+        color: #1763a8;
+        text-decoration: underline;
+    }
+
+    .policy-content a:hover {
+        color: #0f4f88;
+    }
+
+    /* =========================
+        PROVIDER TAGS (amount-grid style)
+    ========================== */
+
+    .provider-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin: 14px 0 22px;
+        max-width: 680px;
+    }
+
+    .provider-tag {
+        height: 55px;
+        background: white;
+        border: 2px solid #ccd6e0;
+        border-radius: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #26384b;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 8px;
+        transition: 0.2s;
+    }
+
+    .provider-tag:hover {
+        border-color: #1763a8;
+        color: #1763a8;
+        background: #f2f7fb;
+    }
+
+    /* =========================
+        CALLOUT (support-message style)
+    ========================== */
+
+    .callout {
+        background: #edf4f9;
+        border-left: 4px solid #1763a8;
+        border-radius: 8px;
+        padding: 16px 18px;
+        font-size: 14.5px;
+        line-height: 1.6;
+        color: #526274;
+        margin: 0 0 20px;
+        max-width: 680px;
+    }
+
+    /* =========================
+        CONTACT CARD
+    ========================== */
+
+    .contact-card {
+        background: #f2f7fb;
+        border-radius: 11px;
+        padding: 24px 26px;
+        max-width: 680px;
+        margin-top: 8px;
+    }
+
+    .contact-row {
+        display: flex;
+        gap: 10px;
+        font-size: 15px;
+        color: #26384b;
+        margin-bottom: 10px;
+    }
+
+    .contact-row:last-child {
+        margin-bottom: 0;
+    }
+
+    .contact-row strong {
+        color: #172033;
+        min-width: 90px;
+    }
+
+    /* =========================
+        RESPONSIVE
+    ========================== */
+
+    @media (max-width: 780px) {
+        .policy-wrap {
+            flex-direction: column;
+            padding: 35px 6% 60px;
+        }
+
+        .toc-box {
+            width: 100%;
+            position: static;
+        }
+
+        .policy-content {
+            padding: 32px 7%;
+        }
+
+        .provider-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+</head>
+<body>
+
+<header class="policy-header">
+    <div class="policy-header-inner">
+        <div class="site-logo">Tela3<span>3amek</span></div>
+        <h1>Privacy <span>Policy</span></h1>
+        <div class="policy-meta">
+            <strong>Effective Date:</strong> September 22, 2026 &nbsp;·&nbsp;
+            <strong>Last Updated:</strong> September 22, 2026
+        </div>
+    </div>
+</header>
+
+<div class="policy-wrap">
+
+    <nav class="toc-box">
+        <h2>On this page</h2>
+        <ol>
+            <li><a href="#s1">Information We Collect</a></li>
+            <li><a href="#s2">Google Tag Manager</a></li>
+            <li><a href="#s3">Educational Materials</a></li>
+            <li><a href="#s4">Third-Party Providers</a></li>
+            <li><a href="#s5">Donations &amp; Payments</a></li>
+            <li><a href="#s6">Data Storage</a></li>
+            <li><a href="#s7">Server Logs &amp; Security</a></li>
+            <li><a href="#s8">Data Retention</a></li>
+            <li><a href="#s9">Your Rights</a></li>
+            <li><a href="#s10">Children's Privacy</a></li>
+            <li><a href="#s11">Copyright &amp; Content Removal</a></li>
+            <li><a href="#s12">Links to Other Websites</a></li>
+            <li><a href="#s13">Changes to This Policy</a></li>
+            <li><a href="#s14">Contact Us</a></li>
+            <li><a href="#s15">Applicable Law</a></li>
+        </ol>
+    </nav>
+
+    <main class="policy-content">
+
+        <section>
+            <p>Welcome to <strong>Tela33amek</strong> ("Tela33amek", "we", "us", or "our"). Tela33amek is an educational website operated by <strong>Ahmed Yacine Akouchi</strong> and provides university students with access to educational materials, including examination papers and midterm papers.</p>
+            <p>This Privacy Policy explains what information may be collected when you use Tela33amek, how that information is used, how it may be shared with third-party service providers, and the choices available to you. By accessing or using Tela33amek, you acknowledge the practices described in this Privacy Policy.</p>
+        </section>
+
+        <section id="s1">
+            <h2>1. Information We Collect</h2>
+            <p>Tela33amek does not currently require users to create accounts, provide their names, provide email addresses, or submit personal information in order to browse and access the website. We do not intentionally request or collect sensitive personal information from ordinary visitors.</p>
+            <p>However, certain information may be processed automatically by third-party services that help us operate, analyze, secure, and improve the website.</p>
+
+            <h3>Analytics Information</h3>
+            <p>Tela33amek uses <strong>Google Analytics</strong> to understand how visitors interact with the website. Analytics may provide information such as:</p>
+            <ul>
+                <li>Pages viewed</li>
+                <li>Approximate usage patterns</li>
+                <li>Interactions with website features</li>
+                <li>General technical information about visits</li>
+                <li>Information used to understand website traffic and performance</li>
+            </ul>
+            <p>We use this information primarily to understand how visitors use Tela33amek and to improve the website and its content. Google Analytics may use cookies and similar technologies to provide these services.</p>
+
+            <h3>Cookies</h3>
+            <p>Tela33amek may use cookies and similar technologies for purposes including website functionality, security, analytics, understanding visitor behavior, and improving website performance.</p>
+            <p>Where required, non-essential cookies may be subject to user consent through our cookie-consent mechanism. You may also be able to control or delete cookies through your browser settings. Disabling certain cookies may affect some website functionality.</p>
+        </section>
+
+        <section id="s2">
+            <h2>2. Google Tag Manager</h2>
+            <p>Tela33amek uses <strong>Google Tag Manager</strong> to manage certain website tags and technologies. Google Tag Manager itself is primarily a tag-management system, but tags configured through it may process information or interact with cookies and other technologies. The specific information processed therefore depends on the tags currently configured on Tela33amek.</p>
+        </section>
+
+        <section id="s3">
+            <h2>3. Educational Materials and Examination Papers</h2>
+            <p>Tela33amek provides publicly accessible educational materials, including examination papers and midterm papers. The website may contain documents that reference university courses, teachers, professors, academic establishments, examination dates, or other educational information. These materials are intended for educational purposes.</p>
+            <p>Users do not currently have the ability to upload documents directly to Tela33amek. Uploading and publishing documents is restricted to website administrators.</p>
+            <p>We may retain educational documents indefinitely unless:</p>
+            <ul>
+                <li>The document contains an error;</li>
+                <li>The document needs to be replaced;</li>
+                <li>The document violates applicable law;</li>
+                <li>A legitimate copyright or privacy concern is raised;</li>
+                <li>We otherwise determine that removal or modification is appropriate.</li>
+            </ul>
+            <p>If you believe that a document published on Tela33amek contains personal information that should not be publicly available, infringes your rights, or otherwise should be removed, you may contact us using the contact information provided below.</p>
+        </section>
+
+        <section id="s4">
+            <h2>4. Third-Party Service Providers</h2>
+            <p>Tela33amek relies on third-party services to operate certain aspects of the website. These services may process information according to their own privacy policies and terms. The services currently used by Tela33amek include:</p>
+            <div class="provider-grid">
+                <div class="provider-tag">Vercel — Hosting</div>
+                <div class="provider-tag">Supabase — Database</div>
+                <div class="provider-tag">Cloudflare R2 — Storage</div>
+                <div class="provider-tag">Google Analytics</div>
+                <div class="provider-tag">Google Tag Manager</div>
+                <div class="provider-tag">Chargily — Payments</div>
+            </div>
+            <p>These providers may process information necessary to provide their respective services. We do not sell your personal information to third parties.</p>
+        </section>
+
+        <section id="s5">
+            <h2>5. Donations and Payment Processing</h2>
+            <p>Tela33amek may accept voluntary donations through <strong>Chargily</strong>. When you make a donation, payment-related information may be processed by Chargily as part of the payment transaction.</p>
+            <div class="callout">
+                Tela33amek does not directly process or store your complete payment-card credentials. Payment processing is handled by the relevant payment provider, which may collect information such as billing or transaction information necessary to process the payment.
+            </div>
+            <p>Chargily's own terms and privacy practices may apply to information processed through its payment services.</p>
+        </section>
+
+        <section id="s6">
+            <h2>6. Data Storage</h2>
+            <p>Educational files used by Tela33amek are stored using <strong>Cloudflare R2</strong>. Website and application data may be stored using <strong>Supabase</strong>, while the website itself is hosted through <strong>Vercel</strong>.</p>
+            <p>We take reasonable measures to maintain the security and availability of information processed through our services. Access to the website's administrative systems and database is restricted to authorized administrators.</p>
+        </section>
+
+        <section id="s7">
+            <h2>7. Server Logs and Security</h2>
+            <p>For security, reliability, troubleshooting, and operational purposes, technical logs may be generated by the website and its infrastructure. These logs may include technical information necessary to detect errors, investigate abuse, maintain website security, and operate the service.</p>
+            <p>Our current intended server-log retention period is approximately <strong>30 days</strong>, although certain third-party infrastructure providers may have their own independent retention periods.</p>
+            <p>Tela33amek uses HTTPS and security mechanisms such as CSRF protection and other server-side security measures to help protect the website. However, no internet-based service can guarantee absolute security.</p>
+        </section>
+
+        <section id="s8">
+            <h2>8. Data Retention</h2>
+            <p>We retain information only for as long as reasonably necessary for the purposes for which it is used, unless a longer retention period is required or permitted by applicable law.</p>
+            <p>Educational documents may remain available indefinitely because they constitute the primary educational content provided by Tela33amek. Documents may be removed or replaced when necessary.</p>
+            <p>Analytics and technical information may be retained according to the policies and retention settings of the relevant third-party services.</p>
+        </section>
+
+        <section id="s9">
+            <h2>9. Your Rights</h2>
+            <p>Depending on applicable law, you may have rights regarding personal information processed in connection with your use of Tela33amek. You may contact us to request information concerning data associated with you and, where applicable, request an export of your data.</p>
+            <p>Because Tela33amek does not currently provide user accounts, the amount of information directly associated with an individual user may be limited.</p>
+            <p>To make a privacy-related request, please contact <a href="mailto:tela33amek@gmail.com">tela33amek@gmail.com</a>. When submitting a request, please provide enough information for us to understand and reasonably process your request.</p>
+        </section>
+
+        <section id="s10">
+            <h2>10. Children's Privacy</h2>
+            <p>Tela33amek is an educational website and may be used by people of different ages. The website does not intentionally request children to provide personal information, and users are not required to create an account to access the educational materials.</p>
+            <p>If you believe that a child has provided personal information to Tela33amek unnecessarily, please contact us so that we can review the situation and take appropriate action where necessary.</p>
+        </section>
+
+        <section id="s11">
+            <h2>11. Copyright, Privacy, and Content Removal</h2>
+            <p>Tela33amek respects intellectual-property and privacy rights. If you believe that an examination paper, image, document, or other material published on Tela33amek:</p>
+            <ul>
+                <li>Infringes your copyright;</li>
+                <li>Contains personal information that should not be publicly available;</li>
+                <li>Was published without appropriate authorization;</li>
+                <li>Contains inaccurate or inappropriate information; or</li>
+                <li>Should otherwise be removed for a legitimate reason,</li>
+            </ul>
+            <p>please contact us at <a href="mailto:tela33amek@gmail.com">tela33amek@gmail.com</a>. We will review legitimate requests and may remove, modify, or replace content where appropriate.</p>
+        </section>
+
+        <section id="s12">
+            <h2>12. Links to Other Websites</h2>
+            <p>Tela33amek may contain links to websites or services operated by third parties. We are not responsible for the privacy practices, content, security, or policies of external websites. We encourage users to review the privacy policies of third-party websites they visit.</p>
+        </section>
+
+        <section id="s13">
+            <h2>13. Changes to This Privacy Policy</h2>
+            <p>We may update this Privacy Policy from time to time to reflect changes to Tela33amek's features, the services we use, applicable legal requirements, our data-processing practices, or security and operational practices.</p>
+            <p>When we make significant changes, we may notify users through our official communication channels, including the official Tela33amek Instagram page. The "Last Updated" date at the top of this page indicates when the policy was most recently revised.</p>
+        </section>
+
+        <section id="s14">
+            <h2>14. Contact Us</h2>
+            <p>If you have questions, concerns, privacy requests, or content-removal requests, you can contact Tela33amek through any of the following:</p>
+            <div class="contact-card">
+                <div class="contact-row"><strong>Operator</strong> Ahmed Yacine Akouchi</div>
+                <div class="contact-row"><strong>Email</strong> <a href="mailto:tela33amek@gmail.com">tela33amek@gmail.com</a></div>
+                <div class="contact-row"><strong>Phone</strong> 0796 186 376 / 0552 800 891</div>
+                <div class="contact-row"><strong>Instagram</strong> <a href="https://www.instagram.com/tala33amek/" target="_blank" rel="noopener">@tala33amek</a></div>
+            </div>
+            <p style="margin-top:16px;">For privacy or content-removal requests, we recommend contacting us by email and providing sufficient information for us to understand and process your request.</p>
+        </section>
+
+        <section id="s15">
+            <h2>15. Applicable Law</h2>
+            <p>Tela33amek is operated from Algeria and is primarily intended for users in Algeria. This Privacy Policy is intended to describe our privacy practices in accordance with applicable Algerian laws and regulations.</p>
+            <p>Where mandatory legal requirements apply to users in another jurisdiction, those requirements may also apply to the extent required by applicable law.</p>
+        </section>
+
+    </main>
+</div>
+
+</body>
+</html>

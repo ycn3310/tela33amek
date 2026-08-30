@@ -11,9 +11,11 @@ import time
 def index(request):
     start = time.time()
     courses = Course.objects.all()
-    e = render(request, "pages/homepage.html", {"courses": courses})
-    print("TOTAL:", time.time() - start)
-    return e
+    
+    return render(request, "pages/homepage.html", {"courses": courses})
+
+def privacy(request):
+    return render(request, "pages/privacy-policy.html")
 
 def support(request):
     return render(request, 'pages/support.html')

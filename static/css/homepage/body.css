@@ -79,6 +79,33 @@ body{
     text-overflow:clip;
 }
 
+.sidebar{
+    position: fixed;
+    display: flex;
+
+    bottom: 0;
+    top:auto;
+    left: 0;
+
+    width: 100%;
+    height: 55px;
+
+    justify-content: space-around;
+    align-items: center;
+
+    z-index: 800;
+
+    border-top: 1px solid rgb(153, 153, 153);
+
+    background-color: white;
+
+    gap: 10px;
+}
+
+.sidebar > a:visited{
+    color: black;
+}
+
 
 @media (max-width: 480px) {
     .modules{
