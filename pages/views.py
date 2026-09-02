@@ -319,17 +319,22 @@ def upload_paper(request):
             status=status.HTTP_404_NOT_FOUND
         )
 
+    semester = request.data.get("semester", "unknown")
+    session = request.data.get("session", "normal")
+
+    if session and session != "unknown":
+        semester = f"{semester} - {session}"
+
     paper = Paper.objects.create(
         course=course,
-        major=request.data.get("major", ""),
-        year=request.data.get("year", ""),
-        semester=request.data.get("semester", ""),
-        level=request.data.get("level", ""),
-        establishment=request.data.get("establishment", ""),
-        teacher=request.data.get("teacher", ""),
-        paper_type=request.data.get("paper_type", ""),
-        session=request.data.get("session", ""),
-        paper_path=uploaded_file
+        major=request.data.get("major", "unknown"),
+        year=request.data.get("year", "unknown"),
+        semester=semester,
+        establishment=request.data.get("establishment", "unknown"),
+        teacher=request.data.get("teacher", "unknown"),
+        paper_type=request.data.get("paper_type", "exam"),
+        cycle=request.data.get("cycle", "engineer"),
+        paper_path=uploaded_file,
     )
 
     return Response({

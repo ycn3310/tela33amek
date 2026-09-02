@@ -24,11 +24,11 @@ def upload_paper(paper):
         "major": paper["major"],
         "year": paper["year"],
         "semester": paper["semester"],
-        "level": paper["level"],
         "establishment": paper["establishment"],
         "teacher": paper["teacher"],
         "paper_type": paper["paper_type"],
-        "session": paper["session"],
+        "cycle": paper["cycle"],
+        "session":paper["session"],
     }
 
     try:
