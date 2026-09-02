@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     "storages",
     "django.contrib.sitemaps",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

@@ -24,5 +24,6 @@ urlpatterns = [
     path("feedback/", views.send_feedback, name="feedback"),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}),
     path("robots.txt", views.robots_txt),
-    path("privacy&policy", views.privacy, name="privacy")
+    path("privacy&policy", views.privacy, name="privacy"),
+    path("api/upload-paper/", views.upload_paper, name ="upload_paper"),
 ]

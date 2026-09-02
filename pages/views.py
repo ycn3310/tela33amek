@@ -243,6 +243,7 @@ import json
 
 @csrf_exempt
 def chargily_webhook(request):
+
     if request.method != "POST":
         return HttpResponse(status=405)
 
@@ -279,3 +280,60 @@ def chargily_webhook(request):
             donation.save()
 
     return HttpResponse(status=200)
+
+# views.py
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
+
+from .models import Course, Paper
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def upload_paper(request):
+
+    uploaded_file = request.FILES.get("file")
+
+    if not uploaded_file:
+        return Response(
+            {"error": "No file provided"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    course_name = request.data.get("course")
+
+    if not course_name:
+        return Response(
+            {"error": "Course is required"},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    try:
+        course = Course.objects.get(name=course_name)
+    except Course.DoesNotExist:
+        return Response(
+            {"error": f"Course '{course_name}' does not exist"},
+            status=status.HTTP_404_NOT_FOUND
+        )
+
+    paper = Paper.objects.create(
+        course=course,
+        major=request.data.get("major", ""),
+        year=request.data.get("year", ""),
+        semester=request.data.get("semester", ""),
+        level=request.data.get("level", ""),
+        establishment=request.data.get("establishment", ""),
+        teacher=request.data.get("teacher", ""),
+        paper_type=request.data.get("paper_type", ""),
+        session=request.data.get("session", ""),
+        paper_path=uploaded_file
+    )
+
+    return Response({
+        "success": True,
+        "id": paper.id,
+        "filename": uploaded_file.name
+    }, status=status.HTTP_201_CREATED)
