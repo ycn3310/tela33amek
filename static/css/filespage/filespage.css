@@ -4,7 +4,7 @@ body{
     flex-direction: column;
     height: 100vh;
 
-    background:linear-gradient(0deg, #ffffff,#abdeff );
+    background:white;
 
     padding-top: 80px;
 }
