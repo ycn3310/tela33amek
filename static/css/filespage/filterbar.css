@@ -106,7 +106,6 @@
         height: auto;
         padding: 5px 25px;
         gap: 2px;
-        
     }
 
     .header-left{
@@ -116,7 +115,7 @@
     .header-filters{
         width: 100%;
         justify-content: space-evenly;
-        padding-left: 90px;
+        padding-left: 0px;
         
     }
 
@@ -127,7 +126,7 @@
     }
 
     .filterbar input[type="text"]{
-        width: 50%;
+        width: 100%;
         margin-left: 0px;
     }
 }

@@ -144,4 +144,8 @@ body{
     .course-title {
         font-size: 0;
     }
+
+    .back-button{
+        display: none;
+    }
 }

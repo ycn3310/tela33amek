@@ -1,10 +1,10 @@
 .header{
     border-bottom: 1px solid rgb(153, 153, 153);
     background-color: #ffffff;
-    display:flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
-   
+
     height: 60px;
 
     padding-left: 10px;
@@ -18,20 +18,32 @@
     box-shadow: 0 4px 12px rgba(0,0,0,.12);
 
     z-index: 1000;
+
+    box-sizing: border-box;
+    width: 100%;
 }
 
-.right,.left{
-    flex: 1;
+.left{
+    justify-self: start;
+    min-width: 0;
 }
 
 .right {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+    justify-self: end;
+    min-width: 0;
 }
 
 .search-container{
     position: relative;
-    flex: auto 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    min-width: 0;
+    width: 90%;
 }
 
 .search-icon{
@@ -47,9 +59,12 @@
 }
 
 .search-bar{
-    resize: horizontal;
+    resize: none;
+    box-sizing: border-box;
+
     max-width: 600px;
     width: 350px;
+    min-width: 0;
     height: 40px;
     overflow: hidden;
 
@@ -76,10 +91,12 @@
 }
 
 .search-button{
+    position: relative;
     height: 25px;
     margin-right: 5px;
     border: none;
     background-color: white;
+    flex-shrink: 0;
 }
 
 .upload-button{
@@ -88,20 +105,22 @@
     justify-content: center;
 
     height: 40px;
-    
+    padding: 0 10px;
+
     background-color: #1591DC;
     color: white;
 
     font-weight: bold;
     font-size: 20px;
     font-family: Roboto;
+    white-space: nowrap;
     
     border: none;
     border-radius: 5px;
     
     cursor: pointer;
 
-    margin-right: 5px;
+    flex-shrink: 0;
 }
 
 .upload-logo{
@@ -118,6 +137,21 @@
 .phonelogo{
     height: 0px;
     display: none;
+}
+
+@media (max-width: 900px){
+
+    .upload-button{
+        font-size: 0;
+        gap: 0;
+        padding: 0 8px;
+        min-width: 40px;
+    }
+
+    .upload-logo{
+        padding-right: 0;
+    }
+
 }
 
 @media (max-width: 480px){
@@ -142,11 +176,10 @@
     }
 
     .search-bar{
-        width: 34vw;
-        margin-right: 5px;
+        margin-right: 0px;
         height: 36px;
         font-size: 15px;
-        
+        width: 90%;
     }
 
     .search-icon{
@@ -159,13 +192,45 @@
         height: 40px;
         font-size: 0;
         gap: 0;
+        padding: 0 6px;
     }
 
     .upload-logo{
         padding: 0px 0px 0px 0px;
         aspect-ratio: 1/1;
-        width: 30px;
-        height: 30px;
+        width: 26px;
+        height: 26px;
+    }
+
+}
+
+@media (max-width: 380px){
+
+    .right{
+        gap: 3px;
+    }
+
+    .upload-button{
+        padding: 0 4px;
+    }
+
+    .upload-logo{
+        width: 22px;
+        height: 22px;
+    }
+
+    .phonelogo{
+        height: 7vw;
+    }
+
+    .search-bar{
+        padding-left: 32px;
+    }
+
+    .search-icon{
+        left: 24px;
+        width: 16px;
+        height: 16px;
     }
 
 }

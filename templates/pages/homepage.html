@@ -42,6 +42,7 @@
         <link rel="stylesheet" href="{% static 'css/homepage/header.css' %}">
         <link rel="stylesheet" href="{% static 'css/homepage/sidebar.css' %}">
         <link rel="stylesheet" href="{% static 'css/homepage/feedback.css' %}">
+        <link rel="stylesheet" href="{% static 'css/homepage/footer.css' %}">
 
         <script src="{% static 'js/search.js' %}" defer></script>
     </head>
@@ -52,10 +53,10 @@
 
         <div class="header">
 
-                <div class="left" style="cursor: pointer;">
-                    <img class="logo" src=" {% static 'icons/logo_with_slogan.png' %}">
-                    <img class="phonelogo" src="{% static 'icons/logo.png' %}">
-                </div>
+            <div class="left" style="cursor: pointer;">
+                <img class="logo" src=" {% static 'icons/logo_with_slogan.png' %}">
+                <img class="phonelogo" src="{% static 'icons/logo.png' %}">
+            </div>
        
             
             <div class="search-container">
@@ -142,6 +143,6 @@
                 </a>
             {% endfor %}
         </div>
-
     </body>
+
 </html>
