@@ -303,7 +303,11 @@ def upload_paper(request):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    course_name = request.data.get("course")
+    course_name = paper["course"].strip()
+
+    course = Course.objects.get(
+        name__iexact=course_name
+    )
 
     if not course_name:
         return Response(
