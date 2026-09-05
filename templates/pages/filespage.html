@@ -11,6 +11,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="find all the exams for {{course}}">
+        <meta property="og:description" content="Find USTHB exam papers and study resources for your courses.">
+        <meta property="og:image" content="{% static 'icons/logo.png' %}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://tela33amek.vercel.app/papers/<int:course_id>/">
         <title>{{ course }}</title>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
