@@ -53,7 +53,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tela33amek.wsgi.application'
 
 
-if not DEBUG:
+if DEBUG:
     DATABASES = {
         "default": dj_database_url.parse(
             os.environ["POSTGRES_URL_NON_POOLING"]
@@ -132,15 +132,25 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 CHARGILY_SECRET_KEY = os.environ.get("CHARGILY_SECRET_KEY")
 CHARGILY_PUBLIC_KEY = os.environ.get("CHARGILY_PUBLIC_KEY")
 
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.s3.S3Storage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
+if DEBUG:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+    
 AWS_ACCESS_KEY_ID = os.environ.get("STORAGE_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("STORAGE_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKETNAME")

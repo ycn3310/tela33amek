@@ -29,15 +29,15 @@
         <link rel="stylesheet" href="{% static 'css/filespage/report-panel.css' %}">
         <link rel="stylesheet" href="{% static 'css/filespage/filterbar.css' %}">
         <link rel="stylesheet" href="{% static 'css/filespage/filesection.css'%}">
-        
-        </head> 
 
-        
+        </head>
+
+
     <body>
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7RLLL4Z"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <a href="{%url 'index'%}"><button class="back-button">🢀 back</button></a>
-        
+
 
         <div class="filterbar">
             <div class="header-left">
@@ -47,139 +47,93 @@
                 <h1 class="course-title">{{ course }}</h1>
             </div>
             <div class="header-filters">
-                <div>
-                    <div>
-                        <input type="checkbox" id="Exam">
-                        <label for="Exam">Exam</label>
-                    </div>
-
-                    <div>
-                        <input type="checkbox" id="Mid-Term">
-                        <label for="Mid-Term">Mid-Term</label>
-                    </div>
-                </div>
+    
 
                 <div>
-                    <label for="Teacher">Teacher:</label>
-                    <input oninput="searching(this, '#tchr')" type="text" id="searchBoxTeacher" name="Teacher">
+                    <label for="searchBoxTeacher">Teacher:</label>
+                    <input oninput="applyFilters()" type="text" id="searchBoxTeacher" name="Teacher">
                 </div>
                 <div>
-                    <label for="Teacher">Est:</label>
-                    <input oninput="searching(this, '#uni')" type="text" id="searchBoxUni" name="Teacher">
+                    <label for="searchBoxUni">Est:</label>
+                    <input oninput="applyFilters()" type="text" id="searchBoxUni" name="Est">
                 </div>
             </div>
 
         </div>
 
-        {% for paper in papers %}
-            <div class="filesection" data-type="{{paper.paper_type}}">
-                
-                <div>
-                    <img class="image" src="{% static 'icons/doc.png' %}">
-                    <a href="{% url 'view_pdf' paper.id %}" target="_blank">
-                        <p class="papertype">{{paper.year}} - {{paper.major}}</p>
-                    </a>
+        {# ---- TD / TP: grouped by chapter ---- #}
+        <div id="chapter-list">
+            {% for chapter in chapters %}
+                <details class="chapter-group" close>
+                    <summary class="chapter-summary">Chapter {{chapter.order}} - {{ chapter.name }}</summary>
+                    <div class="chapter-body">
+                        {% for paper in chapter.papers.all %}
+                            {% include "pages/paper_card.html" %}
+                        {% empty %}
+                            <p class="chapter-empty">No TD/TP uploaded for this chapter yet.</p>
+                        {% endfor %}
+                    </div>
+                </details>
+            {% endfor %}
+        </div>
+
+        {# ---- Exam / Mid-Term: grouped under one summary, sorted by year ---- #}
+        <div id="flat-papers">
+            <details class="chapter-group" close>
+                <summary class="chapter-summary">Exams &amp; Mid-terms</summary>
+                <div class="chapter-body">
+                    {% for paper in papers %}
+                        {% include "pages/paper_card.html" %}
+                    {% empty %}
+                        <p class="chapter-empty">No exams or mid-terms uploaded yet.</p>
+                    {% endfor %}
                 </div>
-
-            
-                <div class="metadata">
-                    <p>Semester: {{paper.semester}}</p>
-                    <p id="uni">Est: {{paper.establishment}}</p>
-                    <p id="tchr">Prof: {{paper.teacher}}</p>
-                    <p>Cycle: {{paper.paper_type}}-{{paper.cycle}}</p>
-                </div>
-            
-                <button class="report-button" onclick="document.getElementById('report-{{paper.id}}').showModal()">
-                    <img style="height:22px; padding-right:6px; filter:invert(100%);" src="{% static 'icons/warning.png' %}">
-                    Report!
-                </button>
-                
-
-                <dialog id="report-{{paper.id}}">
-                    <form method="POST" action="{% url 'report' paper.id %}">
-                        {% csrf_token %}
-                        <div class="report-head">
-                            <p class="report-eyebrow">Flag an issue</p>
-                            <h1>Report the paper</h1>
-                        </div>
-
-                        <div class="report-body">
-                            <fieldset>
-                                <legend>What's wrong with it?</legend>
-                                <div class="issue-grid">
-                                    <label><input type="checkbox" name="issue" value="wrong-year"> Wrong year</label>
-                                    <label><input type="checkbox" name="issue" value="wrong-major"> Wrong major</label>
-                                    <label><input type="checkbox" name="issue" value="duplicate"> Already uploaded</label>
-                                    <label><input type="checkbox" name="issue" value="not-exam"> Not an exam paper</label>
-                                    <label><input type="checkbox" name="issue" value="wrong-subject"> Wrong subject</label>
-                                    <label><input type="checkbox" name="issue" value="poor-scan"> Unreadable scan</label>
-                                </div>
-                            </fieldset>
-
-                            <label class="desc-label" for="report-desc">Tell us more</label>
-                            <textarea name="description" id="report-desc" placeholder="Add any details that will help us review this paper faster…"></textarea>
-
-                            <div class="report-actions">
-                                <button class="btn btn-ghost" type="button" onclick="document.getElementById('report-{{paper.id}}').close()">Cancel</button>
-                                <button class="btn btn-submit" type="submit">Submit report</button>
-                            </div>
-                        </div>
-                    </form>
-                </dialog>
-                
-            </div>
-        {% endfor %}
-
+            </details>
+        </div>
 
 
         <script defer>
 
-            function searching(input, id) {
-                const search = input.value.toLowerCase();
-                const papers = document.querySelectorAll(".filesection");
+            const typeCheckboxes = Array.from(document.querySelectorAll('.filterbar input[type="checkbox"]'));
+            const teacherInput = document.getElementById("searchBoxTeacher");
+            const uniInput = document.getElementById("searchBoxUni");
 
-                papers.forEach(paper => {
-                    const text = paper.querySelector(id).textContent.toLowerCase();
+            function applyFilters() {
+                const checkedKeys = typeCheckboxes
+                    .filter(box => box.checked)
+                    .map(box => box.dataset.key);
 
-                    if (text.includes(search)) {
-                        paper.style.display = "flex";
-                    } else {
-                        paper.style.display = "none";
-                    }
-                });
-            }
+                const teacherTerm = teacherInput.value.toLowerCase();
+                const uniTerm = uniInput.value.toLowerCase();
 
-            const examCheckbox = document.getElementById("Exam");
-            const midtermCheckbox = document.getElementById("Mid-Term");
-            const papers = document.querySelectorAll(".filesection");
+                const items = document.querySelectorAll(".filesection");
 
-            function filterPapers() {
-                const showExam = examCheckbox.checked;
-                const showMidterm = midtermCheckbox.checked;
-
-                papers.forEach(paper => {
+                items.forEach(paper => {
                     const type = paper.dataset.type.toLowerCase();
+                    const teacherText = paper.querySelector('[data-field="teacher"]').textContent.toLowerCase();
+                    const uniText = paper.querySelector('[data-field="est"]').textContent.toLowerCase();
 
-                    let visible = true;
+                    const matchesType = checkedKeys.length === 0 || checkedKeys.some(key => type.includes(key));
+                    const matchesTeacher = teacherText.includes(teacherTerm);
+                    const matchesUni = uniText.includes(uniTerm);
 
-                    if (showExam || showMidterm) {
-                        visible = false;
-
-                        if (showExam && type.includes("exam")) {
-                            visible = true;
-                        }
-
-                        if (showMidterm && type.includes("mid")) {
-                            visible = true;
-                        }
-                    }
-
-                    paper.style.display = visible ? "flex" : "none";
+                    const visible = matchesType && matchesTeacher && matchesUni;
+                    paper.classList.toggle("is-hidden", !visible);
                 });
+
+                document.querySelectorAll(".chapter-group").forEach(group => {
+                    const hasVisiblePaper = group.querySelector(".filesection:not(.is-hidden)");
+                    group.classList.toggle("is-hidden", !hasVisiblePaper);
+                });
+
+                const showChapters = checkedKeys.length === 0 || checkedKeys.includes("td") || checkedKeys.includes("tp");
+                const showFlat = checkedKeys.length === 0 || checkedKeys.includes("exam") || checkedKeys.includes("mid");
+
+                document.getElementById("chapter-list").classList.toggle("is-hidden", !showChapters);
+                document.getElementById("flat-papers").classList.toggle("is-hidden", !showFlat);
             }
 
-            examCheckbox.addEventListener("change", filterPapers);
-            midtermCheckbox.addEventListener("change", filterPapers);
+            typeCheckboxes.forEach(box => box.addEventListener("change", applyFilters));
         </script>
     </body>
 </html>

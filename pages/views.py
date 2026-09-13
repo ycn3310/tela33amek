@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import FileResponse, JsonResponse
-from .models import Course, Paper, Donation
+from django.db.models import Prefetch
+from .models import Course, Paper, Chapter, Donation
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -42,9 +43,24 @@ Sitemap: https://tela33amek.vercel.app/sitemap.xml
 def files(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
-    papers = Paper.objects.filter(course=course)
+    # Exam / Mid-term: flat list, no chapter grouping
+    papers = Paper.objects.filter(
+        course=course, paper_type__in=["exam", "mid-term"]
+    ).order_by("-year")
 
-    return render(request, "pages/filespage.html", {"course": course,"papers": papers})
+    # TD / TP: grouped by chapter
+    chapters = Chapter.objects.filter(course=course).prefetch_related(
+        Prefetch(
+            "papers",
+            queryset=Paper.objects.filter(paper_type__in=["td", "tp"]).order_by("-year"),
+        )
+    )
+
+    return render(
+        request,
+        "pages/filespage.html",
+        {"course": course, "papers": papers, "chapters": chapters},
+    )
 
 def upload(request):
     years = []
@@ -68,6 +84,12 @@ def suggestions(request):
     )
 
     return JsonResponse(list(results), safe=False)
+
+
+def course_chapters(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    chapters = list(course.chapters.values_list("name", flat=True))
+    return JsonResponse(chapters, safe=False)
 
 
 def report(request, paper_id):
@@ -327,14 +349,28 @@ def upload_paper(request):
     if session and session != "unknown":
         semester = f"{semester} - {session}"
 
+    paper_type = request.data.get("paper_type", "exam")
+
+    chapter = None
+    chapter_name = request.data.get("chapter", "").strip()
+
+    if paper_type in ("td", "tp") and chapter_name:
+        chapter = Chapter.objects.filter(
+            course=course, name__iexact=chapter_name
+        ).first()
+
+        if chapter is None:
+            chapter = Chapter.objects.create(course=course, name=chapter_name)
+
     paper = Paper.objects.create(
         course=course,
+        chapter=chapter,
         major=request.data.get("major", "unknown"),
         year=request.data.get("year", "unknown"),
         semester=semester,
         establishment=request.data.get("establishment", "unknown"),
         teacher=request.data.get("teacher", "unknown"),
-        paper_type=request.data.get("paper_type", "exam"),
+        paper_type=paper_type,
         cycle=request.data.get("cycle", "engineer"),
         paper_path=uploaded_file,
     )

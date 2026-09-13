@@ -7,8 +7,28 @@ class Course(models.Model):
     def __str__(self):
         return self.name
 
+class Chapter(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="chapters")
+    name = models.CharField(max_length=256)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "id"]
+
+    def __str__(self):
+        return f"{self.course} - {self.name} : {self.order}"
+
+
 class Paper(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="papers")
+    chapter = models.ForeignKey(
+        Chapter,
+        on_delete=models.SET_NULL,
+        related_name="papers",
+        null=True,
+        blank=True,
+        help_text="Only used for TD / TP papers.",
+    )
     major = models.CharField(max_length=256, default="unknown")
     year = models.CharField(max_length=9, default="unknown")
     semester = models.CharField(max_length=30, default="unknown")
@@ -19,6 +39,8 @@ class Paper(models.Model):
     PAPER_TYPES = [
         ("exam", "Exam"),
         ("mid-term", "Mid-term"),
+        ("td", "TD"),
+        ("tp", "TP"),
     ]
 
     CYCLES = [
@@ -52,6 +74,3 @@ class Donation(models.Model):
 
     def __str__(self):
         return f"{self.amount} da - {self.status}"
-
-
-   

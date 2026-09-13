@@ -13,6 +13,7 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('papers/<int:course_id>/', views.files, name='papers'),
     path("suggestions/", views.suggestions, name="suggestions"),
+    path("papers/<int:course_id>/chapters/", views.course_chapters, name="course_chapters"),
     path("report/<int:paper_id>/", views.report, name="report"),
     path("send_paper", views.send_paper, name="send_paper"),
     path("download/<int:paper_id>/", views.view_pdf, name="view_pdf"),

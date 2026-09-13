@@ -1,0 +1,58 @@
+{% load static %}
+<div class="filesection" data-type="{{ paper.paper_type }}">
+
+    <div>
+        <img class="image" src="{% static 'icons/doc.png' %}">
+        <a href="{% url 'view_pdf' paper.id %}" target="_blank">
+            <p class="papertype">
+                {{ paper.year }} - {{ paper.major }}
+                <span class="type-badge type-{{ paper.paper_type }}">{{ paper.get_paper_type_display }}</span>
+            </p>
+        </a>
+    </div>
+
+    <div class="metadata">
+        <p>Semester: {{ paper.semester }}</p>
+        <p data-field="est">Est: {{ paper.establishment }}</p>
+        <p data-field="teacher">Prof: {{ paper.teacher }}</p>
+        <p>Cycle: {{ paper.cycle }}</p>
+    </div>
+
+    <button class="report-button" onclick="document.getElementById('report-{{ paper.id }}').showModal()">
+        <img style="height:22px; padding-right:6px; filter:invert(100%);" src="{% static 'icons/warning.png' %}">
+        Report!
+    </button>
+
+    <dialog id="report-{{ paper.id }}">
+        <form method="POST" action="{% url 'report' paper.id %}">
+            {% csrf_token %}
+            <div class="report-head">
+                <p class="report-eyebrow">Flag an issue</p>
+                <h1>Report the paper</h1>
+            </div>
+
+            <div class="report-body">
+                <fieldset>
+                    <legend>What's wrong with it?</legend>
+                    <div class="issue-grid">
+                        <label><input type="checkbox" name="issue" value="wrong-year"> Wrong year</label>
+                        <label><input type="checkbox" name="issue" value="wrong-major"> Wrong major</label>
+                        <label><input type="checkbox" name="issue" value="duplicate"> Already uploaded</label>
+                        <label><input type="checkbox" name="issue" value="not-exam"> Not an exam paper</label>
+                        <label><input type="checkbox" name="issue" value="wrong-subject"> Wrong subject</label>
+                        <label><input type="checkbox" name="issue" value="poor-scan"> Unreadable scan</label>
+                    </div>
+                </fieldset>
+
+                <label class="desc-label" for="report-desc-{{ paper.id }}">Tell us more</label>
+                <textarea name="description" id="report-desc-{{ paper.id }}" placeholder="Add any details that will help us review this paper faster…"></textarea>
+
+                <div class="report-actions">
+                    <button class="btn btn-ghost" type="button" onclick="document.getElementById('report-{{ paper.id }}').close()">Cancel</button>
+                    <button class="btn btn-submit" type="submit">Submit report</button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+</div>

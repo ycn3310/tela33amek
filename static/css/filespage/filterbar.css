@@ -32,6 +32,8 @@
     gap: 16px;
     padding-right: 12px;
     border-right: 1px solid #e0e0e0; /* Visual separator between groups */
+    flex-wrap: wrap;
+    row-gap: 6px;
 }
 
 /* Labels */
