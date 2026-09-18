@@ -109,7 +109,7 @@ ALLOWED_HOSTS = [
     "localhost",
     'tela33amek-edkd9lx80-ycn3310s-projects.vercel.app',
     '.vercel.app',
-    '192.168.0.151',
+    '192.168.100.32',
 ]
 
 CSRF_TRUSTED_ORIGINS = [

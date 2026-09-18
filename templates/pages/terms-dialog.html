@@ -1,0 +1,137 @@
+<dialog id="terms-dialog">
+  <div class="terms-head">
+    <p class="terms-eyebrow">Before you continue</p>
+    <h1>Terms &amp; Conditions</h1>
+  </div>
+
+  <div class="terms-body">
+    <h2>1. About this site</h2>
+    <p>Tela33amek is a free platform for browsing and sharing university exam papers, mid-terms, and course
+      materials, organized by course, major, year, semester, and establishment.</p>
+
+    <h2>2. Who can use it</h2>
+    <p>The site is open to everyone — no account age restriction or student verification is currently required
+      to browse or download materials.</p>
+
+    <h2>3. Uploading papers</h2>
+    <p>We encourage students to submit their own exam papers, mid-terms, and course documents to help other
+      students. By submitting a paper, you confirm that you have the right to share it and that it does not
+      violate any copyright, exam confidentiality rule, or institutional policy.</p>
+    <p>All submissions are reviewed by our team before being published. We reserve the right to reject, edit
+      the listing details of, or remove any submission at our discretion — including after publication, if a
+      concern is raised.</p>
+
+    <h2>4. Content accuracy</h2>
+    <p>Materials are shared as-is by contributors. We do our best to review submissions but cannot guarantee
+      that every paper is fully accurate, complete, or up to date with the current syllabus.</p>
+
+    <h2>5. Prohibited use</h2>
+    <p>You may not upload content that isn't genuinely exam/course material, that infringes someone else's
+      copyright, that contains malware, or that is otherwise unlawful or abusive.</p>
+
+    <h2>6. Using downloaded material</h2>
+    <p>Papers on this site are meant as study and revision aids. You're responsible for how you use them —
+      including following your institution's academic integrity rules. We are not liable for how downloaded
+      material is used.</p>
+
+    <h2>7. Reporting a problem</h2>
+    <p>If you believe a paper infringes your rights or violates these terms, please use the report panel on
+      the paper's page, or email us at
+      <a href="mailto:contact@tela33amek.com">contact@tela33amek.com</a>.</p>
+
+    <h2>8. Privacy</h2>
+    <p>Information about what data we collect and how it's used is covered in our
+      <a href="/privacy-policy">Privacy Policy</a>.</p>
+
+    <h2>9. Governing law</h2>
+    <p>Tela33amek is a platform for Algerian students, and these terms are governed by the laws of Algeria.</p>
+
+    <h2>10. Changes to these terms</h2>
+    <p>We may update these terms as the site evolves. Continuing to use the site after an update means you
+      accept the revised terms.</p>
+  </div>
+
+  <div class="terms-consent">
+    <input type="checkbox" id="terms-checkbox">
+    <label for="terms-checkbox">I have read and agree to the Terms &amp; Conditions.</label>
+  </div>
+
+  <div class="terms-actions">
+    <button class="btn btn-ghost" id="terms-decline">Leave site</button>
+    <button class="btn btn-submit" id="terms-accept" disabled>Accept &amp; continue</button>
+  </div>
+</dialog>
+
+<script>
+(function () {
+  // Bump this whenever the terms text changes meaningfully.
+  // Any stored version that doesn't match this one triggers the popup again.
+  const TERMS_VERSION = "1.0";
+  const STORAGE_KEY = "tela33amek_terms_version";
+
+  const dialog = document.getElementById("terms-dialog");
+  const checkbox = document.getElementById("terms-checkbox");
+  const acceptBtn = document.getElementById("terms-accept");
+  const declineBtn = document.getElementById("terms-decline");
+
+  function getStoredVersion() {
+    try {
+      return localStorage.getItem(STORAGE_KEY);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function setStoredVersion(version) {
+    try {
+      localStorage.setItem(STORAGE_KEY, version);
+    } catch (e) {
+      // localStorage unavailable (private mode, etc.) — dialog will just
+      // reappear next visit, which is an acceptable fallback.
+    }
+  }
+
+  function shouldShowTerms() {
+    return getStoredVersion() !== TERMS_VERSION;
+  }
+
+  function openTermsDialog() {
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+  }
+
+  checkbox.addEventListener("change", function () {
+    acceptBtn.disabled = !checkbox.checked;
+  });
+
+  acceptBtn.addEventListener("click", function () {
+    if (checkbox.checked) {
+      setStoredVersion(TERMS_VERSION);
+      dialog.close();
+    }
+  });
+
+  declineBtn.addEventListener("click", function () {
+    // Adjust this to wherever you want to send users who don't accept.
+    window.location.href = "https://www.google.com/";
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (shouldShowTerms()) {
+      openTermsDialog();
+    }
+  });
+
+  // ---- demo-only controls, remove when embedding in the real site ----
+  document.getElementById("reset-btn").addEventListener("click", function () {
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  });
+  document.getElementById("bump-btn").addEventListener("click", function () {
+    alert('Edit TERMS_VERSION in the script to something like "1.1" and reload to see the dialog reappear.');
+  });
+})();
+</script>

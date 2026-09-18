@@ -146,7 +146,7 @@ body{
     }
 
     .back-button{
-        display: none;
+        top: 10px;
     }
 }
 /* --- Hidden state used by JS filtering (replaces inline style toggling) --- */

@@ -42,10 +42,85 @@
         <link rel="stylesheet" href="{% static 'css/homepage/header.css' %}">
         <link rel="stylesheet" href="{% static 'css/homepage/sidebar.css' %}">
         <link rel="stylesheet" href="{% static 'css/homepage/feedback.css' %}">
+        <link rel="stylesheet" href="{% static 'css/homepage/termsconditions.css' %}">
 
         <script src="{% static 'js/search.js' %}" defer></script>
+
+        <style>
+            .site-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+
+                padding: 10px 20px;
+
+                background-color: #ffffff;
+                border-top: 1px solid #e2e8f0;
+                box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.04);
+
+                z-index: 800;
+            }
+
+            .footer-links {
+                display: flex;
+                align-items: center;
+                gap: 28px;
+            }
+
+            .footer-link {
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                color: #4a5568;
+                text-decoration: none;
+                letter-spacing: 0.2px;
+                transition: color 0.2s ease;
+            }
+
+            .footer-link:visited {
+                color: #4a5568;
+            }
+
+            .footer-link:hover {
+                color: #1a8cd8; /* matches your card/button blue */
+            }
+
+            .footer-copyright {
+                font-family: 'Roboto', sans-serif;
+                font-size: 11px;
+                color: #a0aec0;
+                margin: 0;
+            }
+
+            @media (max-width: 480px) {
+                .site-footer {
+                    padding: 8px 12px;
+                }
+
+                .footer-links {
+                    gap: 14px;
+                    row-gap: 4px;
+                }
+
+                .footer-link {
+                    font-size: 12px;
+                }
+
+                .footer-copyright {
+                    font-size: 10px;
+                }
+            }
+        </style>
     </head>
     <body>
+        {% include "pages/terms-dialog.html"%}
         <noscript>
             <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7RLLL4Z"height="0" width="0" style="display:none;visibility:hidden"></iframe>
         </noscript>
@@ -117,18 +192,12 @@
 
                         <div class="report-actions">
                             <button class="btn btn-ghost" type="button" onclick="document.getElementById('feedback').close()">Close</button>
-                            <button class="btn btn-submit" type="submit">Send Feedback</button>
+                            <button id="feedButton" class="btn btn-submit" type="submit">Send Feedback</button>
                         </div>
                     </form>
                 </dialog>
             </div>
             
-        </div>
-
-        <div class="sidebar">
-            <p style="text-decoration: underline; font-family: Roboto; cursor: pointer; font-weight: bold; " >About Us</p>
-            <a href="{% url 'privacy' %}"><p style="text-decoration: underline; font-family: Roboto; cursor: pointer; font-weight: bold;" >Privacy&Policy</p></a>
-            <p style="text-decoration: underline; font-family: Roboto; cursor: pointer; font-weight: bold; " >Contact Us</p>
         </div>
 
         <div class="modules" id="modules">
@@ -142,6 +211,17 @@
                 </a>
             {% endfor %}
         </div>
+
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a href="#" class="footer-link">About Us</a>
+                <a href="{% url 'privacy' %}" class="footer-link">Privacy & Policy</a>
+                <a href="#" class="footer-link">Contact Us</a>
+            </div>
+            <p class="footer-copyright">&copy; {% now "Y" %} Tela33amek. All rights reserved.</p>
+        </footer>
+
+       
     </body>
 
 </html>

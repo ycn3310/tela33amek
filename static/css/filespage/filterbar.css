@@ -117,8 +117,7 @@
     .header-filters{
         width: 100%;
         justify-content: space-evenly;
-        padding-left: 0px;
-        
+        padding-left: 90px;
     }
 
     .filterbar > div:first-child{

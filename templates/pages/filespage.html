@@ -12,11 +12,13 @@
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="find all the exams for {{course}}">
+
+        <meta property="og:title" content="Find all the exams for {{ course }}">
         <meta property="og:description" content="Find USTHB exam papers and study resources for your courses.">
         <meta property="og:image" content="{% static 'icons/logo.png' %}">
         <meta property="og:type" content="website">
-        <meta property="og:url" content="https://tela33amek.vercel.app/papers/<int:course_id>/">
+        <meta property="og:url" content="https://tela33amek.vercel.app/papers/{{ course_id }}/">
+        <meta property="og:site_name" content="Tela33amek">
         <title>{{ course }}</title>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +38,7 @@
     <body>
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7RLLL4Z"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <a href="{%url 'index'%}"><button class="back-button">🢀 back</button></a>
+
 
 
         <div class="filterbar">
@@ -64,25 +66,40 @@
         {# ---- TD / TP: grouped by chapter ---- #}
         <div id="chapter-list">
             {% for chapter in chapters %}
-                <details class="chapter-group" close>
-                    <summary class="chapter-summary">Chapter {{chapter.order}} - {{ chapter.name }}</summary>
-                    <div class="chapter-body">
-                        {% for paper in chapter.papers.all %}
-                            {% include "pages/paper_card.html" %}
-                        {% empty %}
-                            <p class="chapter-empty">No TD/TP uploaded for this chapter yet.</p>
-                        {% endfor %}
-                    </div>
-                </details>
+                {% if chapter.order == 999 %}
+                    <details class="chapter-group" close>
+                        <summary class="chapter-summary">{{ chapter.name }}</summary>
+                        <div class="chapter-body">
+                            {% for paper in chapter.papers.all %}
+                                {% include "pages/paper_card.html" %}
+                            {% empty %}
+                                <p class="chapter-empty">Nothing upoaded yet.</p>
+                            {% endfor %}
+                        </div>
+                    </details>
+                {% else %}
+                    <details class="chapter-group" close>
+                        <summary class="chapter-summary">Chapter {{chapter.order}} - {{ chapter.name }}</summary>
+                        <div class="chapter-body">
+                            {% for paper in chapter.papers.all %}
+                                {% include "pages/paper_card.html" %}
+                            {% empty %}
+                                <p class="chapter-empty">No TD/TP uploaded for this chapter yet.</p>
+                            {% endfor %}
+                        </div>
+                    </details>
+                {% endif %}
             {% endfor %}
         </div>
 
         {# ---- Exam / Mid-Term: grouped under one summary, sorted by year ---- #}
+
         <div id="flat-papers">
             <details class="chapter-group" close>
                 <summary class="chapter-summary">Exams &amp; Mid-terms</summary>
                 <div class="chapter-body">
                     {% for paper in papers %}
+                        
                         {% include "pages/paper_card.html" %}
                     {% empty %}
                         <p class="chapter-empty">No exams or mid-terms uploaded yet.</p>
@@ -134,6 +151,7 @@
             }
 
             typeCheckboxes.forEach(box => box.addEventListener("change", applyFilters));
+
         </script>
     </body>
 </html>
