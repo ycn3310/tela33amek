@@ -4,6 +4,9 @@ class Course(models.Model):
     name = models.CharField(max_length=256)
     logo_path = models.CharField(max_length=500, blank=True)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -60,7 +63,7 @@ class Paper(models.Model):
         choices=CYCLES,
         default="engineer",
     )
-    
+
 
     def __str__(self):
         return f"id:{self.id} | {self.course} ({self.year})"

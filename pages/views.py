@@ -10,9 +10,8 @@ from django.shortcuts import redirect
 import time
 
 def index(request):
-    start = time.time()
     courses = Course.objects.all()
-    
+
     return render(request, "pages/homepage.html", {"courses": courses})
 
 def privacy(request):
