@@ -5,7 +5,10 @@ from django.http import JsonResponse
 # Register your models here.
 admin.site.register(Course)
 admin.site.register(Donation)
-admin.site.register(Chapter)
+
+@admin.register(Chapter)
+class ChapterAdmin(admin.ModelAdmin):
+    search_fields = ["course__name","name","order"]
 
 @admin.register(Paper)
 class PaperAdmin(admin.ModelAdmin):
