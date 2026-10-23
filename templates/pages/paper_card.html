@@ -3,12 +3,15 @@
 
     <div>
         <img class="image" src="{% static 'icons/doc.png' %}">
-        <a href="{% url 'view_pdf' paper.id %}" target="_blank">
-            <p class="papertype">
-                {{ paper.year }} - {{ paper.major }}
-                <span class="type-badge type-{{ paper.paper_type }}">{{ paper.get_paper_type_display }}</span>
-            </p>
-        </a>
+        <button
+            type="button"
+            class="papertype pdf-toggle" data-pdf-toggle="{{ paper.id }}"
+            aria-expanded="false" aria-controls="pdf-viewer-{{ paper.id }}">
+            {{ paper.year }} - {{ paper.major }}
+            <span class="type-badge type-{{ paper.paper_type }}">
+                {{ paper.get_paper_type_display }}
+            </span>
+        </button>
     </div>
 
     <div class="metadata">
@@ -55,4 +58,50 @@
         </form>
     </dialog>
 
+</div>
+
+<div
+    id="pdf-viewer-{{ paper.id }}"
+    class="inline-pdf-viewer"
+    data-pdf-url="{% url 'view_pdf' paper.id %}"
+    hidden
+>
+    <div class="pdf-toolbar">
+        <span class="pdf-page-info">
+            Page <span data-current-page>1</span>
+            / <span data-page-count>—</span>
+        </span>
+
+        <div class="pdf-controls">
+            <button type="button" data-prev disabled>←</button>
+            <button type="button" data-next disabled>→</button>
+            <button type="button" data-zoom-out>−</button>
+            <span data-zoom-level>150%</span>
+            <button type="button" data-zoom-in>+</button>
+
+            <button type="button" data-fullscreen>
+                Fullscreen
+            </button>
+
+            <a
+                href="{% url 'view_pdf' paper.id %}"
+                download
+                class="pdf-download"
+            >
+                Download
+            </a>
+
+            <button type="button" data-close>
+                Close
+            </button>
+        </div>
+    </div>
+
+    <p data-pdf-status role="status" aria-live="polite">
+        Loading PDF…
+    </p>
+
+    <div class="pdf-page-container">
+        <canvas data-pdf-canvas></canvas>
+    </div>
 </div>

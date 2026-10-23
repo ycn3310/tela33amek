@@ -27,4 +27,11 @@ urlpatterns = [
     path("robots.txt", views.robots_txt),
     path("privacy&policy", views.privacy, name="privacy"),
     path("api/upload-paper/", views.upload_paper, name ="upload_paper"),
+    path("login", views.login, name="login"),
+    path("signup", views.signup, name="signup"),
+    path("signup_view", views.signup_view, name="signupview"),
+    path("login_view", views.login_view, name="loginview"),
+    path("logout_view", views.logout_view, name="logoutview"),
+    path("account", views.account, name="account"),
+    path("account_view", views.account_view, name="accountview")
 ]

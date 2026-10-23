@@ -1,0 +1,259 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in — Tela33amek</title>
+
+    <link rel="icon" type="image/png" href="{% static 'icons/logo.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f6f7f9;
+            --card: #ffffff;
+            --border: #e3e6ea;
+            --text: #2b2d36;
+            --muted: #8b8f98;
+            --blue: #3b82f6;
+            --blue-dark: #2f6fdb;
+            --link: #2563eb;
+            --error-bg: #fef2f2;
+            --error-text: #b91c1c;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .brand {
+            position: absolute;
+            top: 28px;
+            left: 40px;
+        }
+
+        .brand img {
+            height: 44px;
+            display: block;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 34px 36px 38px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .eyebrow {
+            margin: 0 0 4px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        h1 {
+            margin: 0 0 26px;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.15;
+        }
+
+        .error {
+            margin: -10px 0 16px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: var(--error-bg);
+            color: var(--error-text);
+            font-size: 13px;
+        }
+
+        .field { margin-bottom: 14px; }
+
+        .field input[type="email"],
+        .field input[type="password"] {
+            width: 100%;
+            height: 44px;
+            padding: 0 14px;
+            font: inherit;
+            font-size: 14px;
+            color: var(--text);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        .field input::placeholder { color: var(--muted); }
+
+        .field input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, .18);
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-size: 13px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .remember input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--blue);
+            cursor: pointer;
+        }
+
+        a { color: var(--link); }
+        a:focus-visible,
+        button:focus-visible,
+        .google:focus-visible {
+            outline: 3px solid rgba(59, 130, 246, .45);
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            height: 44px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            background: var(--blue);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-primary:hover { background: var(--blue-dark); }
+
+        .google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            height: 44px;
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+            text-decoration: none;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            transition: background .15s;
+        }
+
+        .google:hover { background: #f9fafb; }
+        .google svg { width: 18px; height: 18px; }
+
+        .signup {
+            margin: 16px 0 0;
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 600px) {
+            .brand { top: 20px; left: 20px; }
+            .brand img { height: 36px; }
+            .page { padding-top: 90px; align-items: flex-start; }
+            .card { padding: 26px 20px 30px; }
+            h1 { font-size: 24px; margin-bottom: 20px; }
+            .row { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="brand" href="{% url 'index' %}" aria-label="Tela33amek home">
+        <img src="{% static 'icons/logo_with_slogan.png' %}" alt="Tela33amek">
+    </a>
+
+    <main class="page">
+        <div class="card">
+            <p class="eyebrow">Please enter your details</p>
+            <h1>Welcome back</h1>
+
+            {% if error %}
+                <div class="error" role="alert">{{ error }}</div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'loginview' %}">
+                {% csrf_token %}
+
+                <div class="field">
+                    <input type="email" name="email" placeholder="Email address"
+                           value="{{ request.POST.email }}" autocomplete="email" required>
+                </div>
+
+                <div class="field">
+                    <input type="password" name="password" placeholder="Password"
+                           autocomplete="current-password" required>
+                </div>
+
+                <div class="row">
+                    <label class="remember">
+                        <input type="checkbox" name="remember" value="1">
+                        Remember for 30 days
+                    </label>
+                    <!-- TODO: point this to your password reset view -->
+                    <a href="#">Forgot password</a>
+                </div>
+
+                <button type="submit" class="btn-primary">Log in</button>
+
+                <!-- TODO: point this to your Google OAuth view -->
+                <a href="#" class="google">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                        <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/>
+                        <path fill="#FBBC05" d="M10.5 28.7c-.5-1.5-.8-3.1-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.6 10.8l7.9-6.1z"/>
+                        <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.8 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
+                    </svg>
+                    Sign in with Google
+                </a>
+            </form>
+
+            <p class="signup">
+                Don't have an account?
+                <a href="signup">Sign up</a>
+            </p>
+        </div>
+    </main>
+
+</body>
+</html>

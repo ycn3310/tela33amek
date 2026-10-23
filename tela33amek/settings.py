@@ -150,6 +150,10 @@ else:
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
+
+print("DEBUG raw value:", repr(os.environ.get("DEBUG")))
+print("DEBUG enabled:", DEBUG)
+print("Default storage:", STORAGES.get("default") if "STORAGES" in globals() else "Not configured yet")
     
 AWS_ACCESS_KEY_ID = os.environ.get("STORAGE_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.environ.get("STORAGE_ACCESS_KEY")

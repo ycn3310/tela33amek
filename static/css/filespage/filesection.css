@@ -52,6 +52,200 @@
     text-decoration: underline;
 }
 
+.inline-pdf-viewer {
+    --blue: #1589d8;
+    --blue-dark: #0c5f96;
+    --border: #e5e7eb;
+    --control-border: #cbd5e1;
+    --text: #1f2937;
+    --text-soft: #334155;
+}
+
+/* --- Toggle (the clickable file title) --- */
+.pdf-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #1f2937;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.pdf-toggle:hover {
+    color: #1589d8;
+}
+
+.pdf-toggle:focus-visible {
+    outline: none;
+    border-radius: 4px;
+    box-shadow: 0 0 0 3px rgba(21, 137, 216, 0.25);
+}
+
+/* --- Viewer card --- */
+.inline-pdf-viewer[hidden] {
+    display: none !important;
+}
+
+.inline-pdf-viewer {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 12px 0 24px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #f8fafc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    color: var(--text);
+    font-family: Roboto, Arial, sans-serif;
+}
+
+/* --- Toolbar --- */
+.pdf-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-soft);
+}
+
+.pdf-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Buttons: same look as the filter bar controls */
+.pdf-controls button,
+.pdf-download {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border: 1px solid var(--control-border);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pdf-controls button:hover:not(:disabled) {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: #f0f8ff;
+}
+
+.pdf-controls button:focus-visible,
+.pdf-download:focus-visible {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(21, 137, 216, 0.15);
+}
+
+.pdf-controls button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Download = primary action, same as .back-button */
+.pdf-download {
+    background-color: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+    font-weight: bold;
+}
+
+.pdf-download:hover {
+    background-color: var(--blue-dark);
+    border-color: var(--blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Page area --- */
+.pdf-page-container {
+    display: flex;
+    justify-content: center;
+    max-height: 75vh;
+    overflow: auto;
+    padding: 20px 16px;
+    background: #eef2f6;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.pdf-page-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.pdf-page-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.pdf-page-container canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Fullscreen --- */
+.inline-pdf-viewer:fullscreen {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.inline-pdf-viewer:fullscreen .pdf-page-container {
+    flex: 1;
+    max-height: none;
+}
+
+/* --- Mobile --- */
+@media (max-width: 576px) {
+    .pdf-toolbar {
+        justify-content: center;
+        padding: 8px;
+    }
+
+    .pdf-controls {
+        justify-content: center;
+    }
+
+    .pdf-page-container {
+        padding: 10px 6px;
+        max-height: 65vh;
+    }
+}
+
 @media (max-width: 768px){
     .filesection{
         width: 100%;

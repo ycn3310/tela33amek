@@ -77,3 +77,32 @@ class Donation(models.Model):
 
     def __str__(self):
         return f"{self.amount} da - {self.status}"
+
+from django.contrib.auth.hashers import check_password, make_password
+
+class User(models.Model):
+    class Plan(models.TextChoices):
+        BASIC = "basic", "Basic"
+        PREMIUM = "premium", "Premium"
+
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)  # stores the hash, never plain text
+    plan = models.CharField(max_length=10, choices=Plan.choices, default=Plan.BASIC)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
+
+    @property
+    def is_premium(self):
+        return self.plan == self.Plan.PREMIUM

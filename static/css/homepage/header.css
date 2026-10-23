@@ -1,21 +1,23 @@
 .header{
-    border-bottom: 1px solid rgb(153, 153, 153);
-    background-color: #ffffff;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
+    gap: 12px;
 
     height: 60px;
-
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0 14px;
 
     position: fixed;
-    top: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
 
-    box-shadow: 0 4px 12px rgba(0,0,0,.12);
+    background-color: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
+
+    border-bottom: 1px solid rgba(21, 145, 220, 0.18);
+    box-shadow: 0 2px 14px rgba(6, 57, 99, 0.08);
 
     z-index: 1000;
 
@@ -26,16 +28,19 @@
 .left{
     justify-self: start;
     min-width: 0;
-}
-
-.right {
     display: flex;
     align-items: center;
-    gap: 5px;
+}
+
+.right{
+    display: flex;
+    align-items: center;
+    gap: 8px;
     justify-self: end;
     min-width: 0;
 }
 
+/* ===== Search (original design) ===== */
 .search-container{
     position: relative;
     display: flex;
@@ -53,7 +58,7 @@
     transform: translateY(-50%);
     width: 22px;
     height: 22px;
-    pointer-events: none; 
+    pointer-events: none;
 
     filter: invert(100%);
 }
@@ -73,7 +78,6 @@
     margin-left: 0px;
     border-radius: 10px;
     border: 1px solid rgb(153, 153, 153);
-    
 
     font-size: 18px;
     font-weight: bold;
@@ -82,7 +86,6 @@
     color: white;
 
     outline: none;
-    
 }
 
 .search-bar::placeholder{
@@ -99,57 +102,74 @@
     flex-shrink: 0;
 }
 
+/* ===== Upload button (flat) ===== */
 .upload-button{
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
 
     height: 40px;
-    padding: 0 10px;
+    padding: 0 14px;
 
     background-color: #1591DC;
     color: white;
 
     font-weight: bold;
-    font-size: 20px;
-    font-family: Roboto;
+    font-size: 18px;
+    font-family: Roboto, sans-serif;
     white-space: nowrap;
-    
-    border: none;
-    border-radius: 5px;
-    
-    cursor: pointer;
 
+    border: none;
+    border-radius: 6px;
+    box-shadow: none;
+
+    cursor: pointer;
     flex-shrink: 0;
+
+    transition: background-color .15s ease;
+}
+
+.upload-button:hover{
+    background-color: #0f7fc6;
+}
+
+.upload-button:active{
+    background-color: #0b6fb0;
+}
+
+.upload-button:focus-visible{
+    outline: 2px solid #0b5fa0;
+    outline-offset: 2px;
 }
 
 .upload-logo{
     filter: invert(100%);
-    height: 25px;
-    padding-right: 5px;
+    height: 22px;
+    padding-right: 0;
 }
 
+/* ===== Logos ===== */
 .logo{
-    height: 45px;
-    padding-left: 10px;
+    height: 42px;
+    padding-left: 4px;
+    display: block;
 }
 
 .phonelogo{
-    height: 0px;
+    height: 0;
     display: none;
 }
 
+/* ===== Responsive ===== */
 @media (max-width: 900px){
 
     .upload-button{
         font-size: 0;
         gap: 0;
-        padding: 0 8px;
+        padding: 0;
+        width: 40px;
         min-width: 40px;
-    }
-
-    .upload-logo{
-        padding-right: 0;
     }
 
 }
@@ -157,21 +177,19 @@
 @media (max-width: 480px){
 
     .header{
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 0 10px;
+        gap: 8px;
         height: 55px;
     }
 
     .logo{
         display: none;
-        height: 0px;
+        height: 0;
     }
 
     .phonelogo{
         height: 9vw;
-        padding-left: 0;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        padding: 5px 0;
         display: block;
     }
 
@@ -189,34 +207,27 @@
     }
 
     .upload-button{
-        height: 40px;
-        font-size: 0;
-        gap: 0;
-        padding: 0 6px;
+        height: 38px;
+        width: 38px;
+        min-width: 38px;
     }
 
     .upload-logo{
-        padding: 0px 0px 0px 0px;
         aspect-ratio: 1/1;
-        width: 26px;
-        height: 26px;
+        width: 22px;
+        height: 22px;
     }
 
 }
 
 @media (max-width: 380px){
 
+    .header{
+        gap: 6px;
+    }
+
     .right{
         gap: 3px;
-    }
-
-    .upload-button{
-        padding: 0 4px;
-    }
-
-    .upload-logo{
-        width: 22px;
-        height: 22px;
     }
 
     .phonelogo{
@@ -233,4 +244,44 @@
         height: 16px;
     }
 
+}
+
+@media (prefers-reduced-motion: reduce){
+
+    .upload-button{
+        transition: none;
+    }
+
+}
+
+/* ===== Account button ===== */
+.account-button{
+    box-sizing: border-box;
+}
+
+.account-icon{
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+/* Disconnected: flat, white, grey outline */
+.upload-button.account-button.logged-out{
+    background-color: #fff;
+    color: #6b7280;
+    border: 1.5px solid #9ca3af;
+}
+
+.upload-button.account-button.logged-out:hover{
+    background-color: #f3f4f6;
+    border-color: #6b7280;
+    color: #4b5563;
+}
+
+.upload-button.account-button.logged-out:active{
+    background-color: #e5e7eb;
+}
+
+.upload-button.account-button.logged-out:focus-visible{
+    outline: 2px solid #6b7280;
 }

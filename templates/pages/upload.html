@@ -42,7 +42,7 @@
                 </div>
                 <br>
                 <button type="button" class="browse-button">Browse File</button>
-                <input name="paper" id="fileinput" type="file" hidden  required>
+                <input name="paper" id="fileinput" type="file" hidden  required multiple>
                 <p id="file-name"></p>
             </div>
 
@@ -57,6 +57,7 @@
                         {% endfor %}
                     </ul>
                 </div>
+
                 <input name="major" type="search" placeholder="🎓 Major"  required>
 
                 <div class=dropdown>
@@ -72,6 +73,20 @@
                 <input name="semester" type="search" placeholder="⏲ Semester"  required>
                 <input name="uni" type="search" placeholder="🏫 Establishment"  required>
                 <input name="teacher" type="search" placeholder="👥 Teacher (optional)">
+
+                <div class="dropdown">
+                    <input name="type" type="search" placeholder="paper type" required>
+
+                    <ul id="type-list">
+                        <li>Exam</li>
+                        <li>Td</li>
+                        <li>Tp</li>
+                        <li>Mid-term</li>
+                    </ul>
+                <div>
+
+                <input name="chapter" type="search" placeholder="chapter (Td/Tp only)">
+                
             </div>
 
             <div class="submit-section">

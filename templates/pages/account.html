@@ -1,0 +1,532 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My account — Tela33amek</title>
+
+    <link rel="icon" type="image/png" href="{% static 'icons/logo.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f2f6fa;
+            --white: #ffffff;
+            --border: #e6e9ec;
+            --text: #1f2430;
+            --muted: #8b909a;
+            --blue: #1a8cd8;
+            --blue-dark: #0d4c78;
+            --blue-soft: #dbeefb;
+            --blue-soft-text: #0b5a8f;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            font-size: 13px;
+            color: var(--text);
+            background: var(--bg);
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 3px solid rgba(31, 88, 174, 0.45);
+            outline-offset: 2px;
+        }
+
+        /* ---------- header ---------- */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 32px;
+            background: var(--white);
+        }
+
+        .header .logo img { height: 40px; display: block; }
+
+        .tabs {
+            display: flex;
+            gap: 36px;
+            align-self: stretch;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            padding: 0 4px;
+            font-size: 13px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: var(--blue);
+            border-bottom-color: var(--blue);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            height: 40px;
+            padding: 0 18px 0 12px;
+            background: #f1f3f5;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #c9cdd3;
+        }
+
+        .logout-btn {
+            height: 40px;
+            padding: 0 22px;
+            font: inherit;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--white);
+            border: 1px solid var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .logout-btn:hover { background: #f4f5f7; }
+
+        /* ---------- layout ---------- */
+        .page {
+            max-width: 1000px;
+            margin: 20px auto 40px;
+            padding: 12px;
+            background: var(--white);
+            border-radius: 4px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1.05fr;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--white);
+            padding: 16px;
+        }
+
+        /* ---------- profile card ---------- */
+        .profile { padding: 40px 12px 24px; }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--blue-soft-text);
+            background: var(--blue-soft);
+            box-shadow: 0 0 0 6px #eefaf3;
+        }
+
+        .profile-head { text-align: center; }
+
+        .category {
+            margin: 0;
+            font-size: 11px;
+            letter-spacing: .2px;
+        }
+
+        .name {
+            margin: 4px 0 2px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .uid {
+            margin: 0 0 8px;
+            font-size: 11px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 22px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--blue-soft-text);
+            background: var(--blue-soft);
+            border-radius: 20px;
+        }
+
+        .badge.inactive {
+            color: #8a1c1c;
+            background: #fde2e2;
+        }
+
+        .rows {
+            margin-top: 36px;
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+        }
+
+        .row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 9px 4px;
+            font-size: 11px;
+        }
+
+        .row .label { color: var(--muted); flex-shrink: 0; }
+        .row .value { text-align: right; overflow-wrap: anywhere; }
+
+        /* ---------- right column ---------- */
+        .plan-card {
+            position: relative;
+            padding: 18px 18px 20px;
+            color: #fff;
+            background: var(--blue-dark);
+            border-radius: 6px;
+            margin-bottom: 14px;
+        }
+
+        .plan-card .small { margin: 0 0 6px; font-size: 11px; }
+
+        .plan-card .big {
+            margin: 0 0 6px;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: .3px;
+        }
+
+        .plan-card .sub { margin: 0; font-size: 11px; opacity: .9; }
+
+        .plan-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            height: 34px;
+            padding: 0 26px;
+            font: inherit;
+            font-size: 12px;
+            color: #fff;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .7);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .plan-btn:hover { background: rgba(255, 255, 255, .12); }
+
+        .section-title {
+            margin: 14px 4px 8px;
+            font-size: 12px;
+        }
+
+        .section-title.first { margin-top: 6px; }
+
+        .rows.plain {
+            margin-top: 0;
+            padding-top: 4px;
+        }
+
+        .action-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 10px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .icon-tile {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue-soft-text);
+            background: var(--blue-soft);
+            border-radius: 6px;
+        }
+
+        .icon-tile svg { width: 20px; height: 20px; }
+
+        .action-text { flex: 1; min-width: 0; }
+        .action-text .t1 { margin: 0 0 4px; font-size: 11px; color: var(--muted); }
+        .action-text .t2 { margin: 0; font-size: 11px; }
+
+        .outline-btn {
+            height: 34px;
+            padding: 0 30px;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text);
+            background: var(--white);
+            border: 1px solid var(--text);
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .outline-btn:hover { background: #f4f5f7; }
+
+        /* ---------- edit form ---------- */
+        .edit-form { padding: 0 4px; }
+
+        .name-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-field { margin-bottom: 12px; }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .form-field input {
+            width: 100%;
+            height: 38px;
+            padding: 0 12px;
+            font: inherit;
+            font-size: 12px;
+            color: var(--text);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            outline: none;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        .form-field input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(31, 174, 111, .18);
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .member-since { font-size: 11px; color: var(--muted); }
+
+        .save-btn {
+            height: 36px;
+            padding: 0 24px;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            color: #fff;
+            background: var(--blue-dark);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .save-btn:hover { background: #07643a; }
+
+        .alert {
+            margin: 0 4px 12px;
+            padding: 9px 12px;
+            font-size: 12px;
+            border-radius: 6px;
+        }
+
+        .alert.success { color: var(--blue-soft-text); background: var(--blue-soft); }
+        .alert.error { color: #8a1c1c; background: #fde2e2; }
+
+        /* ---------- responsive ---------- */
+        @media (max-width: 800px) {
+            .grid { grid-template-columns: 1fr; }
+            .header { padding: 10px 16px; flex-wrap: wrap; }
+            .tabs { order: 3; width: 100%; justify-content: center; padding: 8px 0 0; }
+            .tab { padding: 8px 4px; }
+            .user-pill { display: none; }
+            .page { margin: 12px 12px 32px; }
+            .name-grid { grid-template-columns: 1fr; gap: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a class="logo" href="{% url 'index' %}" aria-label="Tela33amek home">
+            <img src="{% static 'icons/logo_with_slogan.png' %}" alt="Tela33amek">
+        </a>
+
+        <nav class="tabs" aria-label="Main">
+            <a class="tab" href="{% url 'index' %}">Home</a>
+            <a class="tab active" href="{% url 'account' %}" aria-current="page">Account</a>
+        </nav>
+
+        <div class="header-right">
+            <div class="user-pill">
+                <span class="dot"></span>
+                {{ user.first_name }}
+            </div>
+
+            <form method="POST" action="{% url 'logoutview' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Log out</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="page">
+        <div class="grid">
+
+            <!-- left: profile -->
+            <section class="card profile" aria-label="Profile">
+                <div class="avatar" aria-hidden="true">
+                    {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}
+                </div>
+
+                <div class="profile-head">
+                    <p class="category">PLAN: {{ user.get_plan_display|upper }}</p>
+                    <h1 class="name">{{ user.first_name }} {{ user.last_name }}</h1>
+                    <p class="uid">ID: {{ user.id }}</p>
+                    {% if user.is_active %}
+                        <span class="badge">Active</span>
+                    {% else %}
+                        <span class="badge inactive">Inactive</span>
+                    {% endif %}
+                </div>
+
+                <div class="rows">
+                    <div class="row">
+                        <span class="label">Date joined</span>
+                        <span class="value">{{ user.created_at|date:"j M, Y" }}</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">Status</span>
+                        <span class="value">{% if user.is_active %}Active{% else %}Inactive{% endif %}</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">Email</span>
+                        <span class="value">{{ user.email }}</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">Plan</span>
+                        <span class="value">{{ user.get_plan_display }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- right: plan + details -->
+            <section class="card" aria-label="Account details">
+                <div class="plan-card">
+                    <p class="small">Current plan</p>
+                    <p class="big">{{ user.get_plan_display }}</p>
+                    <p class="sub">
+                        {% if user.is_premium %}
+                            You have full access to all exam papers and study resources.
+                        {% else %}
+                            Upgrade to Premium to unlock all resources.
+                        {% endif %}
+                    </p>
+
+                    <!-- TODO: point this to your pricing / upgrade view -->
+                    <a class="plan-btn" href="#">
+                        {% if user.is_premium %}Manage{% else %}Upgrade{% endif %}
+                    </a>
+                </div>
+
+                <h2 class="section-title first">Account details</h2>
+
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}" role="alert">{{ message }}</div>
+                {% endfor %}
+
+                <form method="POST" action="{% url 'accountview' %}" class="edit-form">
+                    {% csrf_token %}
+
+                    <div class="name-grid">
+                        <div class="form-field">
+                            <label for="first_name">First name</label>
+                            <input type="text" id="first_name" name="first_name"
+                                   value="{{ form.first_name|default:user.first_name }}"
+                                   autocomplete="given-name" maxlength="100" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="last_name">Last name</label>
+                            <input type="text" id="last_name" name="last_name"
+                                   value="{{ form.last_name|default:user.last_name }}"
+                                   autocomplete="family-name" maxlength="100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email"
+                               value="{{ form.email|default:user.email }}"
+                               autocomplete="email" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <span class="member-since">Member since {{ user.created_at|date:"j F Y" }}</span>
+                        <button type="submit" class="save-btn">Save changes</button>
+                    </div>
+                </form>
+
+                <h2 class="section-title">Security</h2>
+                <div class="action-box">
+                    <div class="icon-tile" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                    </div>
+                    <div class="action-text">
+                        <p class="t1">Password</p>
+                        <p class="t2">Change your password to keep your account safe.</p>
+                    </div>
+                    <!-- TODO: point this to your change password view -->
+                    <a class="outline-btn" href="#">Change</a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+</body>
+</html>

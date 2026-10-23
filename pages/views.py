@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import FileResponse, JsonResponse
+from django.http import FileResponse, JsonResponse, Http404
 from django.db.models import Prefetch
-from .models import Course, Paper, Chapter, Donation
+from .models import Course, Paper, Chapter, Donation, User
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -9,10 +9,122 @@ from django.shortcuts import redirect
 
 import time
 
+def get_current_user(request):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return None
+    return User.objects.filter(id=user_id, is_active=True).first()
+
 def index(request):
     courses = Course.objects.all()
+    user = get_current_user(request)
+    print(user)
+    return render(request, "pages/homepage.html", {"courses": courses, "user": user})
 
-    return render(request, "pages/homepage.html", {"courses": courses})
+def login(request):
+    return render(request, "pages/login.html")
+
+def login_view(request):
+    if request.session.get("user_id"):
+        return redirect("index")         
+
+    error = None
+    if request.method == "POST":
+        email = request.POST.get("email", "").strip().lower()
+        password = request.POST.get("password", "")
+
+        user = User.objects.filter(email=email, is_active=True).first()
+        if user and user.check_password(password):
+            request.session.cycle_key()
+            request.session["user_id"] = user.id
+
+            if request.POST.get("remember"):
+                request.session.set_expiry(60 * 60 * 24 * 30)  
+            else:
+                request.session.set_expiry(0)              
+
+            return redirect("index")
+
+        error = "Invalid email or password."
+
+    return render(request, "pages/login.html", {"error": error})
+
+
+def logout_view(request):
+    request.session.flush()
+    return redirect("index")
+
+def signup(request):
+    return render(request, "pages/signup.html")
+
+def signup_view(request):
+    error = None
+    if request.method == "POST":
+        first_name = request.POST.get("first_name", "").strip()
+        last_name = request.POST.get("last_name", "").strip()
+        email = request.POST.get("email", "").strip().lower()
+        password = request.POST.get("password", "")
+        confirm = request.POST.get("confirm_password", "")
+
+        if password != confirm:
+            error = "Passwords do not match."
+        elif len(password) < 8:
+            error = "Password must be at least 8 characters."
+        elif User.objects.filter(email=email).exists():
+            error = "An account with this email already exists."
+        else:
+            user = User(first_name=first_name, last_name=last_name, email=email)
+            user.set_password(password)
+            user.save()
+
+            request.session.cycle_key()
+            request.session["user_id"] = user.id   # log them in right away
+            return redirect("index")
+
+    return render(request, "pages/signup.html", {"error": error})
+
+def account(request):
+    user = get_current_user(request)
+    return render(request, "pages/account.html", {"user":user})
+
+from django.contrib import messages
+from functools import wraps
+
+def login_required_custom(view):
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+        if not request.session.get("user_id"):
+            return redirect("login")
+        return view(request, *args, **kwargs)
+    return wrapper
+
+@login_required_custom
+def account_view(request):
+    user = User.objects.get(id=request.session["user_id"])
+    form = {}
+
+    if request.method == "POST":
+        form = {
+            "first_name": request.POST.get("first_name", "").strip(),
+            "last_name": request.POST.get("last_name", "").strip(),
+            "email": request.POST.get("email", "").strip().lower(),
+        }
+
+        if not form["first_name"] or not form["last_name"]:
+            messages.error(request, "First and last name are required.")
+        elif not form["email"]:
+            messages.error(request, "Email is required.")
+        elif User.objects.filter(email=form["email"]).exclude(id=user.id).exists():
+            messages.error(request, "Another account already uses this email.")
+        else:
+            user.first_name = form["first_name"]
+            user.last_name = form["last_name"]
+            user.email = form["email"]
+            user.save()
+            messages.success(request, "Your changes have been saved.")
+            return redirect("account")   # reload so the whole page shows the new info
+
+    return render(request, "pages/account.html", {"form": form})
 
 def privacy(request):
     return render(request, "pages/privacy-policy.html")
@@ -191,8 +303,26 @@ client = boto3.client(
     ),
 )
 
+from pathlib import Path
+
 def view_pdf(request, paper_id):
     paper = get_object_or_404(Paper, id=paper_id)
+
+    if settings.DEBUG:
+        # Serve the file from local storage during development
+        try:
+            file_path = Path(paper.paper_path.path)
+        except (ValueError, NotImplementedError):
+            raise Http404("File is not available in local storage.")
+
+        if not file_path.is_file():
+            raise Http404("Local file not found.")
+
+        return FileResponse(
+            file_path.open("rb"),
+            content_type="application/pdf",
+        )
+
 
     url = client.generate_presigned_url(
         "get_object",
