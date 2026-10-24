@@ -57,6 +57,12 @@ def logout_view(request):
 def signup(request):
     return render(request, "pages/signup.html")
 
+import re
+
+USERNAME_RE = re.compile(r"^[A-Za-z0-9_.]{3,20}$")
+HEARD_FROM = {"friend", "instagram", "facebook", "tiktok", "university", "search", "other"}
+
+
 def signup_view(request):
     error = None
     if request.method == "POST":
@@ -66,14 +72,50 @@ def signup_view(request):
         password = request.POST.get("password", "")
         confirm = request.POST.get("confirm_password", "")
 
+        username = request.POST.get("username", "").strip()
+        age_raw = request.POST.get("age", "").strip()
+        sex = request.POST.get("sex", "N")
+        major = request.POST.get("major", "").strip()
+        year = request.POST.get("year", "L1")
+        heard_from = request.POST.get("heard_from", "")
+        phone = request.POST.get("phone", "").strip()
+
+        valid_sex = {c[0] for c in User._meta.get_field("sex").choices}
+        valid_year = {c[0] for c in User._meta.get_field("year").choices}
+
         if password != confirm:
             error = "Passwords do not match."
         elif len(password) < 8:
             error = "Password must be at least 8 characters."
         elif User.objects.filter(email=email).exists():
             error = "An account with this email already exists."
+        elif not USERNAME_RE.match(username):
+            error = "Username must be 3-20 characters: letters, numbers, dots or underscores."
+        elif User.objects.filter(username__iexact=username).exists():
+            error = "This username is already taken."
+        elif not (age_raw.isdigit() and 13 <= int(age_raw) <= 120):
+            error = "Please enter a valid age (13 or older)."
+        elif sex not in valid_sex:
+            error = "Invalid gender selection."
+        elif not major or len(major) > 100:
+            error = "Please enter your major."
+        elif year not in valid_year:
+            error = "Invalid year selection."
+        elif heard_from not in HEARD_FROM:
+            error = "Please tell us how you heard about us."
         else:
-            user = User(first_name=first_name, last_name=last_name, email=email)
+            user = User(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                username=username,
+                age=int(age_raw),
+                sex=sex,
+                major=major,
+                year=year,
+                heard_from=heard_from,
+                phone=phone,
+            )
             user.set_password(password)
             user.save()
 
