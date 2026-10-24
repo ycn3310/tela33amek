@@ -1,4 +1,3 @@
-
 import * as pdfjsLib from
     "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs";
 
@@ -9,6 +8,9 @@ let activeViewer = null;
 
 const viewerStates = new WeakMap();
 
+const MIN_ZOOM = 0.25;
+const MAX_ZOOM = 3;
+
 function initViewer(viewer) {
     if (viewerStates.has(viewer)) return viewerStates.get(viewer);
 
@@ -16,6 +18,8 @@ function initViewer(viewer) {
         pdf: null,
         task: null,
         renderTask: null,
+        image: null,
+        kind: null, // "pdf" | "image"
         page: 1,
         zoom: 1,
         version: 0,
@@ -37,6 +41,23 @@ function initViewer(viewer) {
     const zoomOut = $("[data-zoom-out]");
     const zoomIn = $("[data-zoom-in]");
 
+    // Width available to the canvas, based on the actual container.
+    function availableWidth() {
+        const el = canvas.parentElement || viewer;
+        const cs = getComputedStyle(el);
+        const padding =
+            parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+        const width = el.clientWidth - padding;
+
+        return width > 0 ? width : window.innerWidth - 32;
+    }
+
+    // Zoom that makes the content fit the screen width.
+    function fitZoom(naturalWidth, maxZoom) {
+        const zoom = availableWidth() / naturalWidth;
+        return Math.round(Math.max(MIN_ZOOM, Math.min(maxZoom, zoom)) * 100) / 100;
+    }
+
     function updateControls() {
         const count = state.pdf?.numPages ?? 0;
 
@@ -46,8 +67,8 @@ function initViewer(viewer) {
 
         prev.disabled = !state.pdf || state.page <= 1;
         next.disabled = !state.pdf || state.page >= count;
-        zoomOut.disabled = state.zoom <= 0.5;
-        zoomIn.disabled = state.zoom >= 3;
+        zoomOut.disabled = state.zoom <= MIN_ZOOM;
+        zoomIn.disabled = state.zoom >= MAX_ZOOM;
     }
 
     async function renderPage() {
@@ -65,13 +86,14 @@ function initViewer(viewer) {
 
         // --- Image: draw the bitmap directly on the canvas ---
         if (isImage) {
-            // zoom 1.5 is the default, so it maps to 100% of the natural size.
-            const scale = state.zoom / 1.5;
+            // zoom 1 = natural size.
+            const scale = state.zoom;
             const width = state.image.width * scale;
             const height = state.image.height * scale;
 
             canvas.width = Math.ceil(width * ratio);
             canvas.height = Math.ceil(height * ratio);
+            canvas.style.maxWidth = "none"; // don't let CSS squash the width
             canvas.style.width = `${width}px`;
             canvas.style.height = `${height}px`;
 
@@ -84,7 +106,7 @@ function initViewer(viewer) {
             return;
         }
 
-        // --- PDF: unchanged ---
+        // --- PDF ---
         const page = await state.pdf.getPage(state.page);
 
         if (version !== state.version) return;
@@ -93,6 +115,7 @@ function initViewer(viewer) {
 
         canvas.width = Math.ceil(viewport.width * ratio);
         canvas.height = Math.ceil(viewport.height * ratio);
+        canvas.style.maxWidth = "none"; // don't let CSS squash the width
         canvas.style.width = `${viewport.width}px`;
         canvas.style.height = `${viewport.height}px`;
 
@@ -179,9 +202,9 @@ function initViewer(viewer) {
 
         state.task = null;
         state.pdf = null;
-        state.kind = null; // "pdf" | "image"
+        state.kind = null;
         state.page = 1;
-        state.zoom = 1.5;
+        state.zoom = 1; // temporary, replaced by the fit zoom once loaded
 
         if (state.objectUrl) {
             URL.revokeObjectURL(state.objectUrl);
@@ -232,6 +255,12 @@ function initViewer(viewer) {
 
                 state.pdf = pdf;
                 state.kind = "pdf";
+
+                const firstPage = await pdf.getPage(1);
+                if (version !== state.version) return;
+
+                // Fit to width, but don't blow small pages up beyond 150%.
+                state.zoom = fitZoom(firstPage.getViewport({ scale: 1 }).width, 1.5);
             } else {
                 const bitmap = await createImageBitmap(blob);
 
@@ -242,6 +271,9 @@ function initViewer(viewer) {
 
                 state.image = bitmap;
                 state.kind = "image";
+
+                // Fit to width, but never upscale beyond natural size.
+                state.zoom = fitZoom(bitmap.width, 1);
             }
 
             state.objectUrl = URL.createObjectURL(blob);
@@ -268,7 +300,7 @@ function initViewer(viewer) {
     next.addEventListener("click", () => changePage(state.page + 1));
 
     zoomOut.addEventListener("click", async () => {
-        state.zoom = Math.max(0.5, state.zoom - 0.25);
+        state.zoom = Math.max(MIN_ZOOM, state.zoom - 0.25);
         updateControls();
 
         try {
@@ -279,7 +311,7 @@ function initViewer(viewer) {
     });
 
     zoomIn.addEventListener("click", async () => {
-        state.zoom = Math.min(3, state.zoom + 0.25);
+        state.zoom = Math.min(MAX_ZOOM, state.zoom + 0.25);
         updateControls();
 
         try {
@@ -347,7 +379,8 @@ document.querySelectorAll("[data-pdf-toggle]").forEach(toggle => {
 
         const state = initViewer(viewer);
 
-        if (!state.pdf) await state.loadPdf();
+        // state.kind is set for both PDFs and images, so this only loads once.
+        if (!state.kind) await state.loadPdf();
 
         viewer.scrollIntoView({ behavior: "smooth", block: "start" });
     });

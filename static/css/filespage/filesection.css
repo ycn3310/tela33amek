@@ -229,6 +229,16 @@
     max-height: none;
 }
 
+.pdf-viewer [data-pdf-canvas] {
+    display: block;
+    margin: 0 auto;
+}
+
+.pdf-viewer .pdf-stage, /* whatever wraps the canvas */
+.pdf-viewer {
+    overflow: auto;
+}
+
 /* --- Mobile --- */
 @media (max-width: 576px) {
     .pdf-toolbar {
