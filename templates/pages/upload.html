@@ -12,6 +12,13 @@
         <title>
             Upload! Thank you
         </title>
+
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Tela33amek">
+        <meta property="og:title" content="Share your exam papers on Tela33amek">
+        <meta property="og:description" content="Upload exam papers and study resources to help fellow USTHB students.">
+        <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'icons/logo_with_slogan.png' %}">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
         
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

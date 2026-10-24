@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Log in — Tela33amek</title>
 
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Tela33amek">
+    <meta property="og:title" content="Log in to Tela33amek">
+    <meta property="og:description" content="Log in to find USTHB exam papers and study resources for your courses.">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'icons/logo_with_slogan.png' %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
     <link rel="icon" type="image/png" href="{% static 'icons/logo.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
