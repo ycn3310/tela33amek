@@ -102,6 +102,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=20, blank=True, default="")
     password = models.CharField(max_length=128) 
     age = models.PositiveIntegerField(default=18)
     major = models.CharField(default="nothing")
