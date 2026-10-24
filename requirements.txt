@@ -9,8 +9,8 @@ gunicorn==26.0.0
 jmespath==1.1.0
 packaging==26.2
 pillow==12.3.0
-psycopg==3.3.6
-psycopg-binary==3.3.6
+psycopg==3.3.4
+psycopg-binary==3.3.4
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 s3transfer==0.19.2
