@@ -107,6 +107,25 @@
             transition: border-color .15s, box-shadow .15s;
         }
 
+        .field select {
+            width: 100%;
+            height: 44px;
+            padding: 0 14px;
+            font: inherit;
+            font-size: 14px;
+            color: var(--text);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        .field select:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, .18);
+        }
+
         .field input::placeholder { color: var(--muted); }
 
         .field input:focus {
@@ -172,6 +191,71 @@
             color: var(--muted);
         }
 
+
+        .progress {
+            height: 4px;
+            margin: -10px 0 22px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            width: 25%;
+            background: var(--blue);
+            border-radius: 99px;
+            transition: width .3s ease;
+        }
+
+        .step { display: none; }
+        .step.active { display: block; animation: slideIn .25s ease; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(14px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .step.active { animation: none; }
+            .progress span { transition: none; }
+        }
+
+        .actions { display: flex; gap: 10px; }
+        .actions .btn-primary { flex: 1; }
+
+        .btn-back {
+            width: 44px;
+            height: 44px;
+            flex: none;
+            font-size: 18px;
+            line-height: 1;
+            color: var(--text);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-back:hover { background: #f9fafb; }
+
+        .skip {
+            display: block;
+            margin: 14px auto 0;
+            padding: 0;
+            font: inherit;
+            font-size: 13px;
+            color: var(--muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        [hidden] { display: none !important; }
+
         @media (max-width: 600px) {
             .brand { top: 20px; left: 20px; }
             .brand img { height: 36px; }
@@ -190,48 +274,144 @@
 
     <main class="page">
         <div class="card">
-            <p class="eyebrow">Create your free account</p>
-            <h1>Get started</h1>
+            <p class="eyebrow" id="eyebrow">Create your free account</p>
+            <h1 id="title">Get started</h1>
+
+            <div class="progress" aria-hidden="true"><span id="bar"></span></div>
 
             {% if error %}
                 <div class="error" role="alert">{{ error }}</div>
             {% endif %}
+            <div class="error" id="js-error" role="alert" hidden></div>
 
-            <form method="POST" action="{% url 'signupview' %}">
+            <form method="POST" action="{% url 'signupview' %}" id="signup-form" novalidate>
                 {% csrf_token %}
 
-                <div class="field-row">
-                    <div class="field">
-                        <input type="text" name="first_name" placeholder="First name"
-                               value="{{ request.POST.first_name }}" autocomplete="given-name" required>
+                <!-- Step 1: account -->
+                <div class="step active" data-eyebrow="Create your free account" data-title="Get started">
+                    <div class="field-row">
+                        <div class="field">
+                            <input type="text" name="first_name" placeholder="First name"
+                                   value="{{ request.POST.first_name }}" autocomplete="given-name" required>
+                        </div>
+                        <div class="field">
+                            <input type="text" name="last_name" placeholder="Last name"
+                                   value="{{ request.POST.last_name }}" autocomplete="family-name" required>
+                        </div>
                     </div>
+
                     <div class="field">
-                        <input type="text" name="last_name" placeholder="Last name"
-                               value="{{ request.POST.last_name }}" autocomplete="family-name" required>
+                        <input type="email" name="email" placeholder="Email address"
+                               value="{{ request.POST.email }}" autocomplete="email" required>
+                    </div>
+
+                    <div class="field">
+                        <input type="password" name="password" placeholder="Password"
+                               minlength="8" autocomplete="new-password" required>
+                    </div>
+
+                    <div class="field">
+                        <input type="password" name="confirm_password" placeholder="Confirm password"
+                               minlength="8" autocomplete="new-password" required>
+                    </div>
+
+                    <p class="hint">Use at least 8 characters.</p>
+                </div>
+
+                <!-- Step 2: username -->
+                <div class="step" data-title="Pick a username">
+                    <div class="field">
+                        <input type="text" name="username" placeholder="Username"
+                               value="{{ request.POST.username }}" autocomplete="username"
+                               minlength="3" maxlength="20" pattern="[A-Za-z0-9_.]+" required>
+                    </div>
+                    <p class="hint">3–20 characters: letters, numbers, dots and underscores.</p>
+                </div>
+
+                <!-- Step 3: age -->
+                <div class="step" data-title="How old are you?">
+                    <div class="field">
+                        <input type="number" name="age" placeholder="Age" inputmode="numeric"
+                               value="{{ request.POST.age }}" min="13" max="120" required>
+                    </div>
+                    <p class="hint">You must be at least 13 years old.</p>
+                </div>
+
+                <!-- Step 4: sex -->
+                <div class="step" data-title="What's your gender?">
+                    <div class="field">
+                        <select name="sex" required>
+                            <option value="N" {% if request.POST.sex == 'N' or not request.POST.sex %}selected{% endif %}>Prefer not to say</option>
+                            <option value="M" {% if request.POST.sex == 'M' %}selected{% endif %}>Male</option>
+                            <option value="F" {% if request.POST.sex == 'F' %}selected{% endif %}>Female</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="field">
-                    <input type="email" name="email" placeholder="Email address"
-                           value="{{ request.POST.email }}" autocomplete="email" required>
+                <!-- Step 5: major -->
+                <div class="step" data-title="What's your major?">
+                    <div class="field">
+                        <input type="text" name="major" placeholder="e.g. Computer Science"
+                               value="{{ request.POST.major }}" maxlength="100" required>
+                    </div>
                 </div>
 
-                <div class="field">
-                    <input type="password" name="password" placeholder="Password"
-                           minlength="8" autocomplete="new-password" required>
+                <!-- Step 6: year -->
+                <div class="step" data-title="Which year are you in?">
+                    <div class="field">
+                        <select name="year" required>
+                            {% with y=request.POST.year %}
+                            <option value="L1" {% if y == 'L1' or not y %}selected{% endif %}>Licence 1</option>
+                            <option value="L2" {% if y == 'L2' %}selected{% endif %}>Licence 2</option>
+                            <option value="L3" {% if y == 'L3' %}selected{% endif %}>Licence 3</option>
+                            <option value="M1" {% if y == 'M1' %}selected{% endif %}>Master 1</option>
+                            <option value="M2" {% if y == 'M2' %}selected{% endif %}>Master 2</option>
+                            <option value="ing1" {% if y == 'ing1' %}selected{% endif %}>Ingénieur 1</option>
+                            <option value="ing2" {% if y == 'ing2' %}selected{% endif %}>Ingénieur 2</option>
+                            <option value="ing3" {% if y == 'ing3' %}selected{% endif %}>Ingénieur 3</option>
+                            <option value="ing4" {% if y == 'ing4' %}selected{% endif %}>Ingénieur 4</option>
+                            <option value="ing5" {% if y == 'ing5' %}selected{% endif %}>Ingénieur 5</option>
+                            {% endwith %}
+                        </select>
+                    </div>
                 </div>
 
-                <div class="field">
-                    <input type="password" name="confirm_password" placeholder="Confirm password"
-                           minlength="8" autocomplete="new-password" required>
+                <!-- Step 7: how did you hear about us -->
+                <div class="step" data-title="How did you hear about us?">
+                    <div class="field">
+                        <select name="heard_from" required>
+                            {% with h=request.POST.heard_from %}
+                            <option value="" disabled {% if not h %}selected{% endif %}>Choose an option</option>
+                            <option value="friend" {% if h == 'friend' %}selected{% endif %}>A friend</option>
+                            <option value="instagram" {% if h == 'instagram' %}selected{% endif %}>Instagram</option>
+                            <option value="facebook" {% if h == 'facebook' %}selected{% endif %}>Facebook</option>
+                            <option value="tiktok" {% if h == 'tiktok' %}selected{% endif %}>TikTok</option>
+                            <option value="university" {% if h == 'university' %}selected{% endif %}>University / club</option>
+                            <option value="search" {% if h == 'search' %}selected{% endif %}>Google search</option>
+                            <option value="other" {% if h == 'other' %}selected{% endif %}>Other</option>
+                            {% endwith %}
+                        </select>
+                    </div>
                 </div>
 
-                <p class="hint">Use at least 8 characters.</p>
+                <!-- Step 8: phone (optional) -->
+                <div class="step" data-title="Your phone number">
+                    <div class="field">
+                        <input type="tel" name="phone" placeholder="Phone number (optional)"
+                               value="{{ request.POST.phone }}" autocomplete="tel">
+                    </div>
+                    <p class="hint">Optional — you can add it later.</p>
+                </div>
 
-                <button type="submit" class="btn-primary">Create account</button>
+                <div class="actions">
+                    <button type="button" class="btn-back" id="back" aria-label="Back" hidden>&larr;</button>
+                    <button type="button" class="btn-primary" id="next">Continue</button>
+                </div>
+
+                <button type="button" class="skip" id="skip" hidden>Skip for now</button>
 
                 <!-- TODO: point this to your Google OAuth view -->
-                <a href="#" class="google">
+                <a href="#" class="google" id="google">
                     <svg viewBox="0 0 48 48" aria-hidden="true">
                         <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/>
                         <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/>
@@ -242,12 +422,86 @@
                 </a>
             </form>
 
-            <p class="login">
+            <p class="login" id="login-link">
                 Already have an account?
                 <a href="{% url 'login' %}">Log in</a>
             </p>
         </div>
     </main>
+
+
+    <script>
+    (function () {
+        var form = document.getElementById('signup-form');
+        var steps = Array.prototype.slice.call(form.querySelectorAll('.step'));
+        var eyebrow = document.getElementById('eyebrow');
+        var title = document.getElementById('title');
+        var bar = document.getElementById('bar');
+        var next = document.getElementById('next');
+        var back = document.getElementById('back');
+        var skip = document.getElementById('skip');
+        var google = document.getElementById('google');
+        var loginLink = document.getElementById('login-link');
+        var jsError = document.getElementById('js-error');
+        var current = 0;
+        var last = steps.length - 1;
+
+        function showError(msg) {
+            jsError.textContent = msg || '';
+            jsError.hidden = !msg;
+        }
+
+        function render() {
+            steps.forEach(function (el, i) { el.classList.toggle('active', i === current); });
+            eyebrow.textContent = steps[current].dataset.eyebrow || ('Step ' + (current + 1) + ' of ' + steps.length);
+            title.textContent = steps[current].dataset.title;
+            bar.style.width = ((current + 1) / steps.length * 100) + '%';
+            back.hidden = current === 0;
+            google.hidden = current !== 0;
+            loginLink.hidden = current !== 0;
+            skip.hidden = current !== last;
+            next.textContent = current === last ? 'Finish' : 'Continue';
+            showError('');
+            var first = steps[current].querySelector('input');
+            if (first && current > 0) first.focus();
+        }
+
+        function validStep() {
+            var inputs = steps[current].querySelectorAll('input');
+            for (var i = 0; i < inputs.length; i++) {
+                if (!inputs[i].checkValidity()) { inputs[i].reportValidity(); return false; }
+            }
+            if (current === 0) {
+                var f = form.elements;
+                if (f.password.value !== f.confirm_password.value) {
+                    showError('Passwords do not match.');
+                    f.confirm_password.focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function advance() {
+            if (!validStep()) return;
+            if (current === last) { form.submit(); return; }
+            current++;
+            render();
+        }
+
+        next.addEventListener('click', advance);
+        back.addEventListener('click', function () { if (current > 0) { current--; render(); } });
+        skip.addEventListener('click', function () {
+            steps[last].querySelectorAll('input').forEach(function (i) { i.value = ''; });
+            form.submit();
+        });
+        form.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && e.target.tagName === 'INPUT') { e.preventDefault(); advance(); }
+        });
+
+        render();
+    })();
+    </script>
 
 </body>
 </html>

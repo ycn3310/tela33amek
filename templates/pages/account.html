@@ -168,6 +168,21 @@
             font-weight: 600;
         }
 
+        .handle {
+            margin: 0 0 4px;
+            font-size: 12px;
+            color: var(--blue);
+        }
+
+        .section-label {
+            margin: 14px 4px 2px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
         .uid {
             margin: 0 0 8px;
             font-size: 11px;
@@ -427,6 +442,7 @@
                 <div class="profile-head">
                     <p class="category">PLAN: {{ user.get_plan_display|upper }}</p>
                     <h1 class="name">{{ user.first_name }} {{ user.last_name }}</h1>
+                    {% if user.username %}<p class="handle">@{{ user.username }}</p>{% endif %}
                     <p class="uid">ID: {{ user.id }}</p>
                     {% if user.is_active %}
                         <span class="badge">Active</span>
@@ -436,22 +452,57 @@
                 </div>
 
                 <div class="rows">
+                    <p class="section-label" style="margin-top:0">Personal</p>
                     <div class="row">
-                        <span class="label">Date joined</span>
-                        <span class="value">{{ user.created_at|date:"j M, Y" }}</span>
+                        <span class="label">Email</span>
+                        <span class="value">{{ user.email }}</span>
+                    </div>
+                    {% if user.phone %}
+                    <div class="row">
+                        <span class="label">Phone</span>
+                        <span class="value">{{ user.phone }}</span>
+                    </div>
+                    {% endif %}
+                    {% if user.age %}
+                    <div class="row">
+                        <span class="label">Age</span>
+                        <span class="value">{{ user.age }} years old</span>
+                    </div>
+                    {% endif %}
+                    <div class="row">
+                        <span class="label">Gender</span>
+                        <span class="value">{{ user.get_sex_display }}</span>
+                    </div>
+
+                    <p class="section-label">Studies</p>
+                    <div class="row">
+                        <span class="label">Major</span>
+                        <span class="value">{{ user.major|default:"—" }}</span>
+                    </div>
+                    <div class="row">
+                        <span class="label">Year</span>
+                        <span class="value">{{ user.get_year_display }}</span>
+                    </div>
+
+                    <p class="section-label">Account</p>
+                    <div class="row">
+                        <span class="label">Plan</span>
+                        <span class="value">{{ user.get_plan_display }}</span>
                     </div>
                     <div class="row">
                         <span class="label">Status</span>
                         <span class="value">{% if user.is_active %}Active{% else %}Inactive{% endif %}</span>
                     </div>
                     <div class="row">
-                        <span class="label">Email</span>
-                        <span class="value">{{ user.email }}</span>
+                        <span class="label">Date joined</span>
+                        <span class="value">{{ user.created_at|date:"j M, Y" }}</span>
                     </div>
+                    {% if user.heard_from %}
                     <div class="row">
-                        <span class="label">Plan</span>
-                        <span class="value">{{ user.get_plan_display }}</span>
+                        <span class="label">Heard about us from</span>
+                        <span class="value">{{ user.get_heard_from_display|default:user.heard_from|capfirst }}</span>
                     </div>
+                    {% endif %}
                 </div>
             </section>
 

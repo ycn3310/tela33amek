@@ -84,16 +84,37 @@ class User(models.Model):
     class Plan(models.TextChoices):
         BASIC = "basic", "Basic"
         PREMIUM = "premium", "Premium"
+    
+    Year = [
+        ("L1", "Lisence 1"),
+        ("L2", "Lisence 2"),
+        ("L3", "Lisence 3"),
+        ("M1", "Master 1"),
+        ("M2", "Master 2"),
+        ("ing1", "Ingenieur 1"),
+        ("ing2", "Ingenieur 2"),
+        ("ing3", "Ingenieur 3"),
+        ("ing4", "Ingenieur 4"),
+        ("ing5", "Ingenieur 5"),
+    ]
 
+    username = models.CharField(max_length=50, default="null")
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)  # stores the hash, never plain text
+    password = models.CharField(max_length=128) 
+    age = models.PositiveIntegerField(default=18)
+    major = models.CharField(default="nothing")
+    sex = models.CharField(choices=[("N","Not specified"),("M","Male"), ("F", "Female")], default="Not specified")
+    year = models.CharField(choices = Year, default="L1")
+    heard_from = models.CharField(max_length=20, blank=True, default="")
+
     plan = models.CharField(max_length=10, choices=Plan.choices, default=Plan.BASIC)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
