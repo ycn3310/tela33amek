@@ -111,7 +111,7 @@ class User(models.Model):
     heard_from = models.CharField(max_length=20, blank=True, default="")
 
     plan = models.CharField(max_length=10, choices=Plan.choices, default=Plan.BASIC)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

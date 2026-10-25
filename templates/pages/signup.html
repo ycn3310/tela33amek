@@ -261,6 +261,49 @@
             text-decoration: underline;
         }
 
+        .btn-primary:disabled {
+            background: #9db9e8;
+            cursor: not-allowed;
+        }
+
+        .verify-note {
+            margin: 14px 0 0;
+            padding: 12px 14px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text);
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .verify-note.ok {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+
+        .verify-note .countdown {
+            display: block;
+            margin-top: 4px;
+            font-size: 22px;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            color: var(--blue-dark);
+        }
+
+        .resend {
+            margin-top: 6px;
+            padding: 0;
+            font: inherit;
+            font-size: 13px;
+            color: var(--link);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
         [hidden] { display: none !important; }
 
         @media (max-width: 600px) {
@@ -415,6 +458,12 @@
                     <button type="button" class="btn-primary" id="next">Continue</button>
                 </div>
 
+                <div class="verify-note" id="verify-note" role="status" aria-live="polite" hidden>
+                    <span id="verify-text"></span>
+                    <span class="countdown" id="countdown" hidden>01:00:00</span>
+                    <button type="button" class="resend" id="resend" hidden>Resend email</button>
+                </div>
+
                 <button type="button" class="skip" id="skip" hidden>Skip for now</button>
 
                 <!-- TODO: point this to your Google OAuth view -->
@@ -468,6 +517,7 @@
             loginLink.hidden = current !== 0;
             skip.hidden = current !== last;
             next.textContent = current === last ? 'Finish' : 'Continue';
+            updateVerifyUI();
             showError('');
             var first = steps[current].querySelector('input');
             if (first && current > 0) first.focus();
@@ -489,8 +539,137 @@
             return true;
         }
 
+        /* ---------- Email verification ---------- */
+        var SEND_URL   = "{% url 'send_verification' %}";
+        var STATUS_URL = "{% url 'verification_status' %}";
+
+        var note      = document.getElementById('verify-note');
+        var noteText  = document.getElementById('verify-text');
+        var countdown = document.getElementById('countdown');
+        var resend    = document.getElementById('resend');
+        var emailInput = form.elements.email;
+
+        var verifiedEmail = null;   // email that has been verified
+        var pending = false;        // link sent, waiting for the click
+        var sending = false;
+        var endsAt = 0;
+        var tickTimer = null;
+        var pollTimer = null;
+
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+        function formatTime(sec) {
+            var h = Math.floor(sec / 3600);
+            var m = Math.floor((sec % 3600) / 60);
+            return pad(h) + ':' + pad(m) + ':' + pad(sec % 60);
+        }
+
+        function currentEmail() { return emailInput.value.trim().toLowerCase(); }
+
+        function stopTimers() {
+            clearInterval(tickTimer);
+            clearInterval(pollTimer);
+            tickTimer = pollTimer = null;
+        }
+
+        function updateVerifyUI() {
+            var show = current === 0 && (pending || verifiedEmail === currentEmail());
+            note.hidden = !show;
+            if (!show) { next.disabled = sending; return; }
+
+            var ok = verifiedEmail === currentEmail();
+            note.classList.toggle('ok', ok);
+            next.disabled = sending || (pending && !ok);
+
+            if (ok) {
+                noteText.textContent = 'Email verified. You can continue.';
+                countdown.hidden = true;
+                resend.hidden = true;
+            } else if (Date.now() >= endsAt) {
+                noteText.textContent = 'The link has expired. Send a new one to continue.';
+                countdown.hidden = true;
+                resend.hidden = false;
+            } else {
+                noteText.textContent = 'We sent you an email at ' + currentEmail() +
+                    '. Click the link inside to verify it. You can continue after that. The link expires in:';
+                countdown.hidden = false;
+                resend.hidden = true;
+            }
+        }
+
+        function tick() {
+            var left = Math.max(0, Math.round((endsAt - Date.now()) / 1000));
+            countdown.textContent = formatTime(left);
+            if (left === 0) { stopTimers(); pending = true; }
+            updateVerifyUI();
+        }
+
+        function checkStatus() {
+            fetch(STATUS_URL, { credentials: 'same-origin' })
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                    if (d.verified && pending) {
+                        verifiedEmail = currentEmail();
+                        pending = false;
+                        stopTimers();
+                        updateVerifyUI();
+                    }
+                })
+                .catch(function () { /* try again on the next poll */ });
+        }
+
+        function sendVerification() {
+            if (sending) return;
+            sending = true;
+            showError('');
+            next.disabled = true;
+            next.textContent = 'Sending…';
+
+            var body = new URLSearchParams({ email: currentEmail() });
+            fetch(SEND_URL, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'X-CSRFToken': form.elements.csrfmiddlewaretoken.value },
+                body: body
+            })
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+                if (!d.ok) { showError(d.error || 'Could not send the email.'); return; }
+                stopTimers();
+                pending = true;
+                endsAt = Date.now() + d.expires_in * 1000;
+                tick();
+                tickTimer = setInterval(tick, 1000);
+                pollTimer = setInterval(checkStatus, 5000);
+            })
+            .catch(function () { showError('Network error. Please try again.'); })
+            .then(function () {
+                sending = false;
+                next.textContent = 'Continue';
+                updateVerifyUI();
+            });
+        }
+
+        // Changing the email invalidates any pending / finished verification.
+        emailInput.addEventListener('input', function () {
+            if (pending || verifiedEmail) {
+                stopTimers();
+                pending = false;
+                verifiedEmail = null;
+                updateVerifyUI();
+            }
+        });
+
+        resend.addEventListener('click', sendVerification);
+
+        /* ---------- Navigation ---------- */
         function advance() {
+            if (next.disabled) return;
             if (!validStep()) return;
+            if (current === 0 && verifiedEmail !== currentEmail()) {
+                sendVerification();
+                return;
+            }
             if (current === last) { form.submit(); return; }
             current++;
             render();

@@ -109,12 +109,10 @@ ALLOWED_HOSTS = [
     "localhost",
     'tela33amek-edkd9lx80-ycn3310s-projects.vercel.app',
     '.vercel.app',
-    '192.168.100.32',
+    '192.168.0.127',
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://tela33amek.up.railway.app",
-]
+
 
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",

@@ -7,6 +7,14 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import redirect
 
+from django.core.mail import EmailMessage
+
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from .models import Donation
+import json
+
 import time
 
 def get_current_user(request):
@@ -124,6 +132,75 @@ def signup_view(request):
             return redirect("index")
 
     return render(request, "pages/signup.html", {"error": error})
+
+from django.views.decorators.http import require_GET, require_POST
+from django.core.cache import cache
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.core import signing
+from django.urls import reverse
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+
+SALT = "signup-email"
+LINK_AGE = 60 * 60  # 1 hour
+
+
+@require_POST
+def send_verification(request):
+    email = request.POST.get("email", "").strip().lower()
+    try:
+        validate_email(email)
+    except ValidationError:
+        return JsonResponse({"ok": False, "error": "Invalid email."}, status=400)
+    if User.objects.filter(email__iexact=email).exists():
+        return JsonResponse({"ok": False, "error": "This email is already registered."}, status=400)
+
+    token = signing.dumps(email, salt=SALT)
+    link = request.build_absolute_uri(reverse("verify_email", args=[token]))
+
+    subject = "Verify your email"
+
+    html_content = render_to_string(
+        "emails/verify_email.html",
+        {"link": link},
+    )
+
+    text_content = (
+        "Thanks for signing up!\n\n"
+        "Verify your email using the link below:\n"
+        f"{link}\n\n"
+        "This link is valid for 1 hour."
+    )
+
+    email_message = EmailMultiAlternatives(
+        subject=subject,
+        body=text_content,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[email],
+    )
+
+    email_message.attach_alternative(html_content, "text/html")
+    email_message.send()
+    request.session["pending_email"] = email
+    return JsonResponse({"ok": True, "expires_in": LINK_AGE})
+
+
+def verify_email(request, token):
+    try:
+        email = signing.loads(token, salt=SALT, max_age=LINK_AGE)
+    except signing.BadSignature:  # also covers SignatureExpired
+        return HttpResponse("Invalid or expired link.", status=400)
+    cache.set(f"verified_email:{email}", True, 60 * 60 * 24)
+    return HttpResponse("Email verified. Go back to the signup page to continue.")
+
+
+@require_GET
+def verification_status(request):
+    email = request.session.get("pending_email")
+    verified = bool(email and cache.get(f"verified_email:{email}"))
+    return JsonResponse({"verified": verified})
 
 def account(request):
     user = get_current_user(request)
@@ -268,9 +345,6 @@ Details:
         )
 
     return redirect("index")
-
-
-from django.core.mail import EmailMessage
 
 def send_paper(request):
     if request.method == "POST":
@@ -429,10 +503,6 @@ def make_donation(request):
     print(checkout_url)
     return redirect(checkout_url)
 
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-from .models import Donation
-import json
 
 @csrf_exempt
 def chargily_webhook(request):

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark">
+    <title>Verify your email</title>
+
+    <style>
+        /* Only enhancements live here: every style that matters is also inline,
+           because some clients (Gmail app, Outlook) strip or ignore <style>. */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0; mso-table-rspace: 0; }
+        img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+
+        @media only screen and (max-width: 600px) {
+            .wrapper   { padding: 16px 12px !important; }
+            .card-body { padding: 28px 20px !important; }
+            .title     { font-size: 22px !important; }
+            .btn-cell  { display: block !important; width: 100% !important; }
+            .btn-link  { display: block !important; padding: 16px 20px !important; }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .bg-page   { background-color: #0f1115 !important; }
+            .bg-card   { background-color: #1a1d24 !important; border-color: #2a2f39 !important; }
+            .text-main { color: #f3f4f6 !important; }
+            .text-body { color: #c4c8d0 !important; }
+            .text-soft { color: #8b909b !important; }
+            .bg-note   { background-color: #172033 !important; border-color: #25365a !important; }
+            .divider   { border-top-color: #2a2f39 !important; }
+            .link      { color: #7aa7ff !important; }
+        }
+    </style>
+</head>
+
+<body class="bg-page" style="margin: 0; padding: 0; width: 100%; background-color: #f6f7f9; font-family: 'Poppins', 'Segoe UI', Roboto, Arial, Helvetica, sans-serif;">
+
+    <!-- Preheader: the preview text shown next to the subject in the inbox -->
+    <div style="display: none; max-height: 0; overflow: hidden; opacity: 0; font-size: 1px; line-height: 1px; color: #f6f7f9;">
+        Confirm your email to finish creating your Tela33amek account. This link expires in 1 hour.
+        &nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;
+    </div>
+
+    <table role="presentation" class="bg-page" width="100%" cellpadding="0" cellspacing="0" border="0"
+           style="background-color: #f6f7f9;">
+        <tr>
+            <td align="center" class="wrapper" style="padding: 40px 16px;">
+
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                       style="max-width: 560px;">
+
+                    <!-- Brand -->
+                    <tr>
+                        <td align="center" style="padding: 0 0 24px;">
+                            <span style="font-size: 22px; font-weight: 700; letter-spacing: -0.3px; color: #2563eb;">
+                                Tela33amek
+                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- Card -->
+                    <tr>
+                        <td class="bg-card"
+                            style="background-color: #ffffff; border: 1px solid #e3e6ea; border-radius: 14px; overflow: hidden;">
+
+                            <!-- Accent bar -->
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td height="5" style="height: 5px; line-height: 5px; font-size: 0; background-color: #3b82f6;">&nbsp;</td>
+                                </tr>
+                            </table>
+
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td class="card-body" style="padding: 40px 40px 36px;">
+
+                                        <!-- Icon -->
+                                        <table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto 22px;">
+                                            <tr>
+                                                <td align="center" width="64" height="64"
+                                                    style="width: 64px; height: 64px; background-color: #eff6ff; border-radius: 32px; font-size: 28px; line-height: 64px;">
+                                                    &#9993;
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Title -->
+                                        <h1 class="title text-main"
+                                            style="margin: 0 0 14px; font-size: 26px; line-height: 1.25; font-weight: 700; text-align: center; color: #111827;">
+                                            Verify your email
+                                        </h1>
+
+                                        <p class="text-body"
+                                           style="margin: 0 0 8px; font-size: 15px; line-height: 1.7; text-align: center; color: #4b5563;">
+                                            Thanks for signing up! You're one click away from
+                                            your free account. Confirm your email address to continue.
+                                        </p>
+
+                                        <!-- Button (bulletproof: table cell carries the color) -->
+                                        <table role="presentation" align="center" width="100%" cellpadding="0" cellspacing="0" border="0"
+                                               style="margin: 28px 0;">
+                                            <tr>
+                                                <td align="center">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                                                        <tr>
+                                                            <td class="btn-cell" align="center" bgcolor="#2563eb"
+                                                                style="background-color: #2563eb; border-radius: 10px;">
+                                                                <a href="{{ link }}" target="_blank" class="btn-link"
+                                                                   style="display: inline-block; padding: 15px 36px; font-family: 'Poppins', 'Segoe UI', Roboto, Arial, sans-serif; font-size: 15px; font-weight: 600; line-height: 1; color: #ffffff; text-decoration: none; border-radius: 10px;">
+                                                                    Verify my email
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Expiry note -->
+                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td class="bg-note"
+                                                    style="padding: 14px 16px; background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px;">
+                                                    <p class="text-body"
+                                                       style="margin: 0; font-size: 13px; line-height: 1.6; text-align: center; color: #1e40af;">
+                                                        &#9201; This link expires in <strong>1 hour</strong>.
+                                                        If you didn't create an account, you can safely ignore this email.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Divider -->
+                                        <hr class="divider" style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0 22px;">
+
+                                        <!-- Fallback link -->
+                                        <p class="text-soft"
+                                           style="margin: 0 0 6px; font-size: 12px; line-height: 1.6; color: #9ca3af;">
+                                            Button not working? Copy and paste this link into your browser:
+                                        </p>
+                                        <p style="margin: 0; font-size: 12px; line-height: 1.6; word-break: break-all; overflow-wrap: anywhere;">
+                                            <a href="{{ link }}" class="link" style="color: #2563eb; text-decoration: underline;">{{ link }}</a>
+                                        </p>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="padding: 22px 12px 0;">
+                            <p class="text-soft"
+                               style="margin: 0; font-size: 12px; line-height: 1.6; color: #9ca3af;">
+                                You're receiving this email because someone used this address to sign up on Tela33amek.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
