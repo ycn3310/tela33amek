@@ -63,7 +63,39 @@ def logout_view(request):
     return redirect("index")
 
 def signup(request):
-    return render(request, "pages/signup.html")
+    majors = [
+        ("computer_science", "Computer Science"),
+        ("software_engineering", "Software Engineering"),
+        ("telecommunications_networks", "Telecommunications and Networks"),
+        ("algebra_cryptography", "Algebra and Cryptography"),
+        ("mathematics", "Mathematics"),
+        ("probability_statistics", "Probability and Statistics"),
+        ("operations_research", "Operations Research"),
+        ("intelligent_computer_systems", "Intelligent Computer Systems"),
+        ("computer_security", "Computer Systems Security"),
+        ("big_data_analytics", "Big Data Analytics"),
+        ("electronics", "Electronics"),
+        ("automatic_control", "Automatic Control"),
+        ("electrical_engineering", "Electrical Engineering"),
+        ("telecommunications", "Telecommunications"),
+        ("embedded_systems", "Embedded Systems"),
+        ("renewable_energy", "Renewable Energy"),
+        ("mechanical_engineering", "Mechanical Engineering"),
+        ("energy_engineering", "Energy Engineering"),
+        ("civil_engineering", "Civil Engineering"),
+        ("hydraulics", "Hydraulics"),
+        ("physics", "Physics"),
+        ("applied_physics", "Applied Physics"),
+        ("fundamental_chemistry", "Fundamental Chemistry"),
+        ("pharmaceutical_chemistry", "Pharmaceutical Chemistry"),
+        ("materials_engineering", "Materials Engineering"),
+        ("biochemistry", "Biochemistry"),
+        ("microbiology", "Microbiology"),
+        ("genetics", "Genetics"),
+        ("biotechnology_health", "Biotechnology and Health"),
+        ("geophysics", "Geophysics"),
+    ]
+    return render(request, "pages/signup.html", {"majors":majors})
 
 import re
 

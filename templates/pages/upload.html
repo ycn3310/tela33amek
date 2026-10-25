@@ -1,17 +1,16 @@
-{% load static%}
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-N7RLLL4Z');</script>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>
-            Upload! Thank you
-        </title>
+        <title>Upload a paper — Tela33amek</title>
 
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Tela33amek">
@@ -19,18 +18,13 @@
         <meta property="og:description" content="Upload exam papers and study resources to help fellow USTHB students.">
         <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'icons/logo_with_slogan.png' %}">
         <meta property="og:url" content="{{ request.build_absolute_uri }}">
-        
+
+        <link rel="icon" type="image/png" href="{% static 'icons/logo.png' %}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-        <link rel="icon" href ="{% static 'icons/logo.png' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         <link rel="stylesheet" href="{% static 'css/upload/upload.css' %}">
-        <link rel="stylesheet" href="{% static "css/upload/dropdown.css" %}">
-        <link rel="stylesheet" href="{% static "css/upload/dragdrop.css" %}">
-        <link rel="stylesheet" href="{% static "css/upload/formField.css" %}">
-
 
         <script src="{% static 'js/program.js' %}" defer></script>
         <script src="{% static 'js/dragdrop.js' %}" defer></script>
@@ -38,70 +32,80 @@
     <body>
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7RLLL4Z"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <a href="{% url 'index'%}"><button class="back-button">🢀 back</button></a>
-        <form method="POST" action={% url 'send_paper' %}  enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="drag-area" id="drag-area">
-                <img class="icon" src="{% static 'icons/image.png' %}">
-                <p>Drag & Drop to Upload File</p>
-                <div class="divider">
-                    <span>OR</span>
-                </div>
-                <br>
-                <button type="button" class="browse-button">Browse File</button>
-                <input name="paper" id="fileinput" type="file" hidden  required multiple>
-                <p id="file-name"></p>
+
+        <a class="brand" href="{% url 'index' %}" aria-label="Tela33amek home">
+            <img src="{% static 'icons/logo_with_slogan.png' %}" alt="Tela33amek">
+        </a>
+
+        <main class="page">
+            <div class="card">
+                <a class="back" href="{% url 'index' %}">&larr; Back</a>
+                <p class="eyebrow">Thank you for helping other students</p>
+                <h1>Upload a paper</h1>
+
+                <form method="POST" action="{% url 'send_paper' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="drag-area" id="drag-area">
+                        <img class="icon" src="{% static 'icons/image.png' %}" alt="">
+                        <p>Drag &amp; drop to upload files</p>
+                        <div class="divider">
+                            <span>or</span>
+                        </div>
+                        <button type="button" class="browse-button">Browse files</button>
+                        <input name="paper" id="fileinput" type="file" accept="application/pdf,image/*" hidden multiple>
+                        <p class="drag-hint">PDF or images &middot; max 2 MB per file</p>
+                        <p id="file-name"></p>
+                        <ul id="file-list" class="file-list"></ul>
+                        <div id="file-error" class="file-error" role="alert"></div>
+                    </div>
+
+                    <div class="informations">
+                        <div class="dropdown full">
+                            <input name="course" type="text" placeholder="Module" autocomplete="off" required>
+
+                            <ul id="course-list">
+                                {% for course in courses %}
+                                    <li>{{ course.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <input name="major" type="search" placeholder="Major" required>
+
+                        <div class="dropdown">
+                            <input name="year" type="search" placeholder="Year" required>
+
+                            <ul id="year-list">
+                                {% for year in years %}
+                                    <li>{{ year }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <input name="semester" type="search" placeholder="Semester" required>
+                        <input name="uni" type="search" placeholder="Establishment" required>
+                        <input name="teacher" type="search" placeholder="Teacher (optional)">
+
+                        <div class="dropdown">
+                            <input name="type" type="search" placeholder="Paper type" required>
+
+                            <ul id="type-list">
+                                <li>Exam</li>
+                                <li>Td</li>
+                                <li>Tp</li>
+                                <li>Mid-term</li>
+                            </ul>
+                        </div>
+
+                        <input class="full" name="chapter" type="search" placeholder="Chapter (Td/Tp only)">
+                    </div>
+
+                    <div class="submit-section">
+                        <button id="uploadButton" class="submit">Submit</button>
+                    </div>
+                </form>
             </div>
-
-            
-            <div class="informations">
-                <div class="dropdown">
-                    <input name="course" type="text" placeholder="📚 Module" autocomplete="off"  required>
-
-                    <ul id="course-list">
-                        {% for course in courses %}
-                            <li>{{ course.name }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-                <input name="major" type="search" placeholder="🎓 Major"  required>
-
-                <div class=dropdown>
-                    <input name="year" type="search" placeholder="📅 Year"  required>
-
-                    <ul id="year-list">
-                        {% for year in years%}
-                            <li>{{year}}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                
-                <input name="semester" type="search" placeholder="⏲ Semester"  required>
-                <input name="uni" type="search" placeholder="🏫 Establishment"  required>
-                <input name="teacher" type="search" placeholder="👥 Teacher (optional)">
-
-                <div class="dropdown">
-                    <input name="type" type="search" placeholder="paper type" required>
-
-                    <ul id="type-list">
-                        <li>Exam</li>
-                        <li>Td</li>
-                        <li>Tp</li>
-                        <li>Mid-term</li>
-                    </ul>
-                <div>
-
-                <input name="chapter" type="search" placeholder="chapter (Td/Tp only)">
-                
-            </div>
-
-            <div class="submit-section">
-                <button  id="uploadButton" class="submit">Submit!</button>
-            </div>
-            
-            
-        </form>
-
+        </main>
     </body>
 </html>

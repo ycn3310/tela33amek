@@ -401,8 +401,11 @@
                 <!-- Step 5: major -->
                 <div class="step" data-title="What's your major?">
                     <div class="field">
-                        <input type="text" name="major" placeholder="e.g. Computer Science"
-                               value="{{ request.POST.major }}" maxlength="100" required>
+                        <select name="major">
+                            {% for value, label in majors %}
+                            <option value="{{ value }}" {% if request.POST.major == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
 

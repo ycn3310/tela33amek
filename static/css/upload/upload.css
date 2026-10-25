@@ -1,85 +1,369 @@
-body{
+:root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --border: #e3e6ea;
+    --text: #2b2d36;
+    --muted: #8b8f98;
+    --blue: #3b82f6;
+    --blue-dark: #2f6fdb;
+    --blue-soft: #eff6ff;
+    --link: #2563eb;
+    --error-bg: #fef2f2;
+    --error-text: #b91c1c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Poppins', 'Roboto', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ---------- Layout ---------- */
+
+.brand {
+    position: absolute;
+    top: 28px;
+    left: 40px;
+}
+
+.brand img {
+    height: 44px;
+    display: block;
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px 40px;
+}
+
+.card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 34px 36px 38px;
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.back:hover { color: var(--link); }
+
+.eyebrow {
+    margin: 0 0 4px;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+h1 {
+    margin: 0 0 26px;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+a { color: var(--link); }
+
+a:focus-visible,
+button:focus-visible,
+.drag-area:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, .45);
+    outline-offset: 2px;
+}
+
+/* ---------- Drag & drop ---------- */
+
+.drag-area {
+    width: 100%;
+    min-height: 240px;
+    margin-bottom: 22px;
+    padding: 24px 16px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
-    background: linear-gradient(0deg, #ffffff, #abdeff);
-}
-
-.btn{
-    font-family: Roboto, sans-serif;
-    font-weight: bold;
-    border: none;
-    border-radius: 3px;
-    color: white;
-    background-color: #1589d8;
-    box-shadow: 0 4px 12px rgba(0,0,0,.12);
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn:hover{
-    transform: translateY(-5px);
-    background-color: #0c5f96;
-    box-shadow: 0 10px 25px rgba(0,0,0,.2);
-}
-
-.btn:active{
-    transform: scale(.96);
-}
-
-.back-button{
-    position: fixed;
-    top: 15px;
-    left: 15px;
-
-    font: Roboto;
-    font-size: 15px;
-    font-weight: bold;
-
-    border-radius: 3px;
-    border: none;
-
-    background-color: #1589d8;
-    color: white;
-
-    height: 30px;
-    width: 80px;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,.12);
-
-    transition: 0.2s;
-
-    cursor: pointer;
-}
-
-.submit-section{
-    margin-top: 10px;
-    display: flex;
     justify-content: center;
-}
 
-.submit{
-    gap: 10px;
-    background-color: #1591DC;
-    font-family: Roboto;
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    border: none;
+    border: 2px dashed #cfd4db;
     border-radius: 10px;
-    width: 85vw;
-    max-width: 600px;
-    height: 50px;
+    background: #fafbfc;
     cursor: pointer;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,.12);
-
-    transition: 0.2s;
+    transition: background .15s, border-color .15s;
 }
 
-.submit:hover{
-    transform: translateY(-5px);
-    background-color: #0c5f96;
-    box-shadow: 0 10px 25px rgba(0,0,0,.2);
+.drag-area:hover,
+.drag-area.dragging {
+    background: var(--blue-soft);
+    border-color: var(--blue);
+}
+
+.drag-area > p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.icon {
+    height: 56px;
+    margin-bottom: 12px;
+    opacity: .85;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    margin: 14px 0;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border);
+}
+
+.divider span { padding: 0 12px; }
+
+.browse-button {
+    height: 40px;
+    padding: 0 22px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+}
+
+.browse-button:hover {
+    background: #f9fafb;
+    border-color: var(--blue);
+}
+
+#file-name {
+    margin: 14px 0 0;
+    max-width: 100%;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--blue-dark);
+    word-break: break-word;
+}
+
+#file-name:empty { display: none; }
+
+.drag-area > p.drag-hint {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+.file-list {
+    width: 100%;
+    max-width: 420px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+    cursor: default;
+}
+
+.file-list:empty { display: none; }
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    padding: 8px 10px 8px 12px;
+    font-size: 13px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.file-item .name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-item .size {
+    flex: none;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.file-item .remove {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.file-item .remove:hover {
+    color: var(--error-text);
+    background: var(--error-bg);
+}
+
+.file-error {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    text-align: left;
+    color: var(--error-text);
+    background: var(--error-bg);
+    border-radius: 8px;
+    cursor: default;
+}
+
+.file-error:empty { display: none; }
+
+.file-error span { display: block; }
+
+/* ---------- Form fields ---------- */
+
+.informations {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.informations .full { grid-column: 1 / -1; }
+
+.informations input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.informations input::placeholder { color: var(--muted); }
+
+.informations input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, .18);
+}
+
+.hint {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* ---------- Dropdowns ---------- */
+
+.dropdown { position: relative; width: 100%; }
+
+.dropdown ul {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+
+    display: none;
+    list-style: none;
+    margin: 0;
+    padding: 4px;
+
+    max-height: 240px;
+    overflow-y: auto;
+
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .10);
+
+    z-index: 9999;
+}
+
+.dropdown li {
+    padding: 9px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.dropdown li:hover { background: #f3f4f6; }
+
+/* ---------- Submit ---------- */
+
+.submit-section { margin-top: 22px; }
+
+.submit {
+    width: 100%;
+    height: 44px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background: var(--blue);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.submit:hover { background: var(--blue-dark); }
+
+.submit:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+    .brand { top: 20px; left: 20px; }
+    .brand img { height: 36px; }
+
+    .page { padding-top: 90px; align-items: flex-start; }
+    .card { padding: 26px 20px 30px; }
+
+    h1 { font-size: 24px; margin-bottom: 20px; }
+
+    .drag-area { min-height: 210px; }
+    .informations { grid-template-columns: 1fr; gap: 10px; }
 }

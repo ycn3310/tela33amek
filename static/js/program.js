@@ -3,15 +3,9 @@ const fileinput = document.getElementById("fileinput");
 
 browsebutton.addEventListener("click", () => {
     fileinput.click();
-})
+});
 
-const filename = document.getElementById("file-name");
-
-fileinput.addEventListener("change", () => {
-    if(fileinput.files.length >0){
-        filename.innerHTML = `📄 ${fileinput.files[0].name}<br>✅ Ready to upload`;
-    }
-})
+// (file selection, validation and the file list live in dragdrop.js)
 
 function setupDropdown(dropdown) {
     const input = dropdown.querySelector("input");
