@@ -528,7 +528,7 @@
                     </p>
 
                     <!-- TODO: point this to your pricing / upgrade view -->
-                    <a class="plan-btn" href="#">
+                    <a class="plan-btn" href="{% url 'pricing' %}">
                         {% if user.is_premium %}Manage{% else %}Upgrade{% endif %}
                     </a>
                 </div>

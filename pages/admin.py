@@ -6,6 +6,7 @@ from django.http import JsonResponse
 admin.site.register(Course)
 admin.site.register(Donation)
 admin.site.register(User)
+admin.site.register(Subscription)
 
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):

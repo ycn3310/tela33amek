@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import FileResponse, JsonResponse, Http404
 from django.db.models import Prefetch
-from .models import Course, Paper, Chapter, Donation, User
+from .models import Course, Paper, Chapter, Donation, User, Plan, Subscription
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -289,6 +289,9 @@ def success(request):
 def failure(request):
     return render(request, 'pages/failure.html')
 
+def pricing(request):
+    return render(request, 'pages/pricing.html')
+
 def robots_txt(request):
     content = """User-agent: *
 Allow: /
@@ -536,6 +539,45 @@ def make_donation(request):
     return redirect(checkout_url)
 
 
+CHARGILY_BASE = "https://pay.chargily.net/test/api/v2"   # live: https://pay.chargily.net/api/v2
+
+def upgrade(request):
+    if request.method != "POST":
+        return redirect("account")
+
+    user = get_current_user(request)
+    if not user:
+        return redirect("login")
+
+    try:
+        response = requests.post(
+            f"{CHARGILY_BASE}/checkouts",
+            headers={
+                "Authorization": f"Bearer {settings.CHARGILY_SECRET_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "amount": 400,
+                "currency": "dzd",
+                "success_url": "https://tela33amek.vercel.app/support/success/",
+                "failure_url": "https://tela33amek.vercel.app/support/failure/",
+                "webhook_endpoint": "https://tela33amek.vercel.app/chargily/webhooksub/",
+                "description": "Tela33amek Premium",
+                "metadata": {"user_id": user.id},   # so the webhook knows who paid
+            },
+            timeout=15,
+        )
+    except requests.RequestException as e:
+        print("CHARGILY ERROR:", e)
+        return redirect("account")
+
+    if not response.ok:
+        print("STATUS:", response.status_code, "RESPONSE:", response.text)
+        return redirect("account")
+
+    checkout_url = response.json()["checkout_url"].replace("http://", "https://")
+    return redirect(checkout_url)
+
 @csrf_exempt
 def chargily_webhook(request):
 
@@ -573,6 +615,31 @@ def chargily_webhook(request):
     elif event_type == "checkout.expired":
             donation.status = "expired"
             donation.save()
+
+    return HttpResponse(status=200)
+
+import hmac, hashlib, json
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+@csrf_exempt
+@require_POST
+def chargily_webhook_sub(request):
+    signature = request.headers.get("signature", "")
+    expected = hmac.new(
+        settings.CHARGILY_SECRET_KEY.encode(), request.body, hashlib.sha256
+    ).hexdigest()
+
+    if not hmac.compare_digest(signature, expected):
+        return HttpResponseBadRequest("invalid signature")
+
+    event = json.loads(request.body)
+
+    if event.get("type") == "checkout.paid":
+        user_id = (event["data"].get("metadata") or {}).get("user_id")
+        premium = Plan.objects.get(tier="premium")
+        Subscription.objects.get_or_create(user_id=user_id, plan=premium)
 
     return HttpResponse(status=200)
 

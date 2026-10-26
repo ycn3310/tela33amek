@@ -1,0 +1,381 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans — Tela33amek</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Tela33amek">
+    <meta property="og:title" content="Go Premium on Tela33amek">
+    <meta property="og:description" content="Unlimited AI, unlimited downloads, no ads, flashcards and more for your USTHB studies.">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'icons/logo_with_slogan.png' %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+    <link rel="icon" type="image/png" href="{% static 'icons/logo.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f6f7f9;
+            --card: #ffffff;
+            --border: #e3e6ea;
+            --text: #2b2d36;
+            --muted: #8b8f98;
+            --blue: #3b82f6;
+            --blue-dark: #2f6fdb;
+            --blue-soft: #eff6ff;
+            --link: #2563eb;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Poppins', 'Roboto', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .brand {
+            position: absolute;
+            top: 28px;
+            left: 40px;
+        }
+
+        .brand img {
+            height: 44px;
+            display: block;
+        }
+
+        .page {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 110px 20px 60px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 38px;
+        }
+
+        .eyebrow {
+            margin: 0 0 4px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.15;
+        }
+
+        .sub {
+            margin: 0 auto;
+            max-width: 480px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .plans {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .plan {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 32px 30px 30px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .plan.premium {
+            border: 2px solid var(--blue);
+            box-shadow: 0 12px 32px rgba(59, 130, 246, .14);
+        }
+
+        .badge {
+            position: absolute;
+            top: -13px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+            background: var(--blue);
+            border-radius: 99px;
+            white-space: nowrap;
+        }
+
+        .plan-name {
+            margin: 0 0 4px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .price {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .price small {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .tagline {
+            margin: 8px 0 22px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 44px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background .15s, border-color .15s;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background: var(--blue);
+            border: none;
+        }
+
+        .btn-primary:hover { background: var(--blue-dark); }
+
+        .btn-outline {
+            color: var(--text);
+            background: #fff;
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover { background: #f9fafb; border-color: var(--blue); }
+
+        a:focus-visible,
+        .btn:focus-visible {
+            outline: 3px solid rgba(59, 130, 246, .45);
+            outline-offset: 2px;
+        }
+
+        .divider {
+            height: 1px;
+            margin: 24px 0 18px;
+            background: var(--border);
+        }
+
+        .features-title {
+            margin: 0 0 14px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .features {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .features li.off { color: var(--muted); }
+
+        .features .ico {
+            flex: none;
+            width: 20px;
+            height: 20px;
+            margin-top: 1px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--blue-soft);
+            color: var(--blue);
+        }
+
+        .features li.off .ico {
+            background: #f1f2f4;
+            color: #b6bac2;
+        }
+
+        .features .ico svg { width: 12px; height: 12px; }
+
+        .features small {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .note {
+            margin: 26px 0 0;
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 700px) {
+            .brand { top: 20px; left: 20px; }
+            .brand img { height: 36px; }
+            .page { padding-top: 90px; }
+            h1 { font-size: 26px; }
+            .plans { grid-template-columns: 1fr; gap: 28px; }
+            .plan.premium { order: -1; }
+            .plan { padding: 28px 22px 26px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="brand" href="{% url 'index' %}" aria-label="Tela33amek home">
+        <img src="{% static 'icons/logo_with_slogan.png' %}" alt="Tela33amek">
+    </a>
+
+    <main class="page">
+        <header class="header">
+            <p class="eyebrow">Choose your plan</p>
+            <h1>Study smarter with Premium</h1>
+            <p class="sub">Start for free, upgrade when you want AI help, unlimited downloads and zero ads.</p>
+        </header>
+
+        <section class="plans">
+
+            <!-- Basic -->
+            <article class="plan">
+                <p class="plan-name">Basic</p>
+                <!-- TODO: set your real price -->
+                <p class="price">0 DA <small>/ forever</small></p>
+                <p class="tagline">Everything you need to find and share papers.</p>
+
+                <a class="btn btn-outline" href="{% url 'signupview' %}">Get started free</a>
+
+                <div class="divider"></div>
+                <p class="features-title">What's included</p>
+
+                <ul class="features">
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        Browse and search all papers
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        Upload papers and help others
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        <span>Limited AI usage <small>A small daily allowance</small></span>
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        <span>Limited downloads <small>A small daily allowance</small></span>
+                    </li>
+                    <li class="off">
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+                        Contains ads
+                    </li>
+                    <li class="off">
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+                        AI exercise solver
+                    </li>
+                    <li class="off">
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+                        Flashcard generator
+                    </li>
+                </ul>
+            </article>
+
+            <!-- Premium -->
+            <article class="plan premium">
+                <span class="badge">Most popular</span>
+                <p class="plan-name">Premium</p>
+                <!-- TODO: set your real price -->
+                <p class="price">500 DA <small>/ month</small></p>
+                <p class="tagline">No limits, no ads, and AI to study faster.</p>
+
+                <!-- TODO: point this to your checkout / upgrade view -->
+                <form method="POST" action="{% url 'upgrade' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Upgrade to Premium</button>
+                </form>
+
+
+                <div class="divider"></div>
+                <p class="features-title">Everything in Basic, plus</p>
+
+                <ul class="features">
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        <span>Unlimited AI <small>Ask as much as you want</small></span>
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        <span>Unlimited downloads <small>Every paper, any time</small></span>
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        <span>No ads <small>A clean, distraction-free site</small></span>
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        <span>Solve exercises with AI <small>Step-by-step explanations</small></span>
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        <span>Generate flashcards <small>Turn any paper into revision cards</small></span>
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        <span>AI summaries <small>Key points of a paper or chapter</small></span>
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        Priority support
+                    </li>
+                    <li>
+                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                        Early access to new features
+                    </li>
+                </ul>
+            </article>
+
+        </section>
+
+        <p class="note">Questions? Reach out to us anytime. Your Premium helps keep Tela33amek online.</p>
+    </main>
+
+</body>
+</html>

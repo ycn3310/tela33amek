@@ -22,6 +22,7 @@ urlpatterns = [
     path("support/success/", views.success, name="success"),
     path("support/failure/", views.failure, name="failure"),
     path("chargily/webhook", views.chargily_webhook, name="chargily_webhook"),
+    path("chargily/webhooksub", views.chargily_webhook_sub, name="chargily_webhook_sub"),
     path("feedback/", views.send_feedback, name="feedback"),
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}),
     path("robots.txt", views.robots_txt),
@@ -37,4 +38,6 @@ urlpatterns = [
     path("signup/send-verification/", views.send_verification, name="send_verification"),
     path("signup/verification-status/", views.verification_status, name="verification_status"),
     path("verify/<str:token>/", views.verify_email, name="verify_email"),
+    path("upgrade/", views.upgrade, name="upgrade"),
+    path("plans/", views.pricing, name="pricing")
 ]
