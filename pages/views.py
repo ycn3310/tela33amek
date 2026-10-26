@@ -539,7 +539,7 @@ def make_donation(request):
     return redirect(checkout_url)
 
 
-CHARGILY_BASE = "https://pay.chargily.net/test/api/v2"   # live: https://pay.chargily.net/api/v2
+CHARGILY_BASE = "https://pay.chargily.net/api/v2"   # live: https://pay.chargily.net/api/v2
 
 def upgrade(request):
     if request.method != "POST":
