@@ -557,12 +557,12 @@ def upgrade(request):
                 "Content-Type": "application/json",
             },
             json={
-                "amount": 400,
+                "amount": 100,
                 "currency": "dzd",
                 "success_url": "https://tela33amek.vercel.app/support/success/",
                 "failure_url": "https://tela33amek.vercel.app/support/failure/",
                 "webhook_endpoint": "https://tela33amek.vercel.app/chargily/webhooksub/",
-                "description": "Tela33amek Premium",
+                "description": "Tela33amek Premium Plan",
                 "metadata": {"user_id": user.id},   # so the webhook knows who paid
             },
             timeout=15,
