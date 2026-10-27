@@ -7,6 +7,7 @@ admin.site.register(Course)
 admin.site.register(Donation)
 admin.site.register(User)
 admin.site.register(Subscription)
+admin.site.register(Plan)
 
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):
