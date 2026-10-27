@@ -151,7 +151,6 @@ class User(models.Model):
     year = models.CharField(choices = Year, default="L1")
     heard_from = models.CharField(max_length=20, blank=True, default="")
 
-    plan = models.CharField(max_length=10, choices=Plan.Tier, default=Plan.Tier.BASIC)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -176,4 +175,5 @@ class User(models.Model):
         return self.subscriptions.active().filter(plan__tier=Plan.Tier.PREMIUM).exists()
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        status = "Premium" if self.is_premium else "Basic"
+        return f"{self.first_name} {self.last_name} ({status})"

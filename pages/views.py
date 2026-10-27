@@ -550,6 +550,12 @@ def upgrade(request):
         return redirect("login")
 
     try:
+        plan = get_object_or_404(
+            Plan,
+            id=request.POST.get("plan_id"),
+            tier=Plan.Tier.PREMIUM,
+            is_active=True,
+        )
         response = requests.post(
             f"{CHARGILY_BASE}/checkouts",
             headers={
@@ -557,12 +563,12 @@ def upgrade(request):
                 "Content-Type": "application/json",
             },
             json={
-                "amount": 100,
+                "amount": int(plan.price),
                 "currency": "dzd",
                 "success_url": "https://tela33amek.vercel.app/support/success/",
                 "failure_url": "https://tela33amek.vercel.app/support/failure/",
                 "webhook_endpoint": "https://tela33amek.vercel.app/chargily/webhooksub/",
-                "description": "Tela33amek Premium Plan",
+                "description": plan.name,
                 "metadata": {"user_id": user.id},   # so the webhook knows who paid
             },
             timeout=15,
