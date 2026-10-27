@@ -327,12 +327,18 @@
                 <p class="tagline">No limits, no ads, and AI to study faster.</p>
 
                 <!-- TODO: point this to your checkout / upgrade view -->
-                <form method="POST" action="{% url 'upgrade' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary">Upgrade to Premium</button>
-                </form>
+                {% for plan in plans %}
+                    {% if plan.tier == "premium" and plan.is_active %}
+                        <form method="POST" action="{% url 'upgrade' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="plan_id" value="{{ plan.id }}">
 
+                            <button type="submit" class="btn btn-primary">Upgrade to Premium</button>
+                        </form>
+                    {% endif %}
+                {% endfor %}
 
+                
                 <div class="divider"></div>
                 <p class="features-title">Everything in Basic, plus</p>
 

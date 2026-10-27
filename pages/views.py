@@ -290,7 +290,12 @@ def failure(request):
     return render(request, 'pages/failure.html')
 
 def pricing(request):
-    return render(request, 'pages/pricing.html')
+    plans = Plan.objects.filter(
+        tier=Plan.Tier.PREMIUM,
+        is_active=True,
+    )
+
+    return render(request, "pages/pricing.html", {"plans": plans})
 
 def robots_txt(request):
     content = """User-agent: *
