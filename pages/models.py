@@ -109,6 +109,7 @@ class Subscription(models.Model):
     starts_at = models.DateTimeField(default=timezone.now)
     expires_at = models.DateTimeField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    chargily_checkout_id = models.CharField(max_length=100, unique=True, null=True, blank=True,)
 
     objects = SubscriptionQuerySet.as_manager()
 

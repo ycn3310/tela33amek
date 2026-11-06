@@ -284,6 +284,10 @@ def support(request):
     return render(request, 'pages/support.html')
 
 def success(request):
+    print("SUCCESS PAGE")
+    print("SESSION:", request.session.session_key)
+    print("USER ID:", request.session.get("user_id"))
+
     return render(request, 'pages/success.html')
 
 def failure(request):
@@ -507,6 +511,12 @@ def course_logo(request, course_id):
 
 import requests
 
+base_url = (
+    "http://localhost:8000"
+    if settings.DEBUG
+    else "https://tela33amek.vercel.app"
+)
+
 def make_donation(request):
     if request.method != "POST":
         return redirect("support")
@@ -521,9 +531,9 @@ def make_donation(request):
             json = {
                 "amount": amount,
                 "currency": "dzd",
-                "success_url": "https://tela33amek.vercel.app/support/success/",
-                "failure_url": "https://tela33amek.vercel.app/support/failure/",
-                "webhook_endpoint": "https://tela33amek.vercel.app/chargily/webhook/",
+                "success_url": f"{base_url}/support/success/",
+                "failure_url": f"{base_url}/support/failure/",
+                "webhook_endpoint": f"{base_url}/chargily/webhook/",
                 "description": "Support Tela33amek"
             },
         )
@@ -544,7 +554,7 @@ def make_donation(request):
     return redirect(checkout_url)
 
 
-CHARGILY_BASE = "https://pay.chargily.net/api/v2"   # live: https://pay.chargily.net/api/v2
+CHARGILY_BASE = "https://pay.chargily.net/test/api/v2"   # live: https://pay.chargily.net/api/v2
 
 def upgrade(request):
     if request.method != "POST":
@@ -570,11 +580,14 @@ def upgrade(request):
             json={
                 "amount": int(plan.price),
                 "currency": "dzd",
-                "success_url": "https://tela33amek.vercel.app/support/success/",
-                "failure_url": "https://tela33amek.vercel.app/support/failure/",
-                "webhook_endpoint": "https://tela33amek.vercel.app/chargily/webhooksub/",
+                "success_url": f"{base_url}/support/success/",
+                "failure_url": f"{base_url}/support/failure/",
+                "webhook_endpoint": "https://septum-dedicate-skier.ngrok-free.dev/chargily/webhooksub/",
                 "description": plan.name,
-                "metadata": {"user_id": user.id},   # so the webhook knows who paid
+                "metadata": {
+                    "user_id": user.id,
+                    "plan_id": plan.id,
+                }   
             },
             timeout=15,
         )
@@ -631,26 +644,86 @@ def chargily_webhook(request):
 
 import hmac, hashlib, json
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.db import transaction
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 @csrf_exempt
 @require_POST
 def chargily_webhook_sub(request):
+    print("WEBHOOK RECEIVED")
+    print("EVENT:", request.body.decode())
     signature = request.headers.get("signature", "")
+
     expected = hmac.new(
-        settings.CHARGILY_SECRET_KEY.encode(), request.body, hashlib.sha256
+        settings.CHARGILY_SECRET_KEY.encode(),
+        request.body,
+        hashlib.sha256
     ).hexdigest()
 
     if not hmac.compare_digest(signature, expected):
-        return HttpResponseBadRequest("invalid signature")
+        print("CHARGILY: Invalid signature")
+        return HttpResponseBadRequest("Invalid signature")
 
-    event = json.loads(request.body)
+    try:
+        event = json.loads(request.body)
+    except json.JSONDecodeError:
+        return HttpResponseBadRequest("Invalid JSON")
 
-    if event.get("type") == "checkout.paid":
-        user_id = (event["data"].get("metadata") or {}).get("user_id")
-        premium = Plan.objects.get(tier="premium")
-        Subscription.objects.get_or_create(user_id=user_id, plan=premium)
+    if event.get("type") != "checkout.paid":
+        return HttpResponse(status=200)
+
+    data = event.get("data") or {}
+    metadata = data.get("metadata") or {}
+
+    user_id = metadata.get("user_id")
+    plan_id = metadata.get("plan_id")
+    checkout_id = data.get("id")
+
+    if not all([user_id, plan_id, checkout_id]):
+        print("CHARGILY: Missing checkout metadata")
+        return HttpResponseBadRequest("Missing metadata")
+
+    try:
+        user = User.objects.get(pk=user_id)
+        plan = Plan.objects.get(
+            pk=plan_id,
+            tier=Plan.Tier.PREMIUM
+        )
+    except (User.DoesNotExist, Plan.DoesNotExist):
+        print("CHARGILY: User or plan not found")
+        return HttpResponseBadRequest("Invalid user or plan")
+
+    with transaction.atomic():
+        existing = Subscription.objects.filter(
+            chargily_checkout_id=checkout_id
+        ).exists()
+
+        if not existing:
+            now = timezone.now()
+
+            previous = (
+                Subscription.objects.active()
+                .filter(user=user, plan__tier=Plan.Tier.PREMIUM)
+                .order_by("-expires_at")
+                .first()
+            )
+
+            starts_at = (
+                previous.expires_at
+                if previous and previous.expires_at > now
+                else now
+            )
+
+            Subscription.objects.create(
+                user=user,
+                plan=plan,
+                starts_at=starts_at,
+                chargily_checkout_id=checkout_id,
+            )
+
+    print(f"CHARGILY: Premium activated for user {user_id}")
 
     return HttpResponse(status=200)
 

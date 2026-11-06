@@ -110,6 +110,7 @@ ALLOWED_HOSTS = [
     'tela33amek-edkd9lx80-ycn3310s-projects.vercel.app',
     '.vercel.app',
     '192.168.0.127',
+    "septum-dedicate-skier.ngrok-free.dev",
 ]
 
 
@@ -162,6 +163,8 @@ AWS_S3_ADDRESSING_STYLE = "path"
 if (not DEBUG):
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SAMESITE = "Lax"
+    SESSION_COOKIE_HTTPONLY = True
     CSRF_COOKIE_SECURE = True
 
     SECURE_HSTS_SECONDS = 31536000 
@@ -170,6 +173,8 @@ if (not DEBUG):
 else:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
+    SESSION_COOKIE_SAMESITE = "Lax"
+    SESSION_COOKIE_HTTPONLY = True
     CSRF_COOKIE_SECURE = False
 
     SECURE_HSTS_SECONDS = 0 

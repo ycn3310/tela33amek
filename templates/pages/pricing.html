@@ -319,64 +319,66 @@
             </article>
 
             <!-- Premium -->
-            <article class="plan premium">
-                <span class="badge">Most popular</span>
-                <p class="plan-name">Premium</p>
-                <!-- TODO: set your real price -->
-                <p class="price">500 DA <small>/ month</small></p>
-                <p class="tagline">No limits, no ads, and AI to study faster.</p>
+            {% for plan in plans %}
+                {% if plan.tier == "premium" and plan.is_active %}
+                    <article class="plan premium">
+                        <span class="badge">Most popular</span>
+                        <p class="plan-name">{{plan.tier}}</p>
+                        <!-- TODO: set your real price -->
+                        <p class="price">{{plan.price}} DA <small>/ month</small></p>
+                        <p class="tagline">No limits, no ads, and AI to study faster.</p>
 
-                <!-- TODO: point this to your checkout / upgrade view -->
-                {% for plan in plans %}
-                    {% if plan.tier == "premium" and plan.is_active %}
-                        <form method="POST" action="{% url 'upgrade' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                        <!-- TODO: point this to your checkout / upgrade view -->
+                        
+                                <form method="POST" action="{% url 'upgrade' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="plan_id" value="{{ plan.id }}">
 
-                            <button type="submit" class="btn btn-primary">Upgrade to Premium</button>
-                        </form>
-                    {% endif %}
-                {% endfor %}
+                                    <button type="submit" class="btn btn-primary">Upgrade to {{plan.name}}</button>
+                                </form>
+                            
 
-                
-                <div class="divider"></div>
-                <p class="features-title">Everything in Basic, plus</p>
+                        
+                        <div class="divider"></div>
+                        <p class="features-title">Everything in Basic, plus</p>
 
-                <ul class="features">
-                    <li>
-                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
-                        <span>Unlimited AI <small>Ask as much as you want</small></span>
-                    </li>
-                    <li>
-                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
-                        <span>Unlimited downloads <small>Every paper, any time</small></span>
-                    </li>
-                    <li>
-                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
-                        <span>No ads <small>A clean, distraction-free site</small></span>
-                    </li>
-                    <li>
-                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
-                        <span>Solve exercises with AI <small>Step-by-step explanations</small></span>
-                    </li>
-                    <li>
-                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
-                        <span>Generate flashcards <small>Turn any paper into revision cards</small></span>
-                    </li>
-                    <li>
-                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
-                        <span>AI summaries <small>Key points of a paper or chapter</small></span>
-                    </li>
-                    <li>
-                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
-                        Priority support
-                    </li>
-                    <li>
-                        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
-                        Early access to new features
-                    </li>
-                </ul>
-            </article>
+                        <ul class="features">
+                            <li>
+                                <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                                <span>Unlimited AI <small>Ask as much as you want</small></span>
+                            </li>
+                            <li>
+                                <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                                <span>Unlimited downloads <small>Every paper, any time</small></span>
+                            </li>
+                            <li>
+                                <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                                <span>No ads <small>A clean, distraction-free site</small></span>
+                            </li>
+                            <li>
+                                <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                                <span>Solve exercises with AI <small>Step-by-step explanations</small></span>
+                            </li>
+                            <li>
+                                <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                                <span>Generate flashcards <small>Turn any paper into revision cards</small></span>
+                            </li>
+                            <li>
+                                <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                                <span>AI summaries <small>Key points of a paper or chapter</small></span>
+                            </li>
+                            <li>
+                                <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                                Priority support
+                            </li>
+                            <li>
+                                <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg></span>
+                                Early access to new features
+                            </li>
+                        </ul>
+                    </article>
+                {% endif %}
+            {% endfor %}
 
         </section>
 
