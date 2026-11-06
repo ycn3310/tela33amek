@@ -250,3 +250,22 @@ body{
     background-color: #ccfbf1;
     color: #0f5d55;
 }
+
+.report-error { color: #ffffff; font-size: .875rem; margin: .5rem 0 0; }
+
+.report-toast {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -150%);
+    transition: transform .4s ease;
+    background: #1e8e5a;
+    color: #fff;
+    padding: .9rem 1.5rem;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.2);
+    z-index: 10000;
+}
+.report-toast.show { transform: translate(-50%, 0); }
+
+.btn-submit:disabled { opacity: .6; cursor: not-allowed; }

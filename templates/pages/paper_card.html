@@ -27,7 +27,7 @@
     </button>
 
     <dialog id="report-{{ paper.id }}">
-        <form method="POST" action="{% url 'report' paper.id %}">
+        <form method="POST" action="{% url 'report' paper.id %}" class="report-form" novalidate>
             {% csrf_token %}
             <div class="report-head">
                 <p class="report-eyebrow">Flag an issue</p>
@@ -45,14 +45,15 @@
                         <label><input type="checkbox" name="issue" value="wrong-subject"> Wrong subject</label>
                         <label><input type="checkbox" name="issue" value="poor-scan"> Unreadable scan</label>
                     </div>
+                    <p class="report-error" hidden>Please select at least one issue.</p>
                 </fieldset>
 
                 <label class="desc-label" for="report-desc-{{ paper.id }}">Tell us more</label>
                 <textarea name="description" id="report-desc-{{ paper.id }}" placeholder="Add any details that will help us review this paper faster…"></textarea>
 
                 <div class="report-actions">
-                    <button class="btn btn-ghost" type="button" onclick="document.getElementById('report-{{ paper.id }}').close()">Cancel</button>
-                    <button id="reportButton" class="btn btn-submit" type="submit">Submit report</button>
+                    <button class="btn btn-ghost" type="button" onclick="this.closest('dialog').close()">Cancel</button>
+                    <button class="btn btn-submit" type="submit">Submit report</button>
                 </div>
             </div>
         </form>

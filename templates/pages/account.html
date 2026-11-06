@@ -250,6 +250,43 @@
 
         .plan-card .sub { margin: 0; font-size: 11px; opacity: .9; }
 
+        .plan-card--premium {
+            background: linear-gradient(135deg, #f7d774 0%, #d4a017 45%, #b8860b 100%);
+            color: #3b2a00;
+            box-shadow: 0 4px 14px rgba(212, 160, 23, 0.35);
+            overflow: hidden;
+        }
+
+        /* subtle shine effect */
+        .plan-card--premium::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.35) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(20deg);
+            animation: plan-shine 11s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes plan-shine {
+            0%   { left: -60%; }
+            60%, 100% { left: 130%; }
+        }
+
+        /* keep the button readable on gold */
+        .plan-card--premium .plan-btn {
+            background: #3b2a00;
+            color: #f7d774;
+        }
+
         .plan-btn {
             position: absolute;
             top: 14px;
@@ -516,21 +553,22 @@
 
             <!-- right: plan + details -->
             <section class="card" aria-label="Account details">
-                <div class="plan-card">
-                    <p class="small">Current plan</p>
+                <div class="plan-card {% if user.is_premium %}plan-card--premium{% endif %}">
+                    <p class="small">{%if user.is_premium%} Premium {%else%} Basic {%endif%}</p>
                     <p class="big">{{ user.get_plan_display }}</p>
                     <p class="sub">
                         {% if user.is_premium %}
-                            You have full access to all exam papers and study resources.
+                            You have full access to exam papers and study resources.
                         {% else %}
                             Upgrade to Premium to unlock all resources.
                         {% endif %}
                     </p>
 
-                    <!-- TODO: point this to your pricing / upgrade view -->
-                    <a class="plan-btn" href="{% url 'pricing' %}">
-                        {% if user.is_premium %}Manage{% else %}Upgrade{% endif %}
-                    </a>
+                    {% if user.is_premium %}
+                        <a class="plan-btn" href="#">Manage</a>
+                    {% else %}
+                        <a class="plan-btn" href="{% url 'pricing' %}">Upgrade</a>
+                    {% endif %}
                 </div>
 
                 <h2 class="section-title first">Account details</h2>

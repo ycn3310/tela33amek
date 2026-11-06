@@ -40,7 +40,9 @@
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N7RLLL4Z"
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-
+        <div id="report-toast" class="report-toast" role="status" aria-live="polite">
+            Report submitted. Thank you for helping us keep things accurate!
+        </div>
 
         <div class="filterbar">
             <div class="header-left">
@@ -93,7 +95,7 @@
             {% endfor %}
         </div>
 
-        {# ---- Exam / Mid-Term: grouped under one summary, sorted by year ---- #}
+       
 
         <div id="flat-papers">
             <details class="chapter-group" close>
@@ -153,6 +155,58 @@
 
             typeCheckboxes.forEach(box => box.addEventListener("change", applyFilters));
 
+
+            document.addEventListener("submit", async (e) => {
+            const form = e.target.closest(".report-form");
+            if (!form) return;
+            e.preventDefault();
+
+            const submitBtn = form.querySelector(".btn-submit");
+            const errorEl = form.querySelector(".report-error");
+            const dialog = form.closest("dialog");
+
+            // Require at least one checkbox
+            if (!form.querySelector('input[name="issue"]:checked')) {
+                errorEl.hidden = false;
+                return;
+            }
+            errorEl.hidden = true;
+
+            // Lock the button
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting…";
+
+            try {
+                const response = await fetch(form.action, {
+                    method: "POST",
+                    body: new FormData(form),
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                });
+                if (!response.ok) throw new Error("Request failed");
+
+                // Close the dialog first so the toast isn't hidden behind its backdrop
+                dialog.close();
+                form.reset();
+
+                const toast = document.getElementById("report-toast");
+                toast.classList.add("show");
+                setTimeout(() => toast.classList.remove("show"), 4000);
+            } catch (err) {
+                errorEl.textContent = "Something went wrong. Please try again.";
+                errorEl.hidden = false;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+
+        // Hide the validation error as soon as a box is checked
+        document.addEventListener("change", (e) => {
+            if (e.target.matches('.report-form input[name="issue"]')) {
+                e.target.closest(".report-form").querySelector(".report-error").hidden = true;
+            }
+        });
         </script>
     </body>
 </html>

@@ -365,30 +365,55 @@ def course_chapters(request, course_id):
     chapters = list(course.chapters.values_list("name", flat=True))
     return JsonResponse(chapters, safe=False)
 
+from django.utils.http import url_has_allowed_host_and_scheme
 
+def _back_to_current_page(request):
+    """Redirect to the page the user came from (safely)."""
+    next_url = request.META.get("HTTP_REFERER", "")
+    if next_url and url_has_allowed_host_and_scheme(
+        next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ):
+        return redirect(next_url)
+    return redirect("index")
+
+@require_POST
 def report(request, paper_id):
-    if request.method == "POST":
-        issues = request.POST.getlist("issue")
-        description = request.POST.get("description")
+    is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
-        message = f"""
+    issues = request.POST.getlist("issue")
+    description = request.POST.get("description", "").strip()
+
+    # Server-side check: at least one issue required
+    if not issues:
+        if is_ajax:
+            return JsonResponse({"ok": False, "error": "Select at least one issue."}, status=400)
+        return _back_to_current_page(request)
+
+    message = f"""
 Paper ID: {paper_id}
 
 Issues:
 {', '.join(issues)}
 
 Details:
-{description}
+{description or 'N/A'}
 """
 
+    try:
         send_mail(
             "New paper report!!!",
             message,
             settings.EMAIL_HOST_USER,
             ["tela33amek@gmail.com"],
         )
+    except Exception:
+        if is_ajax:
+            return JsonResponse({"ok": False, "error": "Could not send report."}, status=500)
+        return _back_to_current_page(request)
 
-    return redirect("index")
+    if is_ajax:
+        return JsonResponse({"ok": True})
+    return _back_to_current_page(request)
 
 def send_paper(request):
     if request.method == "POST":
