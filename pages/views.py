@@ -376,6 +376,9 @@ def _back_to_current_page(request):
         return redirect(next_url)
     return redirect("index")
 
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
 @require_POST
 def report(request, paper_id):
     is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
@@ -400,12 +403,24 @@ Details:
 """
 
     try:
-        send_mail(
-            "New paper report!!!",
+        html_content = render_to_string(
+            "emails/paper_report.html",
+            {
+                "paper_id": paper_id,
+                "issues": issues,
+                "description": description,
+            }
+        )
+
+        email = EmailMultiAlternatives(
+            "New paper report!",
             message,
             settings.EMAIL_HOST_USER,
             ["tela33amek@gmail.com"],
         )
+
+        email.attach_alternative(html_content, "text/html")
+        email.send()
     except Exception:
         if is_ajax:
             return JsonResponse({"ok": False, "error": "Could not send report."}, status=500)
@@ -426,27 +441,33 @@ def send_paper(request):
 
         paper = request.FILES.get("paper")
 
-        message = f"""
-course = {course}
-year = {year}
-establishment = {uni}
-teacher = {teacher}
-semester = {semester}
-major = {major}
-"""
+        html_content = render_to_string(
+            "emails/new_paper.html",
+            {
+                "course": course,
+                "year": year,
+                "uni": uni,
+                "teacher": teacher,
+                "semester": semester,
+                "major": major,
+                "filename": paper.name if paper else "No attachment",
+            }
+        )
 
         email = EmailMessage(
             "New paper uploaded!",
-            body = message,
-            from_email=settings.EMAIL_HOST_USER,
-            to=["tela33amek@gmail.com"],
+            html_content,
+            settings.EMAIL_HOST_USER,
+            ["tela33amek@gmail.com"],
         )
+
+        email.content_subtype = "html"
 
         if paper:
             email.attach(
-                paper.name,        
-                paper.read(),        
-                paper.content_type,  
+                paper.name,
+                paper.read(),
+                paper.content_type,
             )
 
         email.send()
@@ -454,21 +475,27 @@ major = {major}
         return redirect("index")
 
 def send_feedback(request):
-    if request.method ==  "POST":
+    if request.method == "POST":
         review = request.POST.get("rating")
-        descreption = request.POST.get("description")
+        description = request.POST.get("description")
 
-        message = f"""
-rating: {review}/5
-description:
-{descreption}
-"""     
-        send_mail(
-                    "New Feedback !!",
-                    message,
-                    settings.EMAIL_HOST_USER,
-                    ["tela33amek@gmail.com"],
-                )
+        html_content = render_to_string(
+            "emails/new_feedback.html",
+            {
+                "rating": review,
+                "description": description,
+            }
+        )
+
+        email = EmailMessage(
+            "New Feedback!",
+            html_content,
+            settings.EMAIL_HOST_USER,
+            ["tela33amek@gmail.com"],
+        )
+
+        email.content_subtype = "html"
+        email.send()
 
         return redirect("index")
 

@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Report</title>
+</head>
+<body style="margin:0; padding:30px 15px; background:#f4f6f8; font-family:Arial,Helvetica,sans-serif; color:#1f2937;">
+
+    <div style="max-width:550px; margin:auto; background:#ffffff; border-radius:12px; overflow:hidden;">
+
+        <div style="background:#dc2626; padding:25px; text-align:center;">
+            <h1 style="margin:0; color:white; font-size:24px;">Tela33amek</h1>
+            <p style="margin:8px 0 0; color:#fee2e2; font-size:14px;">
+                Paper Report
+            </p>
+        </div>
+
+        <div style="padding:30px;">
+
+            <h2 style="margin-top:0; font-size:20px;">
+                A paper has been reported!
+            </h2>
+
+            <p style="font-size:14px; color:#6b7280; line-height:1.6;">
+                A user has reported an issue with one of the papers
+                available on Tela33amek. Please review the details below.
+            </p>
+
+            <div style="margin:25px 0; padding:16px; background:#fef2f2; border-radius:8px;">
+                <p style="margin:0; font-size:14px; color:#991b1b;">
+                    <strong>Paper ID:</strong> #{{ paper_id }}
+                </p>
+            </div>
+
+            <h3 style="font-size:15px; margin-bottom:12px;">
+                Reported issues
+            </h3>
+
+            <div style="padding:18px; background:#f9fafb; border-radius:8px;">
+                <ul style="margin:0; padding-left:20px; color:#4b5563; font-size:14px; line-height:2;">
+                    {% for issue in issues %}
+                        <li>{{ issue }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <h3 style="font-size:15px; margin:25px 0 12px;">
+                Additional details
+            </h3>
+
+            <div style="padding:18px; background:#f9fafb; border-radius:8px; font-size:14px; line-height:1.7; color:#4b5563; white-space:pre-wrap; overflow-wrap:anywhere;">
+                {{ description|default:"No additional details provided." }}
+            </div>
+
+        </div>
+
+        <div style="padding:20px; background:#f9fafb; text-align:center;">
+            <p style="margin:0; font-size:12px; color:#9ca3af;">
+                Tela33amek — Sharing knowledge, one paper at a time.
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>
