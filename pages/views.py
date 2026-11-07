@@ -569,13 +569,15 @@ base_url = (
     else "https://tela33amek.vercel.app"
 )
 
+CHARGILY_BASE = "https://pay.chargily.net/api/v2"
+
 def make_donation(request):
     if request.method != "POST":
         return redirect("support")
 
     amount = int(request.POST.get("amount"))
     response = requests.post(
-            "https://pay.chargily.net/api/v2/checkouts",
+            f"{CHARGILY_BASE}/checkouts",
             headers={
                 "Authorization": f"Bearer {settings.CHARGILY_SECRET_KEY}",
                 "Content-Type": "application/json",
@@ -606,8 +608,6 @@ def make_donation(request):
     return redirect(checkout_url)
 
 
-CHARGILY_BASE = "https://pay.chargily.net/test/api/v2"   # live: https://pay.chargily.net/api/v2
-
 def upgrade(request):
     if request.method != "POST":
         return redirect("account")
@@ -634,7 +634,7 @@ def upgrade(request):
                 "currency": "dzd",
                 "success_url": f"{base_url}/support/success/",
                 "failure_url": f"{base_url}/support/failure/",
-                "webhook_endpoint": "https://septum-dedicate-skier.ngrok-free.dev/chargily/webhooksub/",
+                "webhook_endpoint": f"{base_url}/chargily/webhooksub/",
                 "description": plan.name,
                 "metadata": {
                     "user_id": user.id,

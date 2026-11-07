@@ -113,7 +113,9 @@ ALLOWED_HOSTS = [
     "septum-dedicate-skier.ngrok-free.dev",
 ]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://septum-dedicate-skier.ngrok-free.dev",
+]
 
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
